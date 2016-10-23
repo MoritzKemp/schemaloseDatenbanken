@@ -3,19 +3,28 @@
 Das Ziel der Projektarbeit zum Thema \textit{Hadoop/Hbase} ist es, 
 eine Datenbank mittels Hadoop/Hbase zu implementieren, die eine Lieder-Datenbank
 darstellt. Dabei soll die Datenbank so installiert werden, dass sie ihre Stärken mit
-sehr großen Datensätze, in diesem Falle dem Million-Song-Datensatz, ausspielen kann.
+sehr großen Datensätzen, in diesem Falle dem Million-Song-Datensatz, ausspielen kann.
 
 \section{Vorgehensweise}
 Das Team wird sich zuerst mit den Grundlagen von NoSQL-Datenbanken befassen, 
 vor allem explizit mit den Grundlagen von Hadoop/Hbase. Darauf aufbauend lässt
-sich eine Argumentation formulieren, warum die Behandlung von derart großen Datensätzen
-wie der Million-Song-Datensatz sich mit Hadoop/Hbase effektiver gestalten lässt als gegenüber
-den klassischen relationalen Datenbanken. Dieser Teil beinhaltet also im wesentlichen
+sich eine Argumentation formulieren, warum sich die Behandlung von derart großen Datensätzen
+wie dem Million-Song-Datensatz mit Hadoop/Hbase effektiver gestalten lässt als mit klassischen relationalen Datenbanken. Dieser Teil beinhaltet also im wesentlichen
 Grundlagen zu den Wide-Column-Datenbanken sowie Grundlagen zu Hadoop und Hbase.
 
 Im zweiten Teil soll dann darauf aufbauend die praktische Umsetzung durchgeführt und beschrieben
 werden.\textit{Johann, your part! Whoop whooop}
 
+\section{Praktischer Teil}
+Im praktischen Teil wird zunächst die benötigte Software installiert, i.e. Java, Hadoop und HBase. Um die Installation auf einer Windows-Maschine auszuführen wird zusätzlich Cygwin installiert. Um auf die HBase-Datenbank zugreifen zu können, muss HBase zunächst konfiguriert werden.
+
+Nach erfolgreicher Installation wird HBASE zunächst im Standalone-Modus auf einer Maschine betrieben. Zur Anschauung wird eine Tabelle angelegt und es werden CRUD-Operationen geschildert. Im Anschluss daran wird gezeigt, wie man programmatisch mit der Datenbank arbeiten kann mit Hilfe von JRuby.
+
+Nach den ersten Tests wird der Import von Daten (One-Million-Song-Datensatz) beschrieben und durchgeführt. Für die Verwaltung der Daten wird eine Client-Anwendung mit Ruby geschrieben.
+
+Im letzten Schritt wird HBase auf dem Hochschul-Cluster installiert und für den Cluster-Modus konfiguriert.
+
+\section{Gliederung}
 Die geplante Gliederung sieht wie folgt aus:
 \begin{itemize}
 	\item Grundlagen von Wide-Column-Datenbanken (only MapReduce, 6C)
@@ -28,3 +37,11 @@ Die geplante Gliederung sieht wie folgt aus:
 \end{itemize}
 
 \section{Meilensteine}
+Folgende Meilensteine werden definiert:
+\begin{itemize}
+\item Meilenstein 1: Grundlagen Hadoop/HBase.
+\item Meilenstein 2: HBase im Standalone-Modus auf einer Windows-Maschine installieren und CRUD-Operationen mit Tastdaten durchführen.
+\item Meilenstein 3: One-Million-Song-Dataset importieren
+\item Meilenstein 4: Client-Anwendung fertigstellen
+\item Meilenstein 5: Konfiguration und Installatio auf dem Hochschul-Cluster
+\end{itemize}
