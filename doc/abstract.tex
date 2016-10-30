@@ -1,12 +1,48 @@
 \begin{abstract}
 \section*{Zusammenfassung}\markboth{Zusammenfassung}{}
-  \addcontentsline{toc}{chapter}{Zusammenfassung}Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+  \addcontentsline{toc}{chapter}{Zusammenfassung}
+  Das Ziel der Projektarbeit zum Thema \textit{Hadoop/Hbase} ist es, 
+eine Datenbank mittels Hadoop/Hbase zu implementieren, die eine Lieder-Datenbank
+darstellt. Dabei soll die Datenbank so installiert werden, dass sie ihre Stärken mit
+sehr großen Datensätzen, in diesem Falle dem Million-Song-Datensatz, ausspielen kann.
 
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
+Das Team wird sich zuerst mit den Grundlagen von NoSQL-Datenbanken befassen, 
+vor allem explizit mit den Grundlagen von Hadoop/Hbase. Darauf aufbauend lässt
+sich eine Argumentation formulieren, warum sich die Behandlung von derart großen Datensätzen
+wie dem Million-Song-Datensatz mit Hadoop/Hbase effektiver gestalten lässt als mit klassischen relationalen Datenbanken. Dieser Teil beinhaltet also im wesentlichen
+Grundlagen zu den Wide-Column-Datenbanken sowie Grundlagen zu Hadoop und Hbase.
 
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. 
+Im praktischen Teil wird zunächst die benötigte Software installiert, i.e. Java, Hadoop und HBase. Um die Installation auf einer Windows-Maschine auszuführen wird zusätzlich Cygwin installiert. Um auf die HBase-Datenbank zugreifen zu können, muss HBase zunächst konfiguriert werden.
 
-Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. 
+Nach erfolgreicher Installation wird HBASE zunächst im Standalone-Modus auf einer Maschine betrieben. Zur Anschauung wird eine Tabelle angelegt und es werden CRUD-Operationen geschildert. Im Anschluss daran wird gezeigt, wie man programmatisch mit der Datenbank arbeiten kann mit Hilfe von JRuby.
 
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis. 
+Nach den ersten Tests wird der Import von Daten (One-Million-Song-Datensatz) beschrieben und durchgeführt. Für die Verwaltung der Daten wird eine Client-Anwendung mit Ruby geschrieben.
+
+Im letzten Schritt wird HBase auf dem Hochschul-Cluster installiert und für den Cluster-Modus konfiguriert.
+
+Die geplante Gliederung sieht wie folgt aus:
+\begin{itemize}
+	\item Grundlagen von Wide-Column-Datenbanken (only MapReduce, 6C)
+	\item Grundlagen Hadoop/Hbase (6D1/2)
+	\item Anforderungen an die Anwendung
+	\item Aufbau der Datenbank (6F)
+	\item Installation
+	\item Cluster-Betrieb
+	\item Benchmarks
+\end{itemize}
+
+Folgende Meilensteine werden definiert:
+\begin{itemize}
+\item[28.10] - Expose
+\item[25.11] - HBase im Standalone-Modus auf einer Windows-Maschine installieren und CRUD-Operationen mit Testdaten durchführen.
+\item[25.11] - One-Million-Dataset importieren
+\item[02.12] - Zwischenbericht
+\item[02.12] - MapReduce-Kapitel 6C
+\item[02.12] - Hadoop-Kapitel 6D1  
+\item[16.12] - HBase-Kapitel 6D2 
+\item[16.12] - Client-Anwendung fertig stellen
+\item[23.12] - Cluster-Installation abgeschlossen
+\item[06.01] - Ausarbeitung Projektarbeit
+\end{itemize}
+
 \end{abstract}

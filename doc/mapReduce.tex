@@ -1,0 +1,33 @@
+\chapter{Das MapReduce-Framework}
+MapReduce wurde 2004 von zwei Mitarbeitern von Google vorgestellt \cite{dean2008mapreduce}. Es ist ein Framework
+für die Programmierung von massiver, parallele Datenverarbeitung sehr großen Datenmengen. Der Programmierer
+kann sich dabei komplett auf die Verarbeitung der Daten konzentrieren, während das MapReduce-Framework sich um die
+Verteilung der Daten und der parallelen Ausführung der Anwendung kümmert. Im Zusammenarbeit mit speziellen Filesystemen 
+für große Cluster-Systeme, die zum Beispiel automatisch redundante Kopien auf mehreren Maschinen anlegen, ermöglicht
+eine mit MapReduce programmierte Anwendung eine hohe Toleranz gegenüber dem Ausfall von einzelnen Maschinen.
+
+\section{Arbeitsweise von MapReduce}
+Auf der obersten Abstraktionsebene besteht das MapReduce-Framework nur aus zwei Funktionen: \textit{map} und \textit{reduce}.
+Beide Funktionen müssen vom Anwender des MapReduce-Frameworks spezifiziert werden.
+\textit{map} nimmt eine (ungeordnete) Liste von Daten entgegen, die Schlüssel-Wert-Paare (key/value) enthält. Die Funktion 
+verarbeitet nun diese Liste nach dem vom Programmierer spezifizierten Funktion und liefert als Ergebnis wiederum eine
+Liste von Schlüssel-Wert-Paaren. Die Logik der \textit{map}-Funktion ist vom Anwendungsfall abhängig, bildet aber in der Regel
+die ungeordneten Daten in eine Liste ab, die die für den Anwendungsfall interessanten Daten enthält. Ein gern genommenes Beispiel
+ist das Zählen von Wörtern in tausenden von Dokumenten. Die Liste für die Eingabe in die \textit{map}-Funktion enthält für jeden Schlüssel
+als Wert ein ganzes Dokument. Diese Dokumente werden durchsucht und gleichzeitig eine neue, deutlich größere Liste mit Schlüssel-Wert-Paaren erstellt, 
+die für jedes einzelne Wort den String selbst als Schlüssel speichert, und als Wert eine 1 angibt. Somit ist jedes Wort in dieser Liste repräsentiert.
+Diese neue Liste enthält sehr viele gleiche Schlüssel, wobei alle den Wert 1 tragen.
+
+Das Ergebnis von der \textit{map}-Funktion ist aber immer nur ein Zwischen-Ergebnis und wird direkt als Eingabe für die \textit{reduce}-Funktion verwendet,
+die am Ende das tatsächliche Ergebnis der Verarbeitung ausgibt. Die \textit{reduce}-Funktion hat in der Regel die Aufgabe, das Ergebnis der \textit{map}-Funktion
+zusammenzufassen. Bezogen auf das Beispiel mit der Zählung von Wörtern bekommt die \textit{reduce}-Funktion nun eine (sehr lange) Liste von allen Wortvorkommnissen.
+Die Funktion sortiert  nun diese Liste und erzeugt eine neue Liste, die alle Schlüssel-Werte enthält, aber nur ein einziges mal in der Liste. Mehrfache Einträge
+in der ursprünglichen Liste mit gleichen Schlüsselwerten werden also zu einem Eintrag zusammengefasst, wobei die Werte der einzelne, mehrfachen Einträge
+aufaddiert werden. Das Ergebnis ist eine Liste mit jedem Wort, das in den Dokumenten vorkommt, als einmaliger Schlüssel und als Wert die jeweilige Häufigkeit.
+
+
+\section{Anwendung für Datenbanken}
+
+\section{Optimierung}
+
+\section{Beispiel}
