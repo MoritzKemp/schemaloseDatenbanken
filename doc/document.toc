@@ -1,6 +1,6 @@
 \select@language {ngerman}
 \select@language {ngerman}
-\contentsline {chapter}{Zusammenfassung}{III}{section*.1}
+\contentsline {chapter}{Zusammenfassung}{II}{section*.1}
 \contentsline {chapter}{\numberline {1}Das MapReduce-Framework}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Arbeitsweise von MapReduce}{1}{section.1.1}
 \contentsline {section}{\numberline {1.2}Anwendung f\IeC {\"u}r Datenbanken}{2}{section.1.2}

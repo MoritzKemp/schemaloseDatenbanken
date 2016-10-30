@@ -2,47 +2,61 @@
 \section*{Zusammenfassung}\markboth{Zusammenfassung}{}
   \addcontentsline{toc}{chapter}{Zusammenfassung}
   Das Ziel der Projektarbeit zum Thema \textit{Hadoop/Hbase} ist es, 
-eine Datenbank mittels Hadoop/Hbase zu implementieren, die eine Lieder-Datenbank
-darstellt. Dabei soll die Datenbank so installiert werden, dass sie ihre Stärken mit
-sehr großen Datensätzen, in diesem Falle dem Million-Song-Datensatz, ausspielen kann.
+eine Datenbank mittels Hadoop/Hbase auf einem bereitgestelltem
+Cluster so zu installieren, dass der Anwender in dem One-Million-Datensatz nach Liedern
+suchen kann. 
+Im ersten Teil der Projektarbeit werden die theoretischen Grundlagen von Hadoop/Hbase 
+behandelt. Dazu gehört ein Kapitel zu Map/Reduce, ein Kapitel zu Hadoop und ein Kapitel zu Hbase.
+Die Theorie soll etwa ein Drittel der Projektarbeit ausmachen. 
 
-Das Team wird sich zuerst mit den Grundlagen von NoSQL-Datenbanken befassen, 
-vor allem explizit mit den Grundlagen von Hadoop/Hbase. Darauf aufbauend lässt
-sich eine Argumentation formulieren, warum sich die Behandlung von derart großen Datensätzen
-wie dem Million-Song-Datensatz mit Hadoop/Hbase effektiver gestalten lässt als mit klassischen relationalen Datenbanken. Dieser Teil beinhaltet also im wesentlichen
-Grundlagen zu den Wide-Column-Datenbanken sowie Grundlagen zu Hadoop und Hbase.
+Der zweite Teil der Projektarbeit, zwei Drittel der Projektarbeit, beschreibt die praktische Umsetzung, die aus der Installation und 
+Konfiguration der Hadoop/Hbase-Datenbank und der Implementierung der Client-Software besteht.
+Eingangs werden Anforderungen, Anwendungsfälle und technische Rahmenbedingungen kurz beschrieben,
+um einen Überblick zu geben. Anschließen folgen das Kapitel der Installation bzw. Implementierung von
+Hadoop/Hbase auf den Clustern. Hier wird das Vorgehen  beschrieben, wie die Installation und Konfiguration 
+abläuft. Eingesetzte Programmiersprachen sind hier Java und JRuby. Fragestellungen werden sein, wie 
+sich die Datenbank auf einen Cluster installieren lässt und welche Konfigurationsparameter hinsichtlich des
+Anwendungsfalls eines One-Million-Datensatzes berücksichtigt und angepasst werden müssen. Auch die konkrete
+Implementierung der map und reduce Funktionen wird in diesem Kapitel dargelegt. Auch FIlter- und Optimierungsparameter,
+die besonders Hbase betreffen, werden evaluiert und gegebenenfalls angewendet.
+Zum Abschluss wird gezeigt,
+ob und wie sich die Datenbank auch ohne eigens programmiertem Client Ad-Hoc ansprechen lässt, beispielsweise über
+eine laufende Shell. Das nächste Kapitel beschreibt die Implementierung der Client-Software, die mittels Java als Serveranwendung
+und Javascript als Client-Anwendung dem Anwender die Möglichkeit bieten soll, über eine grafische Oberfläche mit dem One-Million-Datensatz
+zu arbeiten. Der Client hat dabei aber wenige, nur funktionale Anforderungen, eine aufwendig grafische Oberfläche ist nicht das Ziel.
+Ein weiteres Kapitel im praktischen Teil behandelt die Installation des One-Million-Datensatzes in das Hadoop-Dateisystem.
+Wichtige Fragestellungen spielt dabei, inwieweit die Daten bereits für die Speicherung im Hadoop-Dateisystem geeignet sind 
+sowie die Frage nach der Replikation auf dem Cluster-System.
 
-Im praktischen Teil wird zunächst die benötigte Software installiert, i.e. Java, Hadoop und HBase. Um die Installation auf einer Windows-Maschine auszuführen wird zusätzlich Cygwin installiert. Um auf die HBase-Datenbank zugreifen zu können, muss HBase zunächst konfiguriert werden.
+Zum Abschluss des praktischen Teils folgt eine kurze Leistungsdarstellung des Systems, indem die Antwortzeiten
+der Datenbank zu bestimmten Abfragen gemessen werde. Optional ist eine Leistungsbewertung im Vergleich mit 
+den anderen Teams denkbar, die ebenfalls mit dem selben Datensatz arbeiten.
 
-Nach erfolgreicher Installation wird HBASE zunächst im Standalone-Modus auf einer Maschine betrieben. Zur Anschauung wird eine Tabelle angelegt und es werden CRUD-Operationen geschildert. Im Anschluss daran wird gezeigt, wie man programmatisch mit der Datenbank arbeiten kann mit Hilfe von JRuby.
+%Das Team wird sich zuerst mit den Grundlagen von NoSQL-Datenbanken befassen, 
+%vor allem explizit mit den Grundlagen von Hadoop/Hbase. Darauf aufbauend lässt
+%sich eine Argumentation formulieren, warum sich die Behandlung von derart großen Datensätzen
+%wie dem Million-Song-Datensatz mit Hadoop/Hbase effektiver gestalten lässt als mit klassischen relationalen Datenbanken. Dieser Teil beinhaltet also im wesentlichen
+%Grundlagen zu den Wide-Column-Datenbanken sowie Grundlagen zu Hadoop und Hbase.
 
-Nach den ersten Tests wird der Import von Daten (One-Million-Song-Datensatz) beschrieben und durchgeführt. Für die Verwaltung der Daten wird eine Client-Anwendung mit Ruby geschrieben.
+%Im praktischen Teil wird zunächst die benötigte Software installiert, i.e. Java, Hadoop und HBase. Um die Installation auf einer Windows-Maschine auszuführen wird zusätzlich Cygwin installiert. Um auf die HBase-Datenbank zugreifen zu können, muss HBase zunächst konfiguriert werden.
 
-Im letzten Schritt wird HBase auf dem Hochschul-Cluster installiert und für den Cluster-Modus konfiguriert.
+%Nach erfolgreicher Installation wird HBASE zunächst im Standalone-Modus auf einer Maschine betrieben. Zur Anschauung wird eine Tabelle angelegt und es werden CRUD-Operationen geschildert. Im Anschluss daran wird gezeigt, wie man programmatisch mit der Datenbank arbeiten kann mit Hilfe von JRuby.
 
-Die geplante Gliederung sieht wie folgt aus:
-\begin{itemize}
-	\item Grundlagen von Wide-Column-Datenbanken (only MapReduce, 6C)
-	\item Grundlagen Hadoop/Hbase (6D1/2)
-	\item Anforderungen an die Anwendung
-	\item Aufbau der Datenbank (6F)
-	\item Installation
-	\item Cluster-Betrieb
-	\item Benchmarks
-\end{itemize}
+%Nach den ersten Tests wird der Import von Daten (One-Million-Song-Datensatz) beschrieben und durchgeführt. Für die Verwaltung der Daten wird eine Client-Anwendung mit Ruby geschrieben.
 
-Folgende Meilensteine werden definiert:
-\begin{itemize}
-\item[28.10] - Expose
-\item[25.11] - HBase im Standalone-Modus auf einer Windows-Maschine installieren und CRUD-Operationen mit Testdaten durchführen.
-\item[25.11] - One-Million-Dataset importieren
-\item[02.12] - Zwischenbericht
-\item[02.12] - MapReduce-Kapitel 6C
-\item[02.12] - Hadoop-Kapitel 6D1  
-\item[16.12] - HBase-Kapitel 6D2 
-\item[16.12] - Client-Anwendung fertig stellen
-\item[23.12] - Cluster-Installation abgeschlossen
-\item[06.01] - Ausarbeitung Projektarbeit
-\end{itemize}
+%Im letzten Schritt wird HBase auf dem Hochschul-Cluster installiert und für den Cluster-Modus konfiguriert.
+
+%\begin{itemize}
+%\item[28.10] - Expose
+%\item[25.11] - HBase im Standalone-Modus auf einer Windows-Maschine installieren und CRUD-Operationen mit Testdaten durchführen.
+%\item[25.11] - One-Million-Dataset importieren
+%\item[02.12] - Zwischenbericht
+%\item[02.12] - MapReduce-Kapitel 6C
+%\item[02.12] - Hadoop-Kapitel 6D1  
+%\item[16.12] - HBase-Kapitel 6D2 
+%\item[16.12] - Client-Anwendung fertig stellen
+%\item[23.12] - Cluster-Installation abgeschlossen
+%\item[06.01] - Ausarbeitung Projektarbeit
+%\end{itemize}
 
 \end{abstract}
