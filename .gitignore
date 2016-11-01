@@ -1,0 +1,9 @@
+doc/*.log
+doc/*.lof
+doc/*.toc
+doc/*.aux
+doc/*.lol
+doc/*.lot
+doc/*.out
+doc/*.pdf
+doc/*.bbl
