@@ -1,13 +1,31 @@
-@book{kudrass01,
-  AUTHOR       = {Kudraß, Thomas},
-  TITLE        = {Taschenbuc Datenbanken},
-  PUBLISHER    = {Fachbuchverlag Leipzig im Carl Hanser Verlag},
-  YEAR         = {2015},
+% This file was created with JabRef 2.10.
+% Encoding: UTF8
+
+
+@Book{Endlich2011,
+  Title                    = {NoSQL: EInstieg in die Welt nichtrelationaler Web 2.0 Datenbanken},
+  Author                   = {Stefan Endlich},
+  Publisher                = {Hanser Verlag},
+  Year                     = {2011},
+
+  Owner                    = {mkemp},
+  Timestamp                = {2016.10.25}
 }
-@book{redmont01,
-  AUTHOR       = {Redmond, Eric},
-  AUTHOR       = {Wilson, Jim R.},
-  TITLE        = {Sieben Wochen, sieben Datenbanken},
-  PUBLISHER    = {O'Reilly Verlag},
-  YEAR         = {2012},
+
+@Book{redmont01,
+  Title                    = {Sieben Wochen, sieben Datenbanken},
+  Author                   = {Redmond, Eric and Wilson, Jim R.},
+  Publisher                = {O'Reilly Verlag},
+  Year                     = {2012}
+}
+
+@article{dean2008mapreduce,
+  title={MapReduce: simplified data processing on large clusters},
+  author={Dean, Jeffrey and Ghemawat, Sanjay},
+  journal={Communications of the ACM},
+  volume={51},
+  number={1},
+  pages={107--113},
+  year={2008},
+  publisher={ACM}
 }
