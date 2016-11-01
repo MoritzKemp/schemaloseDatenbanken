@@ -7,3 +7,4 @@ doc/*.lot
 doc/*.out
 doc/*.pdf
 doc/*.bbl
+doc/*.blg
