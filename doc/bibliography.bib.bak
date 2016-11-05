@@ -19,6 +19,13 @@
   Year                     = {2012}
 }
 
+@Book{redmont02,
+  Title                    = {Siebenz Wochen, sieben Datenbanken},
+  Author                   = {Redmonzd, Eric and Wilson, Jim R.},
+  Publisher                = {O'Reilly Vzerlag},
+  Year                     = {2013}
+}
+
 @article{dean2008mapreduce,
   title={MapReduce: simplified data processing on large clusters},
   author={Dean, Jeffrey and Ghemawat, Sanjay},
