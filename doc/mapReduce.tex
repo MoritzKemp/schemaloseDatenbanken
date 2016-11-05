@@ -1,4 +1,4 @@
-\chapter{Das MapReduce-Framework}
+\section{Das MapReduce-Framework}
 MapReduce wurde 2004 von zwei Mitarbeitern von Google vorgestellt \cite{dean2008mapreduce}. Es ist ein Framework
 für die Programmierung von massiver, parallele Datenverarbeitung sehr großen Datenmengen. Der Programmierer
 kann sich dabei komplett auf die Verarbeitung der Daten konzentrieren, während das MapReduce-Framework sich um die
@@ -6,7 +6,7 @@ Verteilung der Daten und der parallelen Ausführung der Anwendung kümmert. Im Z
 für große Cluster-Systeme, die zum Beispiel automatisch redundante Kopien auf mehreren Maschinen anlegen, ermöglicht
 eine mit MapReduce programmierte Anwendung eine hohe Toleranz gegenüber dem Ausfall von einzelnen Maschinen.
 
-\section{Arbeitsweise von MapReduce}
+\subsection{Arbeitsweise von MapReduce}
 Auf der obersten Abstraktionsebene besteht das MapReduce-Framework nur aus zwei Funktionen: \textit{map} und \textit{reduce}.
 Beide Funktionen müssen vom Anwender des MapReduce-Frameworks spezifiziert werden.
 \textit{map} nimmt eine (ungeordnete) Liste von Daten entgegen, die Schlüssel-Wert-Paare (key/value) enthält. Die Funktion 
@@ -26,8 +26,8 @@ in der ursprünglichen Liste mit gleichen Schlüsselwerten werden also zu einem 
 aufaddiert werden. Das Ergebnis ist eine Liste mit jedem Wort, das in den Dokumenten vorkommt, als einmaliger Schlüssel und als Wert die jeweilige Häufigkeit.
 
 
-\section{Anwendung für Datenbanken}
+\subsection{Anwendung für Datenbanken}
 
-\section{Optimierung}
+\subsection{Optimierung}
 \cite{miner2012mapreduce}
-\section{Beispiel}
+\subsection{Beispiel}

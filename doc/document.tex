@@ -15,6 +15,7 @@
 \usepackage{acronym}
 \bibliographystyle{alphadin}
 \usepackage{float}
+\usepackage[title]{appendix}
 
 \usepackage{lastpage}
 
@@ -74,7 +75,7 @@ keepaspectratio]{images/Logo_H-BRS_background}%
 \newcommand{\PAGENUMBERS}[0]{\pagemark}
 \newcommand{\DATE}[0]{12.10.2016}
 
-\newcommand{\AUTHOR}[0]{Moritz Kemp, Johann Martens}
+\newcommand{\AUTHOR}[0]{Johann Martens}
 \newcommand{\MATNR}[0]{}
 \newcommand{\STREET}[0]{}
 \newcommand{\ZIP}[0]{}
@@ -128,42 +129,45 @@ keepaspectratio]{images/Logo_H-BRS_background}%
 % #
 % # TODO: create new chapter
 % #####
-\input{mapReduce}
-\input{HBase}
-\input{Hadoop}
+\input{technik}
+\input{frameworks}
+\input{anwendung}
+
+%\input{Hadoop}
 
 \newpage
 
 % loads the fancy pagestyle for register part
-\input{fancyRegisterPart}
+%\input{fancyRegisterPart}
 
 % #####
 % # load the appendix from the files
 % #####
-%\input{appendix}
+\input{appendix}
 
 % #####
 % # list of table, list of figures, and list of listings in ToC
 % #####
-\newpage
-\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
-\listoffigures
-\newpage
-\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
-\listoftables
-\newpage
-\addcontentsline{toc}{chapter}{Listings}
-\lstlistoflistings
+%\newpage
+%\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+%\listoffigures
+%\newpage
+%\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+%\listoftables
+%\newpage
+%\addcontentsline{toc}{chapter}{Listings}
+%\lstlistoflistings
 
 % #####
 % # List of Abbreviations
 % #####
-\phantomsection 
-\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
-\renewcommand\refname{Abkürzungsverzeichnis} 
-\chapter*{Abkürzungsverzeichnis}
-\input{abbreviations}
-\newpage
+
+%\phantomsection 
+%\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+%\renewcommand\refname{Abkürzungsverzeichnis} 
+%\chapter*{Abkürzungsverzeichnis}
+%\input{abbreviations}
+%\newpage
 
 % #####
 % # load the bibliography
@@ -176,5 +180,6 @@ keepaspectratio]{images/Logo_H-BRS_background}%
 % # load the sworn declaration
 % #####
 \input{declaration}
+%\input{chapter1}
 % end of the document
 \end{document}

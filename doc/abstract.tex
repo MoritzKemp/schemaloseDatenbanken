@@ -3,30 +3,35 @@
   \addcontentsline{toc}{chapter}{Zusammenfassung}
   Das Ziel der Projektarbeit zum Thema \textit{Hadoop/Hbase} ist es, 
 eine Datenbank mittels Hadoop/Hbase auf einem bereitgestelltem
-Cluster so zu installieren, dass der Anwender in dem One-Million-Datensatz nach Liedern
+Cluster so zu installieren, dass der Anwender in dem One-Million-Datensatz nach Informationen zu Musikstücken
 suchen kann. 
-Im ersten Teil der Projektarbeit werden die theoretischen Grundlagen von Hadoop/Hbase 
-behandelt. Dazu gehört ein Kapitel zu Map/Reduce, ein Kapitel zu Hadoop und ein Kapitel zu Hbase.
-Die Theorie soll etwa ein Drittel der Projektarbeit ausmachen. 
 
-Der zweite Teil der Projektarbeit, zwei Drittel der Projektarbeit, beschreibt die praktische Umsetzung, die aus der Installation und 
+%Im ersten Teil der Projektarbeit werden die theoretischen Grundlagen von Hadoop/Hbase 
+%behandelt. Dieser Teil beinhaltet ein Kapitel zu Map/Reduce, ein Kapitel zu Hadoop und ein Kapitel zu Hbase.
+%Die Theorie soll etwa ein Drittel der Projektarbeit ausmachen. 
+
+Im ersten Teil der Projektarbeit werden die technologischen Grundlagen MapReduce
+behandelt.Die Theorie soll etwa ein Drittel der Projektarbeit ausmachen. Im zweiten Kapitel werden das NSQL-System HBase und das Framework Hadoop vorgestellt.
+
+Der dritte Teil der Projektarbeit, zwei Drittel der Projektarbeit, beschreibt die praktische Umsetzung, die aus der Installation und 
 Konfiguration der Hadoop/Hbase-Datenbank und der Implementierung der Client-Software besteht.
 Eingangs werden Anforderungen, Anwendungsfälle und technische Rahmenbedingungen kurz beschrieben,
-um einen Überblick zu geben. Anschließen folgen das Kapitel der Installation bzw. Implementierung von
-Hadoop/Hbase auf dem Cluster. Hier wird das Vorgehen  beschrieben, wie die Installation und Konfiguration 
-abläuft. Eingesetzte Programmiersprachen ist hier Java. Fragestellungen werden sein, wie 
+um einen Überblick zu geben. Anschließend folgt ein Kapitel zur Installation bzw. Implementierung von
+Hadoop/Hbase auf dem Cluster. Hier wird Schritt für Schritt das Vorgehen  beschrieben, wie die Installation und Konfiguration 
+abläuft. %Eingesetzte Programmiersprache ist hier Java.
+Fragestellungen werden sein, wie 
 sich die Datenbank auf einen Cluster installieren lässt und welche Konfigurationsparameter hinsichtlich des
 Anwendungsfalls eines One-Million-Datensatzes berücksichtigt und angepasst werden müssen. Auch die konkrete
-Implementierung der map und reduce Funktionen wird in diesem Kapitel dargelegt. Auch Filter- und Optimierungsparameter,
-die besonders Hbase betreffen, werden evaluiert und gegebenenfalls angewendet.\\
-Zum Abschluss wird gezeigt,
+Implementierung von MapReduce-Funktionen wird in diesem Kapitel dargelegt. Des Weiteren werden Filter- und Optimierungsparameter,
+die besonders Hbase betreffen, evaluiert und gegebenenfalls angewendet.
+
+Außerdem wird gezeigt,
 ob und wie sich die Datenbank auch ohne eigens programmiertem Client Ad-Hoc ansprechen lässt, beispielsweise über
 eine laufende Shell. Das nächste Kapitel beschreibt die Implementierung der Client-Software, die mittels Java als Serveranwendung
-und Javascript als Client-Anwendung dem Anwender die Möglichkeit bieten soll, über eine grafische Oberfläche mit dem One-Million-Datensatz
-zu arbeiten. Der Client hat dabei aber wenige, nur funktionale Anforderungen, eine aufwendig grafische Oberfläche ist nicht das Ziel.
+und Java als Client-Anwendung dem Anwender die Möglichkeit bieten soll, über eine grafische Oberfläche mit dem One-Million-Datensatz zu arbeiten. Der Client beschränkt sich dabei auf wenige, nur funktionale Anforderungen. Eine aufwendig grafische Oberfläche ist nicht das Ziel.
 Ein weiteres Kapitel im praktischen Teil behandelt die Installation des One-Million-Song-Datensatzes in das Hadoop-Dateisystem.
-Wichtige Fragestellungen spielt dabei, inwieweit die Daten bereits für die Speicherung im Hadoop-Dateisystem geeignet sind 
-sowie die Frage nach der Replikation auf dem Cluster-System.
+Wichtige Fragestellungen sind dabei, inwieweit die Daten bereits für die Speicherung im Hadoop-Dateisystem geeignet sind und
+die Frage nach der Replikation auf dem Cluster-System.
 
 Zum Abschluss des praktischen Teils folgt eine kurze Leistungsdarstellung des Systems, indem die Antwortzeiten
 der Datenbank zu bestimmten Abfragen gemessen werde. Optional ist eine Leistungsbewertung im Vergleich mit 

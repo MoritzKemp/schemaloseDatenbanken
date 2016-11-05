@@ -1,14 +1,14 @@
-\chapter{HBase}
+\section{HBase}
 Im folgenden wird HBase als Datenbank vorgestellt und anschließend werden Gründe aufgezeigt, warum HBase im Rahmen von BigData eingesetzt werden sollte.
 
-\section{Allgemeiner Überblick}
+\subsection{Allgemeiner Überblick}
 Die spaltenorientierte Datenbank HBase basiert auf der Datenbank BigTable von Google, weshalb diese Datenbanken Gemeinsamkeiten bezüglich ihrer Funktionalität aufweisen. Beispielsweise unterstützen beide die Komprimierung und Versionierung der Daten.
 
 Des weiteren erinnert HBase an eine relationale Datenbank, da sie ihre Daten in Tabellen speichert, die Zellen enthalten. Jedoch verhalten sich die Tabellen nicht wie Relationen und Zeilen nicht wie Datensätze in relationalen Datenbanken. Auch sind die Spalten nicht durch ein Schema definiert.
 
 Da HDFS ein Filesystem ist, fehlt ihm die zufällige Lese-und Schreibfähigkeit. Eine mögliche Lösung dafür ist HBase. Es wird innerhalb des Hadoop-Clusters betrieben und stellt in Echtzeit Lese- und Schreibzugriff zu den Daten her. HBase ist besonders wertvoll, wenn es um die Verarbeitung von sehr großen Datenmengen geht. Aus diesem Grund wird es auch oftmals als Logging- und Suchsystem in großen Unternehmen eingesetzt.
 
-\section{Günde für HBase}
+\subsection{Gründe für HBase}
 Für den Einsatz von HBase gibt es gleich mehrere Gründe:
 \begin{itemize}
 
