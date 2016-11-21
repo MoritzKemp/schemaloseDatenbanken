@@ -49,3 +49,36 @@ Alle Daten werden in Blöcke je 64 MB aufgeteilt. Im Vergleich zu den normalen D
 [R1]
 \subsubsection{Secondary NameNode}
 Um die Aufgabe eines Secondary Nodes zu verstehen betrachten wir ganz kurz welche Dateien von einem NameNode geschrieben werden und welche Probleme dabei entstehen:
+\begin{figure}
+	\centering
+	\includegraphics{images/namenode.png}
+	\caption{NameNode}
+	\label{img:grafik-nameNode}
+\end{figure}
+
+Wie aus der Abbildung zu sehen ist, schreibt ein NameNode zwei unterschiedliche Dateien auf die Festplatte. \\
+\begin{itemsize}
+\item FsImage ist eine Momentane Aufnahme des Dateisystem zum Zeitpunkt des Starts des NameNodes
+\item Edit Logs beinhaltet eine Menge der Änderungen, die nach dem Starten eines NameNodes auftreten.
+\end{itemsize}
+Ein FsImage wird nur beim Neustart eines NameNodes geschrieben. Dabei wird die Information aus dem EditLog in den FsLog geschrieben um die momentane Aufnahme des Dateisystems zu speichern.\\
+Da in der Regel ein NameNode sehr selten neu gestartet wird, entstehen folgende Probleme:
+\begin{itemsize}
+\item EditLog wird sehr groß und kann nicht verwaltet werden.
+\item Das Neustarten eines NameNode dauert auf Grund der großen Datenmenge sehr lange.
+\item Im Fall eines Ausfalls des NameNodes geht sehr große Menge an Information verloren.
+\end{itemsize}
+Secondary NameNode wird dafür benötigt um die oben beschriebenen Probleme zu umgehen.\\
+\begin{figure}
+	\centering
+	\includegraphics{images/secondarynamenode.png}
+	\caption{SecondaryNameNode}
+	\label{img:grafik-SecondaryNameNode}
+\end{figure}
+Aufgaben eines Secondary NameNodes sind:
+\begin{itemsize}
+\item Ein Secondary NameNode holt in der regelmäßigen Abständen die Daten aus dem EditLog und verschiebt sie in den FsImage.
+\item Sobald ein neuer FsImage vorhanden ist, wird es auf den NameNode geschrieben.
+\item 3. Der neue FsImage wird beim nächsten Neustart des NameNodes verwendet, was die Zeit des Prozess stark reduziert.
+\end{itemsize}
+[S1]
