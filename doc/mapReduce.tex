@@ -93,9 +93,15 @@ Die \textit{reduce}-Funktion bekommt vom Master einen Werte-Bereich aus dem Zwis
 ein End-Ergbnis reduzieren soll. Sie holt sich dann anschließend diesen Wertebereich des Zwischen-Ergebnisses von den verteilten
 \textit{map}-Maschinen. Sie fasst nun alle gleichen gleichen Schlüssel zu einem einzigen Schlüssel zusammen und addiert 
 ihren Wert jeweils auf. Da der Wert immer $1$ ist, steht am Schluss neben dem Künstler-Name die Anzahl seiner geschriebenen
-Songs. Dieses Ergebnis schreibt die  \textit{reduce}-Funktion nun als Ergebnis raus.
+Songs. Dieses Ergebnis schreibt die  \textit{reduce}-Funktion nun als Ergebnis raus. Die Abbildung \ref{fig:mapreduceExample} zeigt 
+das Beispiel anschaulich.
 
- 
+\begin{figure}
+\centering
+\includegraphics[width=1.0\textwidth]{images/mapreduceExample.pdf}
+\caption{Ermittlung der Anzahl der Songs für jeden Künstler mittels MapReduce.}
+\label{fig:mapreduceExample}
+\end{figure}
 
 
 

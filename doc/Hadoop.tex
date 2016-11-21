@@ -1,6 +1,3 @@
-% Grafikpaket laden
-\usepackage{graphicx}
-% hier beginnt das Dokument
 \section{Hadoop}
 \cite{Wartal2012}
 \cite{Endlich2011}
@@ -21,7 +18,7 @@ Hadoop besteht aus mehreren Modulen, die im Weiteren kurz beschrieben werden.
 \item Hadoop Common: Es ist ein Java Modul, das von den anderen Hadoop Modulen verwendet wird. Hadoop Common stellt die Grundfunktionen bereit, die alle anderen Komponenten benötigen. Dazu zählen eine implementierungsneutrale Filesystem-Schnittstelle, die Schnittstelle für die "Remote Procedure Call"-Kommunikation im Cluster und Bibliotheken für die Serialisierung von Daten.
 \item Hadoop YARN: Ein Modul für Job Scheduling und Cluster Resource Maagement
 \item Hadoop Distributed File System (HDFS™): Verteiltes Dateisystem, welches einen hoch perfomanten Zugriff auf die Daten bereitstellt.
-\item Hadoop MapReduce: Es ist ein auf YARN- basiertes System für die parallelen Verarbeitung der riesigen Datenmenge.
+\item Hadoop MapReduce: Es ist ein auf YARN- basiertes System für die parallelen Verarbeitung der riesigen Datenmenge.
 \end{itemize}
 \subsection{Hadoop Architektur}
 Es ist möglich Hadoop mit mehreren Dateisystemen zu betreiben: FS, HFTP FS, S3 FS usw. Das gängigste Dateisystem ist aber HDFS (Hadoop Distributed File System). Dieses Dateisystem basiert auf dem Google File System (GFS). 
@@ -51,34 +48,34 @@ Alle Daten werden in Blöcke je 64 MB aufgeteilt. Im Vergleich zu den normalen D
 Um die Aufgabe eines Secondary Nodes zu verstehen betrachten wir ganz kurz welche Dateien von einem NameNode geschrieben werden und welche Probleme dabei entstehen:
 \begin{figure}
 	\centering
-	\includegraphics{images/namenode.png}
+	\includegraphics[width=1.0\textwidth]{images/namenode.png}
 	\caption{NameNode}
 	\label{img:grafik-nameNode}
 \end{figure}
 
 Wie aus der Abbildung zu sehen ist, schreibt ein NameNode zwei unterschiedliche Dateien auf die Festplatte. \\
-\begin{itemsize}
+\begin{itemize}
 \item FsImage ist eine Momentane Aufnahme des Dateisystem zum Zeitpunkt des Starts des NameNodes
 \item Edit Logs beinhaltet eine Menge der Änderungen, die nach dem Starten eines NameNodes auftreten.
-\end{itemsize}
+\end{itemize}
 Ein FsImage wird nur beim Neustart eines NameNodes geschrieben. Dabei wird die Information aus dem EditLog in den FsLog geschrieben um die momentane Aufnahme des Dateisystems zu speichern.\\
 Da in der Regel ein NameNode sehr selten neu gestartet wird, entstehen folgende Probleme:
-\begin{itemsize}
+\begin{itemize}
 \item EditLog wird sehr groß und kann nicht verwaltet werden.
 \item Das Neustarten eines NameNode dauert auf Grund der großen Datenmenge sehr lange.
 \item Im Fall eines Ausfalls des NameNodes geht sehr große Menge an Information verloren.
-\end{itemsize}
+\end{itemize}
 Secondary NameNode wird dafür benötigt um die oben beschriebenen Probleme zu umgehen.\\
 \begin{figure}
 	\centering
-	\includegraphics{images/secondarynamenode.png}
+	\includegraphics[width=1.0\textwidth]{images/secondarynamenode.png}
 	\caption{SecondaryNameNode}
 	\label{img:grafik-SecondaryNameNode}
 \end{figure}
 Aufgaben eines Secondary NameNodes sind:
-\begin{itemsize}
+\begin{itemize}
 \item Ein Secondary NameNode holt in der regelmäßigen Abständen die Daten aus dem EditLog und verschiebt sie in den FsImage.
 \item Sobald ein neuer FsImage vorhanden ist, wird es auf den NameNode geschrieben.
 \item 3. Der neue FsImage wird beim nächsten Neustart des NameNodes verwendet, was die Zeit des Prozess stark reduziert.
-\end{itemsize}
+\end{itemize}
 [S1]
