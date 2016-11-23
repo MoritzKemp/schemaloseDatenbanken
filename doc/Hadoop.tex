@@ -79,3 +79,7 @@ Aufgaben eines Secondary NameNodes sind:
 \item 3. Der neue FsImage wird beim nächsten Neustart des NameNodes verwendet, was die Zeit des Prozess stark reduziert.
 \end{itemize}
 \cite{secNameNode}
+\subsubsection{Replikation der Daten in Hadoop}
+Hadoop verwendet einen blockorientierten Ansatz für die Datenreplikation. Mit dem Ansatz wird jede im HDFS abgelegte Datei in einzelne Blöcke mit einer festen Bytegröße aufgeteilt und durch den NameNode auf unterschiedliche Clusterknoten abgelegt. Zusätzlich wird durch den NameNode sichergestellt, dass jeder Block mehrfach auf unterschiedliche Knoten im Cluster repliziert wird.
+In der HDFS-Standardkonfiguration repliziert der NameNode jeden Block dreifach. Kommt es nun zum Ausfall eines Knotens im Cluster, gehen nur die auf dem ausgefallenen Rechners sich befindlichen Blöcke verloren und keine ganze Datei, da die verloren gegangenen Blöcke durch ihre Kopien auf anderen Knoten ersetzbar sind und so der NameNode die ganze Datei bereitstellen kann.
+\cite{replikation}
