@@ -20,10 +20,10 @@ Hadoop besteht aus mehreren Modulen, die im Weiteren kurz beschrieben werden.
 \item Hadoop Distributed File System (HDFS™): Verteiltes Dateisystem, welches einen hoch perfomanten Zugriff auf die Daten bereitstellt.
 \item Hadoop MapReduce: Es ist ein auf YARN- basiertes System für die parallelen Verarbeitung der riesigen Datenmenge.
 \end{itemize}
-\subsection{Hadoop Architektur}
+\subsection{Architektur Übersicht}
 Es ist möglich Hadoop mit mehreren Dateisystemen zu betreiben: FS, HFTP FS, S3 FS usw. Das gängigste Dateisystem ist aber HDFS (Hadoop Distributed File System). Dieses Dateisystem basiert auf dem Google File System (GFS). 
 HDFS verwendet eine Master / Slave Architektur. Dabei verwaltet der Masterknoten (NameNode) die Metadaten von dem Dateisystem. Die Slave Knoten (DataNode) speichert die aktuellen Daten.
-\subsubsection{NameNode}
+\subsection{NameNode}
 Namenode verwaltet alle Dateioperationen im Hadoop. Es beinhaltet die Information wie die Daten in die Blocks unterteilt sind, welche Knoten diese Blöcke speichern.
 Die Funktionalität des NameNodes ist sehr Speicher- und I/O-lastig. Deswegen sollten diese Knoten keine Benutzerdaten speichern oder in den Berechnungsprozess angebunden sein. Daraus resultiert, dass ein Rechner nicht gleichzeitig NameNode und DataNode sein sollte.
 Zusammengefasst sind die Hauptaufgabe der NameNode im Hadoop Dateisystem:
@@ -34,7 +34,7 @@ Zusammengefasst sind die Hauptaufgabe der NameNode im Hadoop Dateisystem:
 \end{itemize}
 \cite[S. XX]{Wartal2012}
 Alle Daten werden in Blöcke je 64 MB aufgeteilt. Im Vergleich zu den normalen Dateisystemen ist es eine sehr großzügige Aufteilung. Zum Beispiel unterteilt das Linux Dateisystem alle Daten in 1KB große Blöcke. Die Aufteilung in solche große Blöcke bei Hadoop basiert auf der Notwendigkeit sehr große Mengen an Informationen zu verarbeiten. Um einen Datenblock zu verarbeiten benötig der NameNode in der Regel 150Byte Arbeitsspeicher. Demnach kann 1GB großer Arbeitsspeicher mehr als 6 Mio Dateien und Ordner verwalten. \cite[S. XX]{Wartal2012}
-\subsubsection{DataNode}
+\subsection{DataNode}
 \begin{itemize}
 \item DataNode ist für die Speicherung der Daten in HDFS verantwortlich.
 \item DataNode ist auch als Slave-Knoten bekannt.
@@ -44,7 +44,7 @@ Alle Daten werden in Blöcke je 64 MB aufgeteilt. Im Vergleich zu den normalen D
 \item DataNode benötigt sehr viel Speicherkapazität, weil alle Daten auf dem DataNode gespeichert sind.
 \end{itemize}
 \cite{nameNode}
-\subsubsection{Secondary NameNode}
+\subsection{Secondary NameNode}
 Um die Aufgabe eines Secondary Nodes zu verstehen betrachten wir ganz kurz welche Dateien von einem NameNode geschrieben werden und welche Probleme dabei entstehen:
 \begin{figure}
 	\centering
@@ -79,7 +79,33 @@ Aufgaben eines Secondary NameNodes sind:
 \item 3. Der neue FsImage wird beim nächsten Neustart des NameNodes verwendet, was die Zeit des Prozess stark reduziert.
 \end{itemize}
 \cite{secNameNode}
-\subsubsection{Replikation der Daten in Hadoop}
+\subsection{Replikation der Daten in Hadoop}
 Hadoop verwendet einen blockorientierten Ansatz für die Datenreplikation. Mit dem Ansatz wird jede im HDFS abgelegte Datei in einzelne Blöcke mit einer festen Bytegröße aufgeteilt und durch den NameNode auf unterschiedliche Clusterknoten abgelegt. Zusätzlich wird durch den NameNode sichergestellt, dass jeder Block mehrfach auf unterschiedliche Knoten im Cluster repliziert wird.
 In der HDFS-Standardkonfiguration repliziert der NameNode jeden Block dreifach. Kommt es nun zum Ausfall eines Knotens im Cluster, gehen nur die auf dem ausgefallenen Rechners sich befindlichen Blöcke verloren und keine ganze Datei, da die verloren gegangenen Blöcke durch ihre Kopien auf anderen Knoten ersetzbar sind und so der NameNode die ganze Datei bereitstellen kann.
 \cite{replikation}
+\subsection{Installation und Konfiguration von Hadoop}
+Da Hadoop in Java implementiert ist, ist es Platformunabhängig und kann sowohl auf Windows, Linux oder MacOs installiert werden.
+Im Folgenden kapitel wird beschrieben, wie man Hadoop auf mehreren Knotten installiert.
+
+Die Grundlage für eine lauffähige Hadoop Instanz ist die Java Laufzeitumgebung. Für Hadoop brauchen wir mind. Java Version 1.6.
+Nach dem Java auf der dafür vorgesehenen Maschine installiert ist, muss man die JAVA_HOME auf das richtige Java Verzeichnis setzen.
+Nachdem man die richtige Java Version installiert hat, kann man Hadoop auf der Seite von Apache Hadoop  (http://hadoop.apache.org/releases.html) downloaden und entpacken.
+Die Konfiguration von Hadoop wird auf zwei Arten von Dateien verteilt:
+\begin{itemize}
+\item Read-only default configuration - core-default.xml, hdfs-default.xml, yarn-default.xml and mapred-default.xml.
+\item Site-specific configuration - etc/hadoop/core-site.xml, etc/hadoop/hdfs-site.xml, etc/hadoop/yarn-site.xml and etc/hadoop/mapred-site.xml.
+\end{itemize}
+\cite{hadoopConfiguration}
+
+Sämtliche Konfigurationsparameter befinden sich in der Version 2.7.3 im folgenden Hadoop Verzeichnis: etc/hadoop/
+Als erstes betrachten wir die Konfigurationdatei hadoop-env. In dieser Datei findet man einen Hinweis auf die installierte Java Version, spezifischen Speichereinstellugen usw. 
+Eine weitere wichtige Konfigurationsdatei core-site.xml beinhaltet das Verzeichnis und die Adresse des Hadoop-Dateisystems. Bei der frischen Hadoop Installation ist diese Datei leer um muss mit Inhalt befüllt werden.
+Der Parameter hadoop.tmp.dir legt fest, in welchem Verzeichnis Hadoop die benötigten Dateien für das HDFS anlegen darf.
+
+
+Der Parameter fs.defaultFS beschreibt die URI von dem NameNode
+
+
+Eine weitere Konfigurationsdatei hdfs-site.xml bestimmt unter anderem den Grad der Replikation innerhalb der HDFS an.
+Darüber hinaus kann man in dieser Datei den Pfad zum Verzeichnis finden, in dem die Daten von dem NameNode (dfs.namenode.name.dir) oder aber die Daten von dem DataNode(dfs.datanode.data.dir) liegen.
+
