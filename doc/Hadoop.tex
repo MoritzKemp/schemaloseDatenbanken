@@ -87,10 +87,12 @@ In der HDFS-Standardkonfiguration repliziert der NameNode jeden Block dreifach. 
 Da Hadoop in Java implementiert ist, ist es Platformunabhängig und kann sowohl auf Windows, Linux oder MacOs installiert werden.
 Im Folgenden Kapitel wird beschrieben, wie man Hadoop auf mehreren Knotten installieren kann. 
 
-Die Grundlage für eine lauffähige Hadoop Instanz ist eine Java Laufzeitumgebung. Für Hadoop braucht man mind. Java Version 1.6.
-Nachdem Java auf der dafür vorgesehenen Maschine installiert ist, muss man die JAVA\_HOME auf das richtige Java Verzeichnis setzen.
-Damit Hadoop richtig in der Umgebung laufen kann, muss man als nächstes eine Hadoop Distribution aus dem Internet laden und entsprechend für SingleNode oder MultipleNode konfigurieren.
-Man kann Hadoop auf der Seite von Apache Hadoop  (http://hadoop.apache.org/releases.html) laden und entpacken.\\
+Bevor man mit der Installation des Hadoop System begint, müssen zwei Voraussetzungen erfüllt werden.
+1. Die Grundlage für eine lauffähige Hadoop Instanz ist eine Java Laufzeitumgebung. Für Hadoop braucht man mind. Java Version 1.6.
+Nachdem Java auf der dafür vorgesehenen Maschine installiert ist, muss man die JAVA\_HOME auf das richtige Java Verzeichnis setzen.\\
+2. SSH muss installiert werden und sshd muss laufen, damit die Hadoop Scripte ausgeführt werden können.\\
+Nachdem die Voraussetzungen erfüllt sind, kann man mit der Installation von Hadoop beginen. Diese beinhaltet das Laden einer Hadoop Distribution aus dem Internet und die Konfiguration dieser für ein Single- bzw ein MultipleMode. Bei einer Cluster Installation muss Hadoop auf jeden Knoten des Clusters abgelegt werden.
+Man kann Hadoop auf der Seite von Apache Hadoop  (http://hadoop.apache.org/releases.html) laden.\\
 Die Konfiguration von Hadoop wird auf zwei Arten von Dateien verteilt:
 \begin{itemize}
 \item Read-only default configuration - core-default.xml, hdfs-default.xml, yarn-default.xml and mapred-default.xml.
@@ -98,7 +100,7 @@ Die Konfiguration von Hadoop wird auf zwei Arten von Dateien verteilt:
 \end{itemize}
 \cite{hadoopConfiguration}
 
-Sämtliche Konfigurationsdateien befinden sich in der Version 2.7.3 im folgenden Hadoop Verzeichnis: etc/hadoop/
+Sämtliche Konfigurationsdateien befinden sich in der Hadoop Version 2.7.3 im folgenden Verzeichnis: etc/hadoop/
 Als erstes betrachten wir die Konfigurationdatei hadoop-env. In dieser Datei findet man einen Hinweis auf die installierte Java Version, spezifischen Speichereinstellugen usw. 
 Eine weitere wichtige Konfigurationsdatei core-site.xml beinhaltet das Verzeichnis und die Adresse des Hadoop-Dateisystems. Bei der frischen Hadoop Installation ist diese Datei leer und muss mit Inhalt befüllt werden.
 Der Parameter hadoop.tmp.dir legt fest, in welchem Verzeichnis Hadoop die benötigten Dateien für das HDFS anlegen darf.
