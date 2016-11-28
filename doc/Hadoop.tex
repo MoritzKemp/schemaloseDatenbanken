@@ -21,7 +21,7 @@ Hadoop besteht aus mehreren Modulen, die im Weiteren kurz beschrieben werden.
 \item Hadoop MapReduce: Es ist ein auf YARN- basiertes System für die parallelen Verarbeitung der riesigen Datenmenge.
 \end{itemize}
 \subsection{Architektur Übersicht}
-Es ist möglich Hadoop mit mehreren Dateisystemen zu betreiben: FS, HFTP FS, S3 FS usw. Das gängigste Dateisystem ist aber HDFS (Hadoop Distributed File System). Dieses Dateisystem basiert auf dem Google File System (GFS). 
+Es ist möglich Hadoop mit mehreren Dateisystemen zu betreiben: FS, HFTP FS, S3 FS usw. Das gängigste Dateisystem ist aber \ac{HDFS} (Hadoop Distributed File System). Dieses Dateisystem basiert auf dem Google File System (\ac{GFS}). 
 HDFS verwendet eine Master / Slave Architektur. Dabei verwaltet der Masterknoten (NameNode) die Metadaten von dem Dateisystem. Die Slave Knoten (DataNode) speichert die aktuellen Daten.
 \subsection{NameNode}
 Namenode verwaltet alle Dateioperationen im Hadoop. Es beinhaltet die Information wie die Daten in die Blocks unterteilt sind, welche Knoten diese Blöcke speichern.
