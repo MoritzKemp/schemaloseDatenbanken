@@ -1,0 +1,28 @@
+<configuration>
+	<property>
+		<name>hbase.rootdir</name>
+		<value>hdfs://10.20.110.61:8026/hbase</value>
+	</property>
+
+	<property>
+		<name>hbase.master.hostname</name>
+		<value>10.20.110.61</value>
+	</property>
+	<property>
+		<name>hbase.master.port</name>
+		<value>16006</value>
+	</property>
+	<property>
+		<name>hbase.cluster.distributed</name>
+		<value>true</value>
+	</property>
+	<property>
+		<name>hbase.zookeeper.property.clientPort</name>
+		<value>2186</value>
+	</property>	
+	<property>
+		<name>hbase.zookeeper.quorum</name>
+		<value>10.20.110.61,10.20.110.43,
+		10.20.110.41,10.20.110.39,10.20.110.48</value>
+	</property>
+</configuration>

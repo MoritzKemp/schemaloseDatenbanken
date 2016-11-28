@@ -167,3 +167,11 @@ Nachdem nun HDFS fertig konfiguriert ist, folgt jetzt die Konfiguration von YARN
 	\item[yarn.nodemanager.aux-services] Angabe von zusätzlichen Hilfs-Klassen, die dann im Hadoop-Framework verwendet werden können. Hier nur die Angabe des \texttt{mapreduce\_shuffle}-Dienstes, der aber sowieso schon Standardmäßig angegeben ist.
 	\item[yarn.nodemanager.aux-services.mapreduce\_shuffle.class] Die Angabe der konkrete Java-Klasse für den \texttt{mapreduce\_shuffle}-Dienst.
 \end{description}
+
+Die vollständige Liste aller Konfigurationsparameter inklusive ihrer Default-Werte finden sich unter:
+
+\begin{itemize}
+	\item \url{https://hadoop.apache.org/docs/r2.7.2/hadoop-project-dist/hadoop-common/core-default.xml}
+	\item \url{http://hadoop.apache.org/docs/r2.7.2/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml}
+	\item \url{https://hadoop.apache.org/docs/r2.7.2/hadoop-yarn/hadoop-yarn-common/yarn-default.xml}
+\end{itemize}
