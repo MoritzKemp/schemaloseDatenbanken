@@ -1,0 +1,54 @@
+<configuration>
+<!-- RESOURCEMANAGER -->
+<property>
+	<name>yarn.resourcemanager.hostname</name>
+	<value>10.20.110.61</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.address</name>
+	<value>${yarn.resourcemanager.hostname}:8036</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.scheduler.address</name>
+	<value>${yarn.resourcemanager.hostname}:8038</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.webapp.address</name>
+	<value>${yarn.resourcemanager.hostname}:8086</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.admin.address</name>
+	<value>${yarn.resourcemanager.hostname}:8037</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.zk-address</name>
+	<value>${yarn.resourcemanager.hostname}:2186</value>
+</property>
+
+<!-- NODEMANAGER -->
+<property>
+	<name>yarn.nodemanager.address</name>
+	<value>${yarn.nodemanager.hostname}:8056</value>
+</property>
+
+<property>
+	<name>yarn.nodemanager.localizer.address</name>
+	<value>${yarn.nodemanager.hostname}:8046</value>
+</property>
+
+<property>
+	<name>yarn.nodemanager.aux-services</name>
+	<value>mapreduce_shuffle</value>
+</property>
+
+<property>
+	<name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+	<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+
+</configuration>

@@ -79,10 +79,12 @@ Aufgaben eines Secondary NameNodes sind:
 \item 3. Der neue FsImage wird beim nächsten Neustart des NameNodes verwendet, was die Zeit des Prozess stark reduziert.
 \end{itemize}
 \cite{secNameNode}
+
 \subsection{Replikation der Daten in Hadoop}
 Hadoop verwendet einen blockorientierten Ansatz für die Datenreplikation. Mit dem Ansatz wird jede im HDFS abgelegte Datei in einzelne Blöcke mit einer festen Bytegröße aufgeteilt und durch den NameNode auf unterschiedliche Clusterknoten abgelegt. Zusätzlich wird durch den NameNode sichergestellt, dass jeder Block mehrfach auf unterschiedliche Knoten im Cluster repliziert wird.
 In der HDFS-Standardkonfiguration repliziert der NameNode jeden Block dreifach. Kommt es nun zum Ausfall eines Knotens im Cluster, gehen nur die auf dem ausgefallenen Rechners sich befindlichen Blöcke verloren und keine ganze Datei, da die verloren gegangenen Blöcke durch ihre Kopien auf anderen Knoten ersetzbar sind und so der NameNode die ganze Datei bereitstellen kann.
 \cite{replikation}
+
 \subsection{Installation und Konfiguration von Hadoop}
 Da Hadoop in Java implementiert ist, ist es Platformunabhängig und kann sowohl auf Windows, Linux oder MacOs installiert werden.
 Im Folgenden Kapitel wird beschrieben, wie man Hadoop auf mehreren Knotten installieren kann. 
@@ -98,15 +100,67 @@ Die Konfiguration von Hadoop wird auf zwei Arten von Dateien verteilt:
 \end{itemize}
 \cite{hadoopConfiguration}
 
-Sämtliche Konfigurationsdateien befinden sich in der Version 2.7.3 im folgenden Hadoop Verzeichnis: etc/hadoop/
-Als erstes betrachten wir die Konfigurationdatei hadoop-env. In dieser Datei findet man einen Hinweis auf die installierte Java Version, spezifischen Speichereinstellugen usw. 
-Eine weitere wichtige Konfigurationsdatei core-site.xml beinhaltet das Verzeichnis und die Adresse des Hadoop-Dateisystems. Bei der frischen Hadoop Installation ist diese Datei leer und muss mit Inhalt befüllt werden.
+Sämtliche Konfigurationsdateien befinden sich in der Version 2.7.3 im folgenden Hadoop Verzeichnis: \texttt{etc/hadoop/}
+Als erstes betrachten wir die Konfigurationdatei \texttt{hadoop-env.sh}. In dieser Datei findet man einen Hinweis auf die installierte Java Version, spezifischen Speichereinstellugen usw. 
+Eine weitere wichtige Konfigurationsdatei \texttt{core-site.xml} beinhaltet das Verzeichnis und die Adresse des Hadoop-Dateisystems. Bei der frischen Hadoop Installation ist diese Datei leer und muss mit Inhalt befüllt werden.
 Der Parameter hadoop.tmp.dir legt fest, in welchem Verzeichnis Hadoop die benötigten Dateien für das HDFS anlegen darf.
 
-
 Der Parameter fs.defaultFS beschreibt die URI von dem NameNode
-
 
 Eine weitere Konfigurationsdatei hdfs-site.xml bestimmt unter anderem den Grad der Replikation innerhalb der HDFS an.
 Darüber hinaus kann man in dieser Datei den Pfad zum Verzeichnis finden, in dem die Daten von dem NameNode (dfs.namenode.name.dir) oder aber die Daten von dem DataNode(dfs.datanode.data.dir) liegen.
 
+Nach der nun allgemeinen Beschreibung der Konfiguration folgt nun die spezifische Konfiguration für das NoSQL-Cluster, dass für
+dieses Projekt an der Hochschule Bonn-Rhein-Sieg den Studenten zur Verfügung gestellt wurde.
+
+Die allgemeine Konfigurationsdatei von Hadoop, \texttt{core-site.xml}, sieht wie folgt aus:
+\lstset{basicstyle=\small}
+\lstinputlisting{sourcecode/core-site.xml}
+
+\begin{description}
+	\item[fs.defaultFS] Legt fest, dass das HDFS-Dateisystem auf dem \textit{c017-master}-Knoten auf Port $8026$ zugänglich ist.
+	Dies ist der Anfragepunkt für alle Clients, unter anderem auch für Hbase.
+	\item[topology.script.file] Beschreibt eine Routine, mit der Racks innerhalb des Clusters identifiziert werden. HDFS kann mit diesen
+	Informationen die Replikation derart anpassen, dass sich zusammengehörige Daten auf dem selben Rack befinden. Im bereitgestelltem
+	NoSQL-Cluster befinden sich sämltiche Nodes am selben Switch, sodass die Routine immer die gleiche ID zurück gibt
+	und somit dem HDFS mitteilt. dass eine flache Cluster-Topologie mit einem einzigen Rack vorherrscht.
+\end{description}
+
+Nun folgt die Konfiguration für das HDFS-Dateisystem:
+\lstset{basicstyle=\small}
+\lstinputlisting{sourcecode/hdfs-site.xml}
+
+\begin{description}
+	\item[dfs.namenode.name.dir] Der Speicherort, wo das HDFS-Dateisystem seine Daten des Namenodes ablegen soll, befindet sich unter
+	\texttt{/data/team6/namenode}.
+	\item[dfs.namenode.http-address] Zur Überwachung des Dateisystems kann HDFS einen Webserver starten. Die Adresse ist 
+	\texttt{10.20.110.61:50071}.
+	\item[dfs.datanode.address] Die Adresse, auf dem der Datanode im Cluster für den Namenode erreichbar ist.
+	\item[dfs.datanode.http.address] Auch für den Datanode kann HDFS einen Webserver zur Überwachung öffnen. Die Adresse ist
+	\texttt{10.20.110.x:50076}, wobei \textit{x} für den jeweiligen Node (43, 39, 41, 48) steht.
+	\item[dfs.datanode.ipc.address] Port für das schnelle IPC-Protokoll, mit dem die Metadaten des Dateisystems ausgetauscht werden.
+	Auf allen Nodes immer auf dem Port 50026.
+\end{description}
+
+Nachdem nun HDFS fertig konfiguriert ist, folgt jetzt die Konfiguration von YARN.
+\lstset{basicstyle=\small}
+\lstinputlisting{sourcecode/yarn-site.xml}
+
+\begin{description}
+	\item[yarn.resourcemanager.hostname] Die Adresse jenes Nodes, auf dem der \textit{ResourceManager} laufen soll.
+	Dies sollte im optimalen Fall keiner der Datanodes vom HDFS sein, damit bei voller Auslastung keine Engpässe hinsichtlich
+	des Hauptspeichers und der Netzwerkanbindung entstehen. Im NoSQL-Cluster ist dies der Master-Node.
+	\item[yarn.resourcemanager.address] Nochmalige Angabe des Master-Nodes mit dem Port 8036, über den der
+	ResourceManager für die NodeManager erreichbar ist.
+	\item[yarn.resourcemanager.scheduler.address] Die Addresse, über der der Scheduler-Service von YARN erreichbar ist.
+	\item[yarn.resourcemanager.webapp.address] YARN bietet eine Weboberfläche zur Überwachung von Jobs an, die über \texttt{10.20.110.61:8086} 
+	erreichbar ist.
+	\item[yarn.resourcemanager.admin.address] Die Adresse des Admin-Interfaces von dem ResourceManager, über dessen Port Befehle abgesetzt werden können.
+	\item[yarn.resourcemanager.zk-address] YARN kann, um eine höhere Verfügbarkeit zu gewährleisten, ZooKeeper verwenden. Hier müssen wir also die Adresse unserer
+	ZooKeeper-Instanz angeben.
+	\item[yarn.nodemanager.address] Die Adresse, über die die Nodemanager von Node1 bis Node4 erreichbar sind. Das ist bei jedem Node der Port \texttt{8056}
+	\item[yarn.nodemanager.localizer.address] Wenn einzelne Jobs in YARN entfernte Ressourcen bzw. Datei benötigen, kann YARN diese automatisch lokal Speichern,
+	damit ein schnellerer Zugriff stattfinden kann. Dieser \textit{Localizer} arbeitet mittels IPC über die hier angegebene Adresse.
+	\item[yarn.nodemanager.aux-services] Angabe von zusätzlichen Hilfs-Klassen, die dann im Hadoop-Framework verwendet werden können. Hier nur die Angabe des \texttt{mapreduce\_shuffle}-Dienstes, der aber sowieso schon Standardmäßig angegeben ist.
+	\item[yarn.nodemanager.aux-services.mapreduce\_shuffle.class] Die Angabe der konkrete Java-Klasse für den \texttt{mapreduce\_shuffle}-Dienst.
+\end{description}

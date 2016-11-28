@@ -1,0 +1,35 @@
+
+<configuration>
+<!-- NameNode config -->
+<property>
+	<name>dfs.namenode.name.dir</name>
+	<value>file:/data/team6/namenode</value>
+</property>
+
+<property>
+	<name>dfs.namenode.http-address</name>
+	<value>10.20.110.61:50071</value>
+</property>
+<!-- DataNode config -->
+<property>
+	<name>dfs.datanode.data.dir</name>
+	<value>file:/data/team6/datanode</value>
+</property>
+
+<property>
+	<name>dfs.datanode.address</name>
+	<value>hdfs://localhost:50016</value>
+</property>
+
+<property>
+	<name>dfs.datanode.http.address</name>
+	<value>localhost:50076</value>
+</property>
+
+
+<property>
+	<name>dfs.datanode.ipc.address</name>
+	<value>localhost:50026</value>
+</property>
+	
+</configuration>

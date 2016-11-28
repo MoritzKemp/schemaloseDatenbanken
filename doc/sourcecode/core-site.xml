@@ -1,0 +1,14 @@
+
+<configuration>
+
+<property>
+	<name>fs.defaultFS</name>
+	<value>hdfs://10.20.110.61:8026</value>
+</property>
+
+<property>
+	<name>topology.script.file.name</name>
+	<value>/home/team6/hadoop/cluster-topology.sh</value>
+</property>
+
+</configuration>
