@@ -3,7 +3,7 @@
 \cite{Endlich2011}
 \subsection{Einleitung}
 Hadoop ist ein Java basiertes Open Source Framework von Apache. 
-Die Entwicklung von Hadoop wurde als Teilpojekt von Nutch angefangen, welcher als die  Weiterentwicklung von Apache Lucene darstellte. Das Ziel des Projektes Nutch war eine schnelle Websuche, also eine Alternative zu Google. Die Herausforderung für die Nutch Entwickler war es ein System zu schaffen welches mit hoch skalierbaren Prozessen, Redundanzen, automatischen Fehlerbeseitigung und Verteilen der Last umgehen kann.  Als Google im Jahr 2004 MapReduce und GFS Konzept vorgestellt hat, erkannte Doug Cutting, der Erfinder von Nutch, ihre Vorteile und hat sie für Nutch  übernommen. Im Jahr 2006 wurde Doug Cutting von Yahoo angeheuert das verteilte Dateisystem und das MapReduce-Framework aus dem Nutch zu extrahieren und in eigenes Framework zu überführen. So entstand Hadoop, dessen Name von dem Spielelefanten von Doug Cuttings Sohn stammt. Im Juli 2008 gewinnt Hadoop den Terabyte-Sort-Benchmark \cite[S. 24]{Wartal2012}
+Die Entwicklung von Hadoop wurde als Teilpojekt von Nutch angefangen, welcher eine Weiterentwicklung von Apache Lucene darstellte. Das Ziel des Projektes Nutch war eine schnelle Websuche, also eine Alternative zu Google. Die Herausforderung für die Nutch Entwickler war es, ein System zu schaffen, welches mit hoch skalierbaren Prozessen, Redundanzen, automatischen Fehlerbeseitigung und Verteilen der Last umgehen kann. Als Google im Jahr 2004 MapReduce und \ac{GFS} Konzept vorgestellt hat, erkannte Doug Cutting, der Erfinder von Nutch, ihre Vorteile und hat sie für Nutch  übernommen. Im Jahr 2006 wurde Doug Cutting von Yahoo angeheuert das verteilte Dateisystem und das MapReduce-Framework aus dem Nutch zu extrahieren und in eigenes Framework zu überführen. So entstand Hadoop, dessen Name von dem Spielelefanten des Doug Cuttings Sohn stammt. Im Juli 2008 gewinnt Hadoop den Terabyte-Sort-Benchmark. \cite[S. 24]{Wartal2012}
 Mit den neuen Konzepten von Google ermöglicht Hadoop das Verteilen der Verarbeitung komplexen Prozesse über mehrere Knoten innerhalb eines Clusters. Der größte Vorteil von Hadoop ist die Möglichkeit die  Verarbeitung der Daten zu Skalieren. Dies kann in der Umgebung von einem bis zu tausenden Knoten umgesetzt werden.
 Die Hauptziele von Hadoop sind:
 \begin{itemize}
@@ -21,7 +21,7 @@ Hadoop besteht aus mehreren Modulen, die im Weiteren kurz beschrieben werden.
 \item Hadoop MapReduce: Es ist ein auf YARN- basiertes System für die parallelen Verarbeitung der riesigen Datenmenge.
 \end{itemize}
 \subsection{Architektur Übersicht}
-Es ist möglich Hadoop mit mehreren Dateisystemen zu betreiben: FS, HFTP FS, S3 FS usw. Das gängigste Dateisystem ist aber HDFS (Hadoop Distributed File System). Dieses Dateisystem basiert auf dem Google File System (GFS). 
+Es ist möglich Hadoop mit mehreren Dateisystemen zu betreiben: FS, HFTP FS, S3 FS usw. Das gängigste Dateisystem ist aber \ac{HDFS} (Hadoop Distributed File System). Dieses Dateisystem basiert auf dem Google File System (\ac{GFS}). 
 HDFS verwendet eine Master / Slave Architektur. Dabei verwaltet der Masterknoten (NameNode) die Metadaten von dem Dateisystem. Die Slave Knoten (DataNode) speichert die aktuellen Daten.
 \subsection{NameNode}
 Namenode verwaltet alle Dateioperationen im Hadoop. Es beinhaltet die Information wie die Daten in die Blocks unterteilt sind, welche Knoten diese Blöcke speichern.
