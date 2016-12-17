@@ -1,5 +1,9 @@
 package de.gui;
 
+
+import javax.json.Json;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,11 +22,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * Created by eugenbesel on 30.11.16.
  */
 public class SearchFrame  extends Application {
 
+    public static final String BASE_URL = "http://10.20.110.61:9000/songs/";
     @Override
     public void start(Stage primaryStage) throws Exception{
         //    Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -85,5 +93,26 @@ public class SearchFrame  extends Application {
     public void launchMillionDataSong(String[] args){
         launch(args);
 
+        /*
+         putIntoColumnFamily(h5, table, "song", "Year", get_year(h5)+"");
+            putIntoColumnFamily(h5, table, "song", "ArtistName", get_artist_name(h5));
+            putIntoColumnFamily(h5, table, "song", "SampleRate", get_analysis_sample_rate(h5)+"");
+            putIntoColumnFamily(h5, table, "song", "Duration", get_duration(h5)+"");
+            putIntoColumnFamily(h5, table, "song", "SongName", get_title(h5));
+            putIntoColumnFamily(h5, table, "song", "TrackId", get_track_id(h5));
+         */
     }
+
+    private void readRestClient(String endpoint){
+        URL hlp = null;
+        try {
+            hlp = new URL(String.format("%s%s", BASE_URL, endpoint));
+        } catch (MalformedURLException e) {
+            // I hope so ;)
+            throw new RuntimeException(e);
+        }
+        try (final JSONReader jsonReader = JSONReader.createReader(apiEndpoint.openStream())) {
+            logger.log(Level.FINE, "Done.");
+            return jsonReader.readArray().stream().map(objectFactory::createObject).collect(Collectors.toList());
+        }    }
 }

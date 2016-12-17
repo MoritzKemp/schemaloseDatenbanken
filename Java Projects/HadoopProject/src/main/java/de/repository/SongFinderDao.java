@@ -4,6 +4,10 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.filter.CompareFilter;
+import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
+import org.apache.hadoop.hbase.filter.SubstringComparator;
+import org.apache.hadoop.hbase.filter.ValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.stereotype.Component;
 
@@ -50,10 +54,10 @@ public class SongFinderDao {
         connection.close();
     }
 
-    public List<String> getSongNames() throws IOException {
+    public List<String> getSongNamesWithEquals(String columnName, String value) throws IOException {
 
         Scan scan = new Scan();
-        scan.addColumn("song".getBytes(), "SongName".getBytes());
+        scan.setFilter(new SingleColumnValueFilter("song".getBytes(), columnName.getBytes(), CompareFilter.CompareOp.EQUAL, value.getBytes()));
         // Getting the scan result
         ResultScanner scanner = table.getScanner(scan);
         // Reading values from scan result
@@ -71,25 +75,55 @@ public class SongFinderDao {
         }
         //closing the scanner
         scanner.close();
-
         return resultList;
-        /*
-        Get get = new Get(Bytes.toBytes("row1"));
-        //get.addFamily("song".getBytes());
-        get.addColumn("song".getBytes(), "SongName".getBytes());
-        System.out.println("getAddColumn vorbei");
+    }
 
-        try {
-            Result result = table.get(get);
-            System.out.println("Result gefunden" + result);
+    public List<String> getSongNamesWithGreaterOperator(String columnName, String value) throws IOException {
 
+        Scan scan = new Scan();
+        scan.setFilter(new SingleColumnValueFilter("song".getBytes(), columnName.getBytes(), CompareFilter.CompareOp.GREATER, value.getBytes()));
+        // Getting the scan result
+        ResultScanner scanner = table.getScanner(scan);
+        // Reading values from scan result
+        boolean completed = false;
+        List<String> resultList = new ArrayList<>();
+        while(!completed) {
+            Result result = scanner.next();
+            if(result == null){
+                completed = true;
+                continue;
+            }
             byte[] r = result.getValue("song".getBytes(), "SongName".getBytes());
-
             System.out.println(new String(r,"UTF-8"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("ERROR" + e.getMessage());
+            resultList.add(new String(r,"UTF-8"));
         }
-        return null;*/
+        //closing the scanner
+        scanner.close();
+        return resultList;
+    }
+
+    public List<String> getSongNamesWithLikeOperator(String columnName, String value) throws IOException {
+
+        Scan scan = new Scan();
+        scan.setFilter(new ValueFilter(CompareFilter.CompareOp.EQUAL, new SubstringComparator(value)));
+        scan.addColumn("song".getBytes(), columnName.getBytes());
+        // Getting the scan result
+        ResultScanner scanner = table.getScanner(scan);
+        // Reading values from scan result
+        boolean completed = false;
+        List<String> resultList = new ArrayList<>();
+        while(!completed) {
+            Result result = scanner.next();
+            if(result == null){
+                completed = true;
+                continue;
+            }
+            byte[] r = result.getValue("song".getBytes(), "SongName".getBytes());
+            System.out.println(new String(r,"UTF-8"));
+            resultList.add(new String(r,"UTF-8"));
+        }
+        //closing the scanner
+        scanner.close();
+        return resultList;
     }
 }
