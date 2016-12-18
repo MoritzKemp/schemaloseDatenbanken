@@ -75,9 +75,16 @@ public class SongFinderController {
     public String songsForArtist(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
         List<String> result = new ArrayList<>();
         try {
+            dao.init();
             result  =  dao.getSongNamesWithEquals("ArtistName", name);
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                dao.closeConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         model.addAttribute("songs", result);
         return "songsForArtist";
@@ -87,9 +94,16 @@ public class SongFinderController {
     public String songsWithDurationGreaterThen(@RequestParam(value="duration", required=false, defaultValue="300") String duration, Model model) {
         List<String> result = new ArrayList<>();
         try {
+            dao.init();
             result  =  dao.getSongNamesWithGreaterOperator("Duration", duration);
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                dao.closeConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         model.addAttribute("songs", result);
         return "songsForWithDurationGreaterThen";
@@ -99,9 +113,16 @@ public class SongFinderController {
     public String songsWithTitleLike(@RequestParam(value="titleSubString", required=false, defaultValue="300") String titleSubString, Model model) {
         List<String> result = new ArrayList<>();
         try {
+            dao.init();
             result  =  dao.getSongNamesWithLikeOperator("Title", titleSubString);
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                dao.closeConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         model.addAttribute("songs", result);
         return "songsWithTitleLike";
