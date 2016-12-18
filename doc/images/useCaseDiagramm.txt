@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+:User: as user
+rectangle Anwendung {
+	usecase UC1 as "UC_1
+Alle Songs von einem Interpreten"
+	usecase UC2 as "UC_2
+Alle Songs mit BPM 120 für Lauftraining"
+	usecase UC3 as "UC_3
+Alle Songs die länger als 5 min laufen"
+	usecase UC4 as "UC_4
+Alle Songs mit einem bestimmten Substring"
+	usecase UC5 as "UC_5
+Alle Songs aus einem bestimmten Jahr"
+	user --> UC1
+	user --> UC2
+	user --> UC3
+	user --> UC4
+	user --> UC5
+}
+@enduml
