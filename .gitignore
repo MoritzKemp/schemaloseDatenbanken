@@ -8,3 +8,5 @@ doc/*.out
 doc/*.pdf
 doc/*.bbl
 doc/*.blg
+/Java Projects/millionSongDataExporter/target/
+/Java Projects/millionDataSongTeam6/target/
