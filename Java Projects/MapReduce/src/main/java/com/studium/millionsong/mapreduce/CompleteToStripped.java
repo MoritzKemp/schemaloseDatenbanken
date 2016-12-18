@@ -21,7 +21,7 @@ public class CompleteToStripped {
         private static int untilGenreAttr = 13;
         private static int fromGenreAttr = 147;
         private static int maxNumOfAttr = 166;
-        private static int songIdColumn = 159;
+        private static int songIdColumn = 6;
         
         private Text strippedSongAttr = new Text();
         private Text songId = new Text();
@@ -78,8 +78,10 @@ public class CompleteToStripped {
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "From complete to stripped dataset");
         
-        
         // Job configuration:
+        // 0. Set har which contains this classes
+        job.setJarByClass(CompleteToStripped.class);
+        
         // 1. Which Mapper and Reduce should be used
         job.setMapperClass(CompleteStrippedMapper.class);
         job.setReducerClass(StrippedReducer.class);
@@ -87,8 +89,11 @@ public class CompleteToStripped {
         // 2. Which are the output datatypes of the mapper- and reduce-functions
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
+
+        // 3. Set local combiner for data reduction
+        job.setCombinerClass(StrippedReducer.class);
         
-        // 3. Where are the input file(s)
+        // 4. Where are the input file(s)
         // Default FileInputFormat is TextInputFormat, so its using
         // the correct implementation automatically.
         FileInputFormat.addInputPath(job, inputPath);
