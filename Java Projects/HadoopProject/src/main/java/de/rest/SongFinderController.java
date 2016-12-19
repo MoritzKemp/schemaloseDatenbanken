@@ -6,14 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.SearchResult;
+import de.model.Song;
 import de.repository.SongFinderDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -71,12 +69,13 @@ public class SongFinderController {
         return sr;
     }
 
-    @RequestMapping("/songsForArtist")
-    public String songsForArtist(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
+    @PostMapping("/songsForArtist")
+  //  public String songsForArtist(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
+    public String songsForArtist(@ModelAttribute Song song, Model model) {
         List<String> result = new ArrayList<>();
         try {
             dao.init();
-            result  =  dao.getSongNamesWithEquals("ArtistName", name);
+            result  =  dao.getSongNamesWithEquals("ArtistName", song.getArtistName());
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -86,16 +85,31 @@ public class SongFinderController {
                 e.printStackTrace();
             }
         }
-        model.addAttribute("songs", result);
+        model.addAttribute("songList", result);
+        model.addAttribute("songForm", new Song());
         return "songsForArtist";
     }
 
-    @RequestMapping("/songsForWithDurationGreaterThen")
+    @GetMapping("/songsForArtist")
+    public String songsForArtist(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("songList", "");
+        model.addAttribute("songForm", new Song());
+        return "songsForArtist";
+    }
+
+    @RequestMapping("/songsWithGivenDuration")
     public String songsWithDurationGreaterThen(@RequestParam(value="duration", required=false, defaultValue="300") String duration, Model model) {
+        model.addAttribute("songList", "");
+        model.addAttribute("songForm", new Song());
+        return "songsWithGivenDuration";
+    }
+
+    @PostMapping("/songsWithGivenDuration")
+    public String postSongsWithDurationGreaterThen(@ModelAttribute Song song, Model model) {
         List<String> result = new ArrayList<>();
-        try {
+       try {
             dao.init();
-            result  =  dao.getSongNamesWithGreaterOperator("Duration", duration);
+            result  =  dao.getSongNamesWithGreaterOperator("Duration", song.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -105,8 +119,11 @@ public class SongFinderController {
                 e.printStackTrace();
             }
         }
-        model.addAttribute("songs", result);
-        return "songsForWithDurationGreaterThen";
+
+        model.addAttribute("songList", result);
+        model.addAttribute("songForm", new Song());
+
+        return "songsWithGivenDuration";
     }
 
     @RequestMapping("/songsWithTitleLike")
