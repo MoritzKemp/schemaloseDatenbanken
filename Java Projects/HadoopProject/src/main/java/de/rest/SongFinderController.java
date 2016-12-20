@@ -72,11 +72,17 @@ public class SongFinderController {
     @PostMapping("/songsForArtist")
   //  public String songsForArtist(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
     public String songsForArtist(@ModelAttribute Song song, Model model) {
-        List<String> result = new ArrayList<>();
-        try {
-            dao.init();
-            result  =  dao.getSongNamesWithEquals("ArtistName", song.getArtistName());
-        } catch (IOException e) {
+        List<Song> result = new ArrayList<>();
+        //try {
+            //dao.init();
+            //result  =  dao.getSongNamesWithEquals("ArtistName", song.getArtistName());
+            result.add(new Song("1","Song1", "Ich","12","2016","23","2"));
+            result.add(new Song("2","Song2", "DU","12","2016","23","2"));
+            result.add(new Song("3","Song3", "ER","12","2016","23","2"));
+            result.add(new Song("4","Song4", "SIE","12","2016","23","2"));
+            result.add(new Song("5","Song5", "WIR","12","2016","23","2"));
+            result.add(new Song("6","Song6", "Ich","12","2016","23","2"));
+       /* } catch (IOException e) {
             e.printStackTrace();
         }finally {
             try {
@@ -84,9 +90,38 @@ public class SongFinderController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         model.addAttribute("songList", result);
         model.addAttribute("songForm", new Song());
+        return "songsForArtist";
+    }
+
+    @PostMapping("/addNewSong")
+  //  public String songsForArtist(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
+    public String addNewSong(@ModelAttribute Song song, Model model) {
+        List<Song> result = new ArrayList<>();
+        System.out.print(song.getArtistName());
+        //try {
+            //dao.init();
+            //result  =  dao.getSongNamesWithEquals("ArtistName", song.getArtistName());
+            result.add(new Song("1","Song1", "Ich","12","2016","23","2"));
+            result.add(new Song("2","Song2", "DU","12","2016","23","2"));
+            result.add(new Song("3","Song3", "ER","12","2016","23","2"));
+            result.add(new Song("4","Song4", "SIE","12","2016","23","2"));
+            result.add(new Song("5","Song5", "WIR","12","2016","23","2"));
+            result.add(new Song("6","Song6", "Ich","12","2016","23","2"));
+       /* } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                dao.closeConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
+        model.addAttribute("songList", result);
+        model.addAttribute("songForm", new Song());
+        model.addAttribute("successMessage", true);
         return "songsForArtist";
     }
 
@@ -106,7 +141,7 @@ public class SongFinderController {
 
     @PostMapping("/songsWithGivenDuration")
     public String postSongsWithDurationGreaterThen(@ModelAttribute Song song, Model model) {
-        List<String> result = new ArrayList<>();
+        List<Song> result = new ArrayList<>();
        try {
             dao.init();
             result  =  dao.getSongNamesWithGreaterOperator("Duration", song.getDuration());
@@ -128,7 +163,7 @@ public class SongFinderController {
 
     @RequestMapping("/songsWithTitleLike")
     public String songsWithTitleLike(@RequestParam(value="titleSubString", required=false, defaultValue="300") String titleSubString, Model model) {
-        List<String> result = new ArrayList<>();
+        List<Song> result = new ArrayList<>();
         try {
             dao.init();
             result  =  dao.getSongNamesWithLikeOperator("Title", titleSubString);
