@@ -34,6 +34,7 @@ Big-Data-Anwendungen zu evaluieren.
 \end{description}
 
 \subsubsection{Rahmenbedingungen}
+\label{anforderungen:rahmenbedingungen}
 Die Rahmenbedingungen teilen sich in die Hardware-Rahmenbedingungen und in die Software-Rahmenbedingungen auf.
 Die Hardware, die uns zur Verfügung gestellt wurde besteht aus einem Verbund von 5 homogenen Server-Rechnern, 
 die über ein Ethernet-Netzwerk gleichwertig miteinander verknüpft sind. Physikalisch sind alle Knoten an einem gemeinsamen
@@ -67,3 +68,154 @@ Die folgenden Tabellen zeigen die Konfiguration der einzelnen Hadoop-Komponenten
 Eine Auflistung der ab Werk ausgelieferten Standard-Konfiguration kann auf folgenden Webseiten nachgeschlagen werden:
 \cite{hdfsDefault}, \cite{yarnDefault} und \cite{mapreduceDefault}.
 
+Es folgen nun die Tabellen, die die Konfiguration von Hadoop, HDFS, YARN, MapReduce und HBase 
+speziell für die vorhandene Cluster-Umgebung zeigt. Es werden  nur Parameter aufgelistet, 
+die von der Werks-Konfiguration abweichen.
+
+\begin{table}
+	\begin{tabularx}{\textwidth}{| X | X |} \hline
+		Name des Parameters & Gesetzter Wert \\ \hline
+		dfs.namenode.name.dir & file:/data/team6/namenode \\ \hline
+		dfs.namenode.http-address & 10.20.110.61:50071  \\ \hline
+		dfs.datanode.data.dir & file:/data/team6/datanode \\ \hline
+		dfs.datanode.address & hdfs://localhost:5001 \\ \hline
+		dfs.datanode.http-address & localhost:50016 \\ \hline
+		dfs.datanode.ipc.address & localhost:50026 \\ \hline
+	\end{tabularx}
+	\caption{Gesetzte Parameter-Werte für die Konfiguration des HDFS}
+	\label{config:hdfsValues}
+\end{table}
+
+\begin{table}
+	\begin{tabularx}{\textwidth}{|X|X|} \hline
+		Name des Parameters & Beschreibung \\ \hline
+		dfs.namenode.name.dir & Lokaler Dateisystempfad, wo
+		HDFS den Log für die Transaktionen ablegen soll. \\ \hline
+		dfs.namenode.http-address & Die Web-Adresse, über den die
+		Weboberfläche des HDFS-Überwachungswerkzeug erreichbar ist. \\ \hline
+		dfs.datanode.data.dir & Lokaler Dateisystempfad, wo HDFS
+		die Daten des virtuelle Dateisystems ablegen soll. \\ \hline
+		dfs.datanode.address & Die Netzwerk-Schnittstelle, über den 
+		der Datanode des Rechnerknotens über das hdfs-Protokoll erreichbar ist. Darüber 
+		werden die Daten zwischen den Knoten des HDFS-Dateisystems ausgetauscht. \\ \hline
+		dfs.datanode.http-address & Die Web-Adresse der Datanode-
+		Adminoberfläche. \\ \hline
+		dfs.datanode.ipc.address & Der Zugang zum Datanode mittels dem
+		leichtgewichtigem IPC-Protokoll, über den Meta-Informationen des Dateisystems 
+		ausgetauscht werden. \\ \hline
+	\end{tabularx}
+	\caption{Beschreibung der Konfigurations-Parameter des HDFS}
+	\label{config:hdfsDescription}
+\end{table}
+
+\begin{table}
+	\begin{tabularx}{\textwidth}{| X | X |} \hline
+	yarn.resourcemanager.hostname & 10.20.110.61 \\ \hline
+	yarn.resourcemanager.address & \$\{yarn.resourcemanager.hostname\}:8036 \\ \hline
+	yarn.resourcemanager.scheduler & \$\{yarn.resourcemanager.hostname\}:8032 \\ \hline
+	yarn.resourcemanager.webapp.address & \$\{yarn.resourcemanager.hostname\}:8086 \\ \hline
+	yarn.resourcemanager.admin.address & \$\{yarn.resourcemanager.hostname\}:8037 \\ \hline
+	yarn.nodemanager.address & \$\{yarn.nodemanager.hostname\}:8056 \\ \hline
+	yarn.nodemanager.localizer.address & \$\{yarn.nodemanager.hostname\}:8046 \\ \hline
+	yarn.nodemanager.resource.memory-mb & 4608 \\ \hline
+	yarn.scheduler.minimum-allocation-mb & 1536 \\ \hline
+	yarn.scheduler.maximum-allocation-mb & 4608 \\ \hline
+	yarn.nodemanager.resource.percentage-physical-cpu-limit & 50 \\ \hline
+	\end{tabularx}
+	\caption{Gesetzte Parameter-Werte für die Konfiguration von YARN}
+	\label{config:yarnValues}
+\end{table}
+
+\begin{table}
+	\begin{tabularx}{\textwidth}{| X | X |} \hline
+	yarn.resourcemanager.hostname & Der Standort des Resourcemanager von YARN \\ \hline
+	yarn.resourcemanager.address &  Der Netzwerk-Port des Resourcemanagers, über den YARN-Jobs gestartet werden können.\\ \hline
+	yarn.resourcemanager.scheduler & Die Netzwerk-Schnittstelle des Schedulers\\ \hline
+	yarn.resourcemanager.webapp.address & Die Adresse der YARN-Weboberfläche\\ \hline
+	yarn.resourcemanager.admin.address & Die Netzwerk-Schnittstelle zum Administrieren des YARN-Resourcemanagers\\ \hline
+	yarn.nodemanager.address & Die Netzwerk-Schnittstelle des Nodemanagers von YARN auf den Rechnerknoten\\ \hline
+	yarn.nodemanager.localizer.address & Die Netzwerk-Schnittstelle, über die mittels IPC
+	Informationen über verfügbare Resourcen von den Rechnerknoten gesammelt wird.\\ \hline
+	yarn.nodemanager.resource.memory-mb &  Menge an Speicher, die für einen Container reserviert werden kann.\\ \hline
+	yarn.scheduler.minimum-allocation-mb &  Die minimale Menge an Speicher, die vom Resourcemanager für Container angefragt wird\\ \hline
+	yarn.scheduler.maximum-allocation-mb &  Die maximale Menge an Speicher, die vom Resourcemanager für Container angefragt wird\\ \hline
+	yarn.nodemanager.resource.percentage-physical-cpu-limit & Die maximale Beanspruchung der Rechenkapazität in Prozent insgesamt für alle Container auf einem Knoten. \\ \hline
+	\end{tabularx}
+	\caption{Beschreibung der Konfigurations-Parameter von YARN}
+	\label{config:yarnDescription}
+\end{table}
+
+\begin{table}
+	\begin{tabularx}{\textwidth}{| X | X |} \hline
+	mapreduce.jobhistory.address & 0.0.0.0:10026 \\ \hline
+	mapreduce.jobhistory.webapp.address & 0.0.0.0:19886 \\ \hline
+	mapreduce.jobhistory.admin.address & 0.0.0.0:10036 \\ \hline
+	mapreduce.cluster.local.dir & /data/team6/intermediate \\ \hline
+	mapreduce.framework.name & yarn \\ \hline
+	mapreduce.map.memory.mb & 1536 \\ \hline
+	mapreduce.map.java.opts & -Xmx1228m \\ \hline
+	mapreduce.reduce.memory.mb & 3072 \\ \hline
+	mapreduce.reduce.java.opts & -Xmx2457m \\ \hline
+	yarn.app.mapreduce.am.resource.mb & 3072 \\ \hline
+	yarn.app.mapreduce.am.command-opts & -Xmx2457m \\ \hline
+	\end{tabularx}
+	\caption{Gesetzte Parameter-Werte für die Konfiguration von MapReduce}
+	\label{config:mapreduceValues}
+\end{table}
+
+\begin{table}
+	\begin{tabularx}{\textwidth}{| X | X |} \hline
+	mapreduce.jobhistory.address & Die Netzwerk-Schnittstelle mittels dessen Informationen
+	über laufende Jobs auf dem Rechnerknoten abgerufen werden können. \\ \hline
+	mapreduce.jobhistory.webapp.address & Die Web-Oberfläche für die Betrachtung
+	der laufenden MapReduce-Jobs auf dem Rechnerknoten.\\ \hline
+	mapreduce.jobhistory.admin.address & Die Netzwerk-Schnittstelle für den Admin für
+	Informationen über MapReduce-Jobs.\\ \hline
+	mapreduce.cluster.local.dir &  Lokaler Dateipfad, wo die Zwischen-Ergebnisse des MapReduce-Jobs gespeichert werden sollen.\\ \hline
+	mapreduce.framework.name &  Spezifiziert, welches konkretes MapReduce-Framework
+	verwendet werden soll. \\ \hline
+	mapreduce.map.memory.mb &  Verfügbarer Speicher für Map-Jobs\\ \hline
+	mapreduce.map.java.opts & Spezifische Java-Optionen. Hier in diesem Falle die Erweiterung
+	des verfügbaren Heap-Speichers für die Java-Prozesse von Map-Jobs.\\ \hline
+	mapreduce.reduce.memory.mb &  Verfügbarer Speicher für Reduce-Jobs.\\ \hline
+	mapreduce.reduce.java.opts & Spezifische Java-Optionen. Hier in diesem Falle die Erweiterung
+	des verfügbaren Heap-Speichers für die Java-Prozesse von Reduce-Jobs. \\ \hline
+	yarn.app.mapreduce.am.resource.mb & Die Menge an Speicher, die der AppMaster von
+	Map-Reduce verwenden kann. \\ \hline
+	yarn.app.mapreduce.am.command-opts &  Spezifische Java-Optionen für den AppMaster
+	von Map-Reduce, in dem Falle die Erweiterung des Heap-Speichers.\\ \hline
+	\end{tabularx}
+	\caption{Beschreibung der Konfigurations-Parameter von MapReduce}
+	\label{config:mapreduceDescription}
+\end{table}
+
+\subsubsection{Berechnung der Speicher-Konfiguration}
+Im Zuge der Probleme mit der Ausführung einer Map-Reduce-Jobs, bei dem die Rechnerknoten
+offenbar wegen Überlastung ihren Dienst quittierten, wird die Speicher-Verwendung
+des Map-Reduce-Frameworks manuell eingestellt. Der Algorithmus zur Berechnung der 
+benötigen Speichermengen ist \cite{memoryCal} Unterpunkt \textit{ 10.2. Manually Calculating YARN and MapReduce Memory Configuration Settings} entnommen.
+Grundlage für die Berechnung ist die verfügbare Hardware auf den Rechnerknoten, speziell
+die verfügbare Menge an Speicher, die Anzahl an Prozessor-Kernen und die Anzahl an 
+Festplatten. Basierend auf der gegebenen Hardware-Spezifikation des Clusters 
+(siehe \ref{anforderungen:rahmenbedingungen}) ergaben sich die Grund-Parameter in Tabelle
+\ref{config:memoryCalculation}.
+Dabei wurde der verfügbare Speicher von 32 auf 8 GB gekürzt, um die Speichernutzung der
+anderen Teams auf dem Cluster zu berücksichtigen.
+
+\begin{table}
+	\begin{tabularx}{\textwidth}{|X|X|} \hline
+	Speicher & 8 GB \\ \hline
+	Kerne & 8 \\ \hline
+	Festplatten & 1 \\ \hline
+	\end{tabularx}
+	\caption{Grund-Parameter zur Berechnung der Map-Reduce Speicherverwendung}
+	\label{config:memoryCalculation}
+\end{table}
+
+Als Zwischen-Ergebnis der Berechnung erhält man die maximale Anzahl an parallel laufenden 
+Containern pro Rechnerknoten und der die Menge an Speicher pro Container. Für dieses Cluster
+ergibt die Berechnung eine Container-Anzahl von $3$ maximal parallelen Containern und 
+eine empfohlene Zuweisung von $1536$ Megabyte pro Container. Mit diesen Parametern lässt 
+sich nun die empfohlene Speicher-Konfiguration des Map-Reduce-Frameworks berechnen, die
+weiter oben als Konfiguration in den Tabellen \ref{config:yarnDescription} und
+ \ref{config:mapreduceValues} zu sehen ist.
