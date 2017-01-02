@@ -1,5 +1,5 @@
 \subsection{Anforderungen und Rahmenbedingungen}
-
+\subsubsection{Anforderungen}
 Dieser Abschnitt beschreibt die Anforderungen an das Softwaresystem mittels Anwendungsfällen und 
 beschreibt die technischen Rahmenbedingungen, in dem das Softwaresystem eingebettet ist.
 
@@ -33,6 +33,7 @@ Big-Data-Anwendungen zu evaluieren.
 	\item[UC 4] Der Nutzer möchte die Namen aller Musikstücke erhalten, die in einem bestimmten Jahr zum ersten Mal erschienen sind.
 \end{description}
 
+\subsubsection{Rahmenbedingungen}
 Die Rahmenbedingungen teilen sich in die Hardware-Rahmenbedingungen und in die Software-Rahmenbedingungen auf.
 Die Hardware, die uns zur Verfügung gestellt wurde besteht aus einem Verbund von 5 homogenen Server-Rechnern, 
 die über ein Ethernet-Netzwerk gleichwertig miteinander verknüpft sind. Physikalisch sind alle Knoten an einem gemeinsamen
@@ -54,4 +55,15 @@ Anzumerken ist, dass alle Ressourcen mit 9 anderen Teams geteilt werden und alle
 Instanz des Betriebssystems arbeiten und nur durch unterschiedliche Nutzer getrennt sind. 
 Diese Rahmenbedingung ist insbesondere bei der Konfiguration der Netzwerk-Ports bei verteilten Anwendungen 
 zu beachten, da verschiedene Anwendungen eventuell auf dem gleichen Port lauschen und somit 
-Konfikte entstehen können.
+Konflikte entstehen können.
+
+\subsubsection{Installation und Konfiguration}
+Auf dem Cluster wird das komplette Hadoop-Softwarepaket installiert, bestehend aus den
+Komponenten \ac{YARN}, \ac{HDFS} und MapReduce. Installiert wird über einen Tarball von der offiziellen
+Apache-Webseite (\url{http://www-us.apache.org/dist/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz}), um die aktuellste Version ($2.7.3$) von Hadoop zu erhalten. Die Installation selbst gestaltet sich mit dem entpacken der binär-Dateien im home-Verzeichnis 
+denkbar einfach. Komplexer gestaltet sich die Konfiguration, die das Laufzeitverhalten der Komponenten festlegen.
+
+Die folgenden Tabellen zeigen die Konfiguration der einzelnen Hadoop-Komponenten, die vom der Standard abweicht.
+Eine Auflistung der ab Werk ausgelieferten Standard-Konfiguration kann auf folgenden Webseiten nachgeschlagen werden:
+\cite{hdfsDefault}, \cite{yarnDefault} und \cite{mapreduceDefault}.
+

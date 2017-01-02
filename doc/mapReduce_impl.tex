@@ -5,3 +5,55 @@ des Million-Song-Datensatzes arbeiten. Vorausgesetzt wird, dass der Million-Song
 CSV-Datei bereit in das HDFS-Dateisystem importiert ist. Die hier vorgestellten MapReduce-Funktionen
 arbeiten ausschließlich mit Daten auf dem HDFS-Dateisystem, abgesehen von den Zwischenergebnissen,
 die auf dem lokalen Dateisystem des jeweiligen Knotens abgelegt werden.
+Für die Implementierung wird die Java-API des MapReduce von Hadoop verwendet. Wichtig ist,
+dass die aktuelle MapReduce-API verwendet wird, und nicht die inzwischen veraltete MapRed-API.
+Eine gute Hilfe bei der Entwicklung von map- und reduce-Funktionen bietet \cite{miner2012mapreduce}.
+
+Die erste Implementierung der MapReduce-Funktionen überführt alle Songs aus der ursprünglichen
+CSV-Datei in eine neue CSV-Datei, in der erstens kein Song mehr doppelt vorkommt und zweitens
+ein Song nur noch eine Untermenge der ursprünglichen Attribute enthält. Damit soll der ursprüngliche
+Datenbestand auf einen reduzierten Datenbestand mit den für den Nutzer interessanten Attributen 
+transformiert werden. Die map-Funktion ist dafür verantwortlich, die Attribute eines Musikstückes
+zu identifizieren und daraus mit einen neuen Musikstück-Eintrag zu erzeugen, der nur noch die interessanten
+Attribute enthält.
+Zuerst muss definiert werden, welche Eingabeparameter die map-Funktion bekommt. Dazu gibt es verschiedene
+Eingabeformate der MapReduce-API, unter denen man wählen kann. Weil die Daten in der CSV-Datei für das
+MapReduce-Framework nichts weiter als reiner Text ist, wird das \textit{Text}-Format als Eingabe für
+die map-Funktion gewählt, welches gleichzeitig auch das Standard-Format für die map-Funktion ist.
+Das Format des Schlüssel-Parameters wird nicht weiter angegeben, weil der Schlüsselwert in diesem Falle 
+während der Verarbeitung keine Rolle spielt.
+Die map-Funktion teilt den übergebenen Wert des Textes in die Song-Attribute auf, indem es den Text
+als einzelnen String betratet und mittels der \textit{split}-Methode ein Feld von String erzeugt, die durch
+das Komma im String getrennt sind. Dadurch sind die Musik-Attribute als Strings nun einzelnen verfügbar.
+Der neue Eintrag für den Song wird durch das Erzeugen eines neuen Strings und dem Anhängen ausgewählter
+Attribute erzeugt. Ist der neue String fertig zusammen gebaut, wird er wieder in das hadoop-spezifische \textit{Text}
+konvertiert und als Zwischenergebnis dem MapReduce-Framework übergeben. Dieses erwartet neben dem 
+Wert aber auch einen Schlüssel. Der Schlüssel ist in dem Falle ebenfalls vom Typ \textit{Text}, der als Wert die
+Song-ID des Musikstückes enthält.
+
+\lstset{
+    language=Java,
+    basicstyle=\ttfamily,
+    frame=single,
+    breaklines=true,
+    postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookrightarrow\space}}
+}
+
+\begin{lstlisting}
+  protected void map(Object key, Text value, Context context) {
+      String[] allAttributes = value.toString().split(",", maxNumOfAttr);
+      String newStrippedValue = new String();
+      songId.set(allAttributes[songIdColumn-1]);
+      
+      for(int i=0; i<untilGenreAttr; i++){
+          newStrippedValue += ","+allAttributes[i];
+      }
+      
+      for(int k=fromGenreAttr-1; k<maxNumOfAttr; k++){
+          newStrippedValue += ","+allAttributes[k];
+      }
+      
+      strippedSongAttr.set(newStrippedValue);
+      context.write(songId, strippedSongAttr);
+   }
+\end{lstlisting}
