@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Suche nach den Liedernamen</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<a href="songsForArtist.html">Zeigen Alle Songs von einem Songwriter</a>
+<table th:if="${not #lists.isEmpty(songList)}" border="1">
+    <tr>
+        <th>Alle Namen der Lieder deren Länger größer als X</th>
+    </tr>
+    <tr th:each="song : ${songList}">
+        <td th:text="${song}">das ist bla</td>
+    </tr>
+</table>
+
+<form action="#" th:action="@{/songsWithGivenDuration}" th:object="${songForm}" method="post">
+    <p>Songlänge: <input type="text" th:field="*{duration}" /></p>
+    <p><input type="submit" value="Submit" />
+        <input type="reset" value="Reset" />
+    </p>
+</form>
+</body>
+</html>

@@ -1,16 +1,18 @@
 package de;
 
+import de.model.Song;
+
 import java.util.List;
 
 public class SearchResult {
 
-    private final List<String> songnames;
+    private final List<Song> songs;
 
-    public SearchResult(List<String> id) {
-        this.songnames = id;
+    public SearchResult(List<Song> songs) {
+        this.songs = songs;
     }
 
-    public List<String> getSongnames() {
-        return songnames;
+    public List<Song> getSongs() {
+        return songs;
     }
 }

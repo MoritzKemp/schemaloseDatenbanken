@@ -1,5 +1,6 @@
 package de.repository;
 
+import de.model.Song;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -8,12 +9,10 @@ import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.SubstringComparator;
 import org.apache.hadoop.hbase.filter.ValueFilter;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,31 +53,40 @@ public class SongFinderDao {
         connection.close();
     }
 
-    public List<String> getSongNamesWithEquals(String columnName, String value) throws IOException {
-
+    public List<Song> getSongNamesWithEquals(String columnName, String value) throws IOException {
         Scan scan = new Scan();
         scan.setFilter(new SingleColumnValueFilter("song".getBytes(), columnName.getBytes(), CompareFilter.CompareOp.EQUAL, value.getBytes()));
         // Getting the scan result
         ResultScanner scanner = table.getScanner(scan);
         // Reading values from scan result
         boolean completed = false;
-        List<String> resultList = new ArrayList<>();
+        List<Song> resultList = new ArrayList<>();
         while(!completed) {
-            Result result = scanner.next();
-            if(result == null){
+            Result scannerResult = scanner.next();
+            if(scannerResult == null){
                 completed = true;
                 continue;
             }
-            byte[] r = result.getValue("song".getBytes(), "SongName".getBytes());
-            System.out.println(new String(r,"UTF-8"));
-            resultList.add(new String(r,"UTF-8"));
+            mapResultSet(resultList, scannerResult);
         }
         //closing the scanner
         scanner.close();
         return resultList;
     }
 
-    public List<String> getSongNamesWithGreaterOperator(String columnName, String value) throws IOException {
+    private void mapResultSet(List<Song> resultList, Result result) throws UnsupportedEncodingException {
+        byte[] songKey = result.getRow();
+        byte[] songName = result.getValue("song".getBytes(), "SongName".getBytes());
+        byte[] duration = result.getValue("song".getBytes(), "Duration".getBytes());
+        byte[] artistName = result.getValue("song".getBytes(), "ArtistName".getBytes());
+        byte[] year = result.getValue("song".getBytes(), "Year".getBytes());
+        byte[] sampleRate = result.getValue("song".getBytes(), "SampleRate".getBytes());
+        byte[] trackId = result.getValue("song".getBytes(), "TrackId".getBytes());
+        Song song = new Song(new String(songKey,"UTF-8"), new String(songName,"UTF-8"), new String(artistName,"UTF-8"), new String(duration,"UTF-8"), new String(year,"UTF-8"), new String(sampleRate,"UTF-8"), new String(trackId,"UTF-8"));
+        resultList.add(song);
+    }
+
+    public List<Song> getSongNamesWithGreaterOperator(String columnName, String value) throws IOException {
 
         Scan scan = new Scan();
         scan.setFilter(new SingleColumnValueFilter("song".getBytes(), columnName.getBytes(), CompareFilter.CompareOp.GREATER, value.getBytes()));
@@ -86,23 +94,21 @@ public class SongFinderDao {
         ResultScanner scanner = table.getScanner(scan);
         // Reading values from scan result
         boolean completed = false;
-        List<String> resultList = new ArrayList<>();
+        List<Song> resultList = new ArrayList<>();
         while(!completed) {
-            Result result = scanner.next();
-            if(result == null){
+            Result scannerResult = scanner.next();
+            if(scannerResult == null){
                 completed = true;
                 continue;
             }
-            byte[] r = result.getValue("song".getBytes(), "SongName".getBytes());
-            System.out.println(new String(r,"UTF-8"));
-            resultList.add(new String(r,"UTF-8"));
+            mapResultSet(resultList, scannerResult);
         }
         //closing the scanner
         scanner.close();
         return resultList;
     }
 
-    public List<String> getSongNamesWithLikeOperator(String columnName, String value) throws IOException {
+    public List<Song> getSongNamesWithLikeOperator(String columnName, String value) throws IOException {
 
         Scan scan = new Scan();
         scan.setFilter(new ValueFilter(CompareFilter.CompareOp.EQUAL, new SubstringComparator(value)));
@@ -111,16 +117,14 @@ public class SongFinderDao {
         ResultScanner scanner = table.getScanner(scan);
         // Reading values from scan result
         boolean completed = false;
-        List<String> resultList = new ArrayList<>();
+        List<Song> resultList = new ArrayList<>();
         while(!completed) {
-            Result result = scanner.next();
-            if(result == null){
+            Result scannerResult = scanner.next();
+            if(scannerResult == null){
                 completed = true;
                 continue;
             }
-            byte[] r = result.getValue("song".getBytes(), "SongName".getBytes());
-            System.out.println(new String(r,"UTF-8"));
-            resultList.add(new String(r,"UTF-8"));
+            mapResultSet(resultList, scannerResult);
         }
         //closing the scanner
         scanner.close();

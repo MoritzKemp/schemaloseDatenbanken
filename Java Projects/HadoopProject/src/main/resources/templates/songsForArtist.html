@@ -1,17 +1,48 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Suche nach den Liedernamen</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<table>
-    <tr>
-        <th>Song Name</th>
-    </tr>
-    <tr th:each="song : ${songs}">
-        <td th:text="${song}">das ist bla</td>
-    </tr>
-</table>
+<img th:src="@{/images/logo_print_studierende.jpg}"/>
+<a href="songsWithGivenDuration.html" >Zeigen Alle Songs mit der Länge größer als X </a>
+<h1>Million Dataset</h1>
+<form action="#" th:action="@{/songsForArtist}" th:object="${songForm}" method="post">
+    <p>artistName: <input type="text" th:field="*{artistName}" /></p>
+    <p><input type="submit" value="Submit" />
+        <input type="reset" value="Reset" />
+    </p>
+</form>
+
+<form action="#" th:action="@{/addNewSong}" th:object="${songForm}" method="post">
+    <table th:if="${not #lists.isEmpty(songList)}" border="1">
+        <tr>
+            <th>Song Identfier</th>
+            <th>Name des Sängers</th>
+            <th>Name des Lieders</th>
+            <th>Dauer des Lieders</th>
+            <th>Jahr der Aufnahme</th>
+            <th>BPM</th>
+        </tr>
+        <tr th:each="song : ${songList}">
+            <td th:text="${song.songKey}">das ist bla</td>
+            <td th:text="${song.artistName}">das ist bla</td>
+            <td th:text="${song.songName}">das ist bla</td>
+            <td th:text="${song.duration}">das ist bla</td>
+            <td th:text="${song.year}">das ist bla</td>
+            <td th:text="${song.sampleRate}">das ist bla</td>
+        </tr>
+        <tr>
+            <td><input type="text" th:field="*{songKey}" /></td>
+            <td><input type="text" th:field="*{artistName}" /></td>
+            <td><input type="text" th:field="*{songName}" /></td>
+            <td><input type="text" th:field="*{duration}" /></td>
+            <td><input type="text" th:field="*{year}" /></td>
+            <td><input type="text" th:field="*{sampleRate}" /></td>
+        </tr>
+    </table>
+    <input type="submit" value="Update Value" />
+</form>
 </body>
 </html>
