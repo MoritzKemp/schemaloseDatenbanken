@@ -36,6 +36,32 @@ Zum Abschluss des praktischen Teils folgt eine kurze Leistungsdarstellung des Sy
 der Datenbank zu bestimmten Abfragen gemessen werde. Optional ist eine Leistungsbewertung im Vergleich mit 
 einem anderen Team denkbar, die ebenfalls mit dem selben Datensatz arbeiten.
 
+
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[ht!]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+Thema                                                                                                                                  & \begin{tabular}[c]{@{}l@{}}Hauptverantwortlicher\\ schriftliche Ausarbeitung\end{tabular} & \begin{tabular}[c]{@{}l@{}}Hauptverantwortlicher \\ praktische Umsetzung am Rechner\end{tabular} & \begin{tabular}[c]{@{}l@{}}Hauptverantwortlicher \\ Erstellung Vortrag\end{tabular} & \begin{tabular}[c]{@{}l@{}}Hauptverantwortlicher \\ Vortrag vorgetragen\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ausgewählte\\ technologische Grundlagen\end{tabular}                                                        & Moritz                                                                                    & Moritz                                                                                           & Moritz                                                                              & Moritz                                                                               \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ausgewählte Persistenzsysteme \\ und Big Data Frameworks\\ - Vorstellung des Systems\end{tabular}           & \begin{tabular}[c]{@{}l@{}}Hadoop: Eugen\\ HBase: Johann\end{tabular}                     & -                                                                                                & Johann                                                                              & \begin{tabular}[c]{@{}l@{}}Hadoop: Eugen\\ HBase: Johann\end{tabular}                \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ausgewählte Persistenzsysteme \\ und Big Data Frameworks\\ - Installation des Systems\end{tabular}          & \begin{tabular}[c]{@{}l@{}}Hadoop: Moritz\\ HBase: Johann\end{tabular}                    & \begin{tabular}[c]{@{}l@{}}Hadoop: Moritz\\ HBase: Johann\end{tabular}                           & Moritz                                                                              & Moritz                                                                               \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ausgewählte Persistenzsysteme \\ und Big Data Frameworks\\ - Ad-Hoc-Anwendungen \\ des Systems\end{tabular} & Johann                                                                                    & Eugen                                                                                            & Johann                                                                              & Johann                                                                               \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ausgewählte Persistenzsysteme \\ -Implementierung der \\ Beispiel-Datenbank\end{tabular}                    & Eugen                                                                                     & Eugen                                                                                            & Johann                                                                              & Johann                                                                               \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ausgewählte Anwendungsszenarien\\ - Spezifikation des \\ Anwendungsszenarios\end{tabular}                   & Johann                                                                                    & \begin{tabular}[c]{@{}l@{}}HBase: Eugen\\ MapReduce-Jobs: Moritz\end{tabular}                    & Johann                                                                              & Johann                                                                               \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ausgewählte Anwendungsszenarien\\ - Spezifikation der konkreten \\ Anwendung\end{tabular}                   & Eugen ???                                                                                 & \begin{tabular}[c]{@{}l@{}}HBase: Eugen\\ MapReduce-Jobs: Moritz\end{tabular}                    & Eugen                                                                               & Eugen                                                                                \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ausgewählte Anwendungsszenarien\\ - Implementierung der Anwendung\end{tabular}                              & Eugen                                                                                     & \begin{tabular}[c]{@{}l@{}}HBase: Eugen\\ MapReduce-Jobs: Moritz\end{tabular}                    & Johann                                                                              & Eugen                                                                                \\ \hline
+\end{tabular}%
+}
+\caption{My caption}
+\label{my-label}
+\end{table}
+
 %Das Team wird sich zuerst mit den Grundlagen von NoSQL-Datenbanken befassen, 
 %vor allem explizit mit den Grundlagen von Hadoop/Hbase. Darauf aufbauend lässt
 %sich eine Argumentation formulieren, warum sich die Behandlung von derart großen Datensätzen
