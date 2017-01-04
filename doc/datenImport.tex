@@ -1,0 +1,47 @@
+%\usepackage{listings}
+\subsubsection{Import der Daten}
+Um die Verwendung von der NoSQL Datenbank HBase und das Programmiermodel MapReduce zu demonstrieren greifen wir auf die frei verfügbare Liste der Daten zu, die millionen Datensätze zu den verschiedenen Liedern enthält. Die Datensätze werden vom Fachbereich (????) bereitgestellt und sind in dem Verzeichnis "/data/team6/MillionSongSubset/data" in den *.h5 Dateien zu finden. 
+
+Unsere erste Aufgabe lag darin die Daten aus den *.h5 Dateien in die HBase Datenbank zu importieren.
+Dafür verwenden wir Java Bibliothek "ncsa.hdf.object.h5". Mit Hilfe dieser Bibliothek können wir auf die einzelnen Spalten innerhalb der H5 Datei zugreifen.
+Nachdem wir die Tabelle 'Music' in HBase DB erstellt haben, haben wir uns üäber die Struktur der Tabelle Gedanken gemacht. Dabei fiel uns auf, dass wir für unsere UseCases nicht alle Spalten brauchen würden und somit wir zwei Spaltenfamilien erstellen könnten Somit entstanden zwei Spaltenfamilien "song" und "miscellaneous". In der Spaltenfamilie "song" haben wir zusätzliche Spalten erstellt, um die Suche nach den Daten zu vereinfachen. In der Spaltenfamilie "miscellaneous" haben wir eine große Spalte erstellt, die alle restlichen Daten beinhaltet, die mit voneinander mit Semicolon getrennt sind.
+Dadurch, dass wir eigenes Java Programm für den Import der Daten implementiert haben, konnten wir die Daten in die richtige Spaltenfamilie verteilen.
+
+Im folgenden zeigen wir ein paar Codefragmente zu unserem Datenimport:
+
+Zuerst müssen wir eine Connection zum HBase aufbauen:
+
+%\begin{lstlisting}[language=bash]
+%  $ wget http://www-us.apache.org/dist/hbase/stable/
+%    hbase-1.2.4-bin.tar.gz
+%  $ tar -xzf hbase-1.2.4-bin.tar.gz
+%  $ ln -s hbase-1.2.4 hbase
+%  $ cd hbase
+%  $ export PATH=$PATH:~/hbase/bin
+%\end{lstlisting}
+
+
+\begin{lstlisting}[language=Java]
+Configuration config = HBaseConfiguration.create();
+            config.setInt("timeout", 120000);
+            config.set("hbase.master", "*" + hbaseHost + ":16006*");
+            config.set("hbase.zookeeper.quorum","10.20.110.61");
+            config.set("hbase.zookeeper.property.clientPort", "2186");
+	   Connection connection = ConnectionFactory.createConnection(config);
+\end{lstlisting}
+
+Nachdem wir eine Verbindung zur Datenbank haben können wir die Tabelle "music" holen:
+
+\begin{lstlisting}[language=Java]
+Table table = connection.getTable(TableName.valueOf("music"));
+\end{lstlisting}
+
+Eine Datenreihe erzeugen wir mit dem Put-Object:
+
+%\begin{lstlisting}[language=Java]
+Put p = new Put(Bytes.toBytes("Song1"));
+/*Erzeugen ein Datensatz mit dem RowKey = "Song11''*/
+\\p.addColumn(Bytes.toBytes("song"), Bytes.toBytes("Title"),Bytes.toBytes("HISTORY"));
+/*Erzeuge für diesen RowKey in der Spaltenfamilie "song", Spalte: "Title" den Wert "HISTORY"*/
+\\table.put(p);
+%\end{lstlisting}
