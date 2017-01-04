@@ -9,8 +9,8 @@ Für die Implementierung wird die Java-API des MapReduce von Hadoop verwendet. W
 dass die aktuelle MapReduce-API verwendet wird, und nicht die inzwischen veraltete MapRed-API.
 Eine gute Hilfe bei der Entwicklung von map- und reduce-Funktionen bietet \cite{miner2012mapreduce}.
 
-\subsubsection{Entfernung von doppelten Musikeinträgen}
-
+\subsubsection{Entfernung von mehrfachen Musikeinträgen}
+\label{section:mehrfacheSongs}
 Die erste Implementierung der MapReduce-Funktionen überführt alle Songs aus der ursprünglichen
 CSV-Datei in eine neue CSV-Datei, in der erstens kein Song mehr doppelt vorkommt und zweitens
 ein Song nur noch eine Untermenge der ursprünglichen Attribute enthält. Damit soll der ursprüngliche
@@ -83,6 +83,7 @@ protected void reduce(Text key, Iterable<Text> values, Context context) {
 
 
 \subsubsection{Anzahl produzierter Musikstücke der Künstler}
+\label{mapred:sec:anzahlSongs}
 Die nächste Map-Reduce-Implementierung ermöglicht die Ermittlung, wie viele 
 Musikstücke ein bestimmter Künstler bereits geschrieben beziehungsweise herausgegeben
 hat. Diese Implementierung arbeitet dabei auf den Datenstrukturen von Hbase und nicht,
@@ -133,6 +134,7 @@ protected void reduce(Text key, Iterable<IntWritable> values, Context context) {
 \end{lstlisting}
 
 \subsubsection{Anzahl der Musikstücke pro Künstler mit einem bestimmten Thema}
+\label{mapred:sec:topicSongs}
 Diese Map-Reduce-Implementierung realisiert die Anforderung, dass die Musikstücke über
 ihren Titel auf ein bestimmtes Thema hin untersucht werden. Der Titel muss dafür ein bestimmtes
 Wort, dass das Thema festlegt, beinhalten. Als Ergebnis soll eine Liste von Künstlern erstellt werden,
@@ -183,3 +185,25 @@ protected void reduce(Text key, Iterable<IntWritable> values, Context context) {
   context.write(null, put);
 }
 \end{lstlisting}
+
+
+\subsubsection{Abstürze bei der Ausführung}
+Bei großen Datenmengen, wie es insbesondere bei der ersten Map-Reduce-Implementierung \ref{section:mehrfacheSongs} der Fall ist,
+führt die Ausführung des Map-Reduce-Jobs zum Absturz einiger bis alle Programme auf einem oder mehreren Rechner-Knoten
+, die vom gleichen User (team6) gestartet wurden.
+In den Logs ist ersichtlich, dass beispielsweise das HDFS ein Kill-Signal bekommt und damit die Aufforderung, sich zu beenden.
+Wer das Kill-Signal sendet, und vor allem warum, konnte bislang nicht ermittelt werden. Zumindest weder in den Logs der 
+Hadoop-Programme noch im Kernel-Log konnte ein entsprechender Eintrag gefunden werden, der auf ein Senden eines
+Kill-Signales hinweist. Denkbar wäre beispielsweise eine zu große Nutzung von Speicher, sodass das Betriebssystem ein
+oder mehrere Prozesse zum eigenem Schutz beendet. Entsprechende Einträge wurden aber nicht gefunden.
+
+Recherchen im Internet legen aber weiterhin den Verdacht nahe, dass eine ausufernde Speicher-Anforderung von den Java-Prozessen
+an das Betriebssystem ein Problem sein könnte. Im Zuge dessen wurde die Speichernutzung von Map-Reduce manuell konfiguriert 
+(siehe \ref{anforderung:berechungSpeicher}). Dies brachte jedoch nicht den erhofften Erfolg.
+
+Erst die Aktivierung der Kompression von den Zwischenergebnissen der Map-Prozesse brachte eine solche Verbesserung, dass zumindest
+die zweite \ref{mapred:sec:anzahlSongs} und dritte \ref{mapred:sec:topicSongs} ohne Abstürze ausführbar waren. Die Kompression
+lässt sich über den \texttt{apreduce.map.output.compress} in der \textit{mapred-site.xml} auf \textit{true} stellen.
+Der Erfolg dieser Maßnahme leitet zu einer weiteren Annahme, dass eventuell die Netzwerklast zu den Abstürzen führen
+könnte. Dies lies sich aber durch Beobachtungen der Bandbreite eine Rechner-Knotens während der Ausführung
+eine Map-Reduce-Jobs nicht bestätigen.
