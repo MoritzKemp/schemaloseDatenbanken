@@ -185,26 +185,3 @@ von Rechner-Knoten ein \textit{esemble}. Diese Konfiguration muss anschließend 
 auf jedem Knoten manuell gestartet werden. Über den Client-Port von ZooKeeper, der in diesem Projekt auf jedem Knoten der Port $2186$ ist, können die verteilten
 Anwendungen die ZooKeeper-API verwenden. Dabei können sie sogenannte \textit{zNodes} anlegen. Das sind Dateien, auf die verteilt zugegriffen wird und um dessen
 Gültigkeit sich nun ZooKeeper kümmert, sodass die verteilte Anwendung sich nicht mehr um die typischen Probleme, die in einem Cluster auftauchen, kümmern muss.
-
-\subsubsection{Konfiguration für das Projekt}
-
-\lstset{basicstyle=\small}
-\lstinputlisting{sourcecode/hbase-site.xml}
-
-\begin{description}
-	\item[hbase.rootdir] Hbase benötigt die Adresse eines Filesystems, wo es die Tabellen ablegen kann. In dem Projekt ist es das bereits installierte
-	HDFS-Dateisystem, dessen Zugang über den Namenode des Masters erfolgt.
-	\item[hbase.master.hostname] Angabe, auf welchem Rechner-Knoten der Masternode liegen soll.
-	\item[hbase.master,port] Der Port, auf dem der Masternode für die Datanodes von Hbase ansprechbar ist.
-	\item[hbase.cluster.distributed] Hbase kann entweder als Stand-Alone-Anwendung auf einem Knoten laufen (\textit{false}) oder als verteilte Anwendung (\textit{true}).
-	Für das Projekt ist Hbase als verteilte Anwendung gedacht.
-	\item[hbase.zookeeper.property.clientPort] Hbase benötigt im verteilten Modus zwingend eine ZooKeeper-Instanz. Hier wird der Port vom installiertem ZooKeeper-Server 
-	übergeben.
-	\item[hbase.zookeeper.quorum] Hiermit wird definiert, über welche Rechner-Knoten Hbase verteilt arbeiten soll. 
-\end{description}
-
-Hbase liefert von Haus aus bereits eine eigene ZooKeeper-Installation mit. Der Grund für eine eigene, getrennte ZooKeeper-Installation lag in der
-sauberen Trennung zwischen der Hbase-Konfiguration und der ZooKeeper-Konfiguration. Zudem kann YARN, dass ebenfalls installiert ist, auch von der
-eigenen ZooKeeper-Installation profitieren.
-
-Eine vollständige Beschreibung aller Konfigurationsparameter inklusive ihrer Default-Werte findet sich unter \url{https://hbase.apache.org/book.html#config.files}.
