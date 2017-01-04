@@ -5,11 +5,11 @@
 
 
 Im Folgenden wird HBase als Datenbank vorgestellt, Gründe  für die Verwendung im Rahmen von BigData aufgezeigt und die Installation/Konfiguration beschrieben.
-
-\subsection{Entstehung}
+\subsection{Visitenkarte}
+\subsubsection{Entstehung}
 Nachdem Google immer größer Datenmassen speichern musste und das mit dem  \ac{GFS} gelöst schien, stellte sich ein weiteres Problem heraus: Die Indexierung dieser Daten, die nun verteilt auf mehreren Knoten lagen, sollten eine hohe Konsistenz und schnelle Schreib- und Lesezugriffe erlauben. Auf Grundlage eines veröffentlichten Whitepapers zu BigTable \cite{bigtable} entwickelte die Open-Source-Community HBase, weshalb diese Datenbanken Gemeinsamkeiten bezüglich ihrer Funktionalität aufweisen. Beispielsweise unterstützen beide die Komprimierung (siehe \ref{komprimierung}) und Versionierung der Daten.
 
-\subsection{Allgemein}
+\subsubsection{Allgemein}
 HBase ist ein verteiltes Speichersystem für strukturierte Daten und bietet einen schnellen (nahe Echtzeit) Zugriff auf riesige Datenmengen. In HBase lassen sich diese Datenmengen auf mehreren Knoten verteilen, verwalten und jederzeit erweitern. HBase basiert auf Java, ist Open-Source, nicht-relational, spaltenorientiert und setzt auf ein verteiltes Dateisystem wie HDFS von Hadoop auf. HBase als Key-Value-Store wurde als fehlertolerantes System entworfen, das auch unvollständige Datenmengen zu speichern weiß. Durch \ac{WAL} und eine verteilte Konfiguration kann sich HBase schnell von Serverausfällen erholen \cite{Redt01}. Nach CAP-Theorem legt es besonders Wert auf Verfügbarkeit und Partitionierung und vernachlässigt die Konsistenz der Daten. Des weiteren unterstützt HBase die Replikation von Hadoop, den MapReduce-Algorithmus, automatische Verteilung der Tabellen auf die Knoten, automatische Verteilung der Last, Komprimierung der Daten und Bloom-Filter. HBase kann im Standalone-Modus, im pseudo-verteilten Modus und im vollständig-verteilten Modus betrieben werden. Für den vorliegenden Usecase wird am Ende des Kapitels die Konfiguration für den vollständig-verteilten Modus beschrieben. Für diesen Modus wird für die verteilte Konfiguration ein Zookeeper benötigt. HBase stellt zwar selbst keine SQL-API zur Verfügung lässt sich aber durch Schnittstellen wie Apache Phoenix um eben solche erweitern.
 
 %Bei unvollständigen Datensätzen, im Relationalen Sinne gesprochen, bei Einträgen mit fehlenden Attributen und einem sich oft wechselndem Schema empfiehlt sich der Einsatz von HBase.
@@ -24,7 +24,7 @@ HBase ist ein verteiltes Speichersystem für strukturierte Daten und bietet eine
 %Key und value sind beide byte-array
 %Werte können schnell durch die Schlüssel zugegriffen werden
 
-\subsection{Portfolio}
+\subsubsection{Portfolio}
 HBase wird von vielen bekannten Konzernen eingesetzt, da es sich gut für Logging- und Suchsysteme  eignet und als Grundpfeiler für \ac{OLAP}-Systeme glänzt \cite{Redt01}.
 
 \begin{figure}[htbp] 
@@ -34,7 +34,8 @@ HBase wird von vielen bekannten Konzernen eingesetzt, da es sich gut für Loggin
   \label{fig:Portfolio}
 \end{figure}
 
-\subsection{Abgrenzung}
+\subsection{Systemtechnologie}
+
 
 
 
@@ -50,7 +51,7 @@ sodass eine hohe Skalierbarkeit und eine hohe Ausfallsicherheit entsteht. Zudem 
 
 %TODO: Architektur-Grafik
 
-\subsection{Master-Slave-System}
+\subsubsection{Master-Slave-System}
 HBase besitzt zwei Rollen: den HBase Master Server und die RegionServer.
 
 \subsubsection{Master Server}
@@ -60,7 +61,8 @@ Der Master Server ist verantwortlich für die Zuweisung der Regionen an die Regi
 Der RegionServer beinhaltet die HBase Regionen (siehe \ref{region}) und die HBase-Daten. Die Aufrufe der JAVA-API gehen direkt an den RegionServer, damit der Master Server nicht als Flaschenhals agiert. Der RegionServer komprimiert und verteilt die Daten und berichtet dem Master Server. Es wird empfohlen nur einen RegionServer pro Maschine zu betreiben \cite{Redt01}. Für Lese-und Schreibzugriffe kommuniziert der RegionServer mit anderen RegionServern.
 %Halten Tabellen, lesen und puffern Schreibzugriffe
 
-\subsection{Tabellen}
+\subsection{Datenmodell}
+\subsubsection{Tabellen}
 HBase speichert die Daten, ähnlich wie eine relationale Datenbank in Tabellen. Jedoch bestehen diese aus Reihenschlüsseln und Spaltenfamilien (siehe \ref{sf}). Es gibt zwei Arten von Tabellen: Die Benutzer-Tabellen und die System-Tabellen.
 Die Systemtabellen werden für das Verwalten von \acp{ACL}, Meta-Daten für die Tabellen, Regionen (siehe \ref{region}) und Namensräumen verwendet. Die Benutzer-Tabellen werden im vorliegenden Usecase für die Verwaltung des Million-Song-Dataset verwendet. Folgend ein Beispiel einer solchen Tabelle:
 
@@ -113,7 +115,7 @@ Zusammenfassende eine Darstellung der HBase-Architektur:
 
 
 
-\subsection{Interne Tabellenoperationen}
+\subsubsection{Interne Tabellenoperationen}
 Die große Stärke von HBase ist es, Daten zu größeren Dateien zusammenzufassen und Tabellen auf mehrere Server zu verteilen. Hierzu verwendet HBase drei verschiedene Mechanismen.
 
 \subsubsection{Komprimierung}\label{komprimierung}
@@ -151,7 +153,7 @@ HBase stellt auch eine REST-API zur Verfügung, auf die über HTTP zugegriffen w
 %\subsubsection{Avro}
 
 
-\subsection{Installation und Konfiguration von HBase}
+\subsection{Systeminstallation}
 Für die Installation werden sowohl auf dem Master Server als auch auf den RegionServern folgende UNIX-Kommandos abgesetzt:
 \noindent 
 \begin{lstlisting}[language=bash]

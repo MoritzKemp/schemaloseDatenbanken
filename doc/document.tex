@@ -1,5 +1,6 @@
 % define documentclass
 \documentclass[12pt, bibliography=totoc, a4paper, abstractoff, numbers=noenddot]{scrreprt}
+\setcounter{secnumdepth}{3} 
 
 % define used packages
 \usepackage[left=4.0cm, right=2.0cm, top=3cm, bottom=3cm]{geometry}
@@ -102,6 +103,7 @@ keepaspectratio]{images/Logo_H-BRS_background}%
 \widowpenalty=100000
 \displaywidowpenalty=100000
 
+%TODO: auf Fragezeichen überprüfen
 % starting the document
 \begin{document}
 
@@ -109,33 +111,36 @@ keepaspectratio]{images/Logo_H-BRS_background}%
 \pagenumbering{Roman}
 % input the title
 \input{title}
+%TODO
+\input{z.06}
 
-\input{abstract}
+% load the preamble -TODO- erscheint nicht im semesterergebnis
+\input{p.06}
 
-% load the preamble
-%\input{preamble}
+\input{v.06.Inhaltsverzeichnis}
 
-% loads the fancy pagestyle for register part
-\input{fancyRegisterPart}
 
-% create the registers
-\tableofcontents\newpage
-
-% set pagenumbering to arabic(1 2 3 4)
-\pagenumbering{arabic}
-% loads the fancy pagestyle for main part
-\input{fancyMainPart}
 
 % #####
 % # load the chapter from the files
 % #
 % # TODO: create new chapter
 % #####
-\input{technik}
-\input{frameworks}
-\input{anwendung}
+\chapter{Ausgewählte technologische Grundlagen}
+\input{1.06.6C}
+%Kein Thema in diesem Kapitel zugeordnet
+\chapter{Ausgewählte Persistenzmodelle}
+\input{2.06.00}
+\chapter[Ausgewählte Persistenzsysteme]{Ausgewählte Persistenzsysteme und Big Data Frameworks}
+\input{3.06.6D1}
+\newpage
+\input{3.06.6D2}
+\chapter{Ausgewählte Anwendungsszearien}
+\input{4.06.6F}
+\chapter{Fazit}
+\input{5.06}
 
-%\input{Hadoop}
+
 
 \newpage
 
@@ -145,20 +150,20 @@ keepaspectratio]{images/Logo_H-BRS_background}%
 % #####
 % # load the appendix from the files
 % #####
-\input{appendix}
+\input{a.06}
 
 % #####
 % # list of table, list of figures, and list of listings in ToC
 % #####
-%\newpage
-%\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
-%\listoffigures
-%\newpage
-%\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
-%\listoftables
-%\newpage
-%\addcontentsline{toc}{chapter}{Listings}
-%\lstlistoflistings
+\newpage
+\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+\listoffigures
+\newpage
+\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+\listoftables
+\newpage
+\addcontentsline{toc}{chapter}{Listings}
+\lstlistoflistings
 
 % #####
 % # List of Abbreviations
@@ -168,7 +173,7 @@ keepaspectratio]{images/Logo_H-BRS_background}%
 \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
 \renewcommand\refname{Abkürzungsverzeichnis} 
 \chapter*{Abkürzungsverzeichnis}
-\input{abbreviations}
+\input{v.06.Abkürzungsverzeichnis}
 \newpage
 
 % #####
@@ -176,12 +181,12 @@ keepaspectratio]{images/Logo_H-BRS_background}%
 % #####
 %Quelle: http://dbs.uni-leipzig.de/file/seminar_1112_gharib_ausarbeitung.pdf
 %http://stackoverflow.com/questions/16929832/difference-between-hbase-and-hadoop-hdfs
-\bibliography{bibliography}
+\bibliography{b.06}
 
 % #####
 % # load the sworn declaration
 % #####
-\input{declaration}
+\input{d.06}
 %\input{chapter1}
 % end of the document
 \end{document}
