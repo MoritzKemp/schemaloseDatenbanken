@@ -5,7 +5,7 @@ Um die Verwendung von der NoSQL Datenbank HBase und das Programmiermodel MapRedu
 Unsere erste Aufgabe lag darin die Daten aus den *.h5 Dateien in die HBase Datenbank zu importieren.
 DafÃ¼r verwenden wir Java Bibliothek "ncsa.hdf.object.h5". Mit Hilfe dieser Bibliothek kÃ¶nnen wir auf die Daten innerhalb der H5 Datei zugreifen.
 
-Für die Daten haben wir in der HBase DB eine Tabelle "Music" angelegt. Bei der Analyse der Struktur für die Tabelle fiel uns auf, dass wir fÃ¼r unsere UseCases nicht alle Spalten brauchen wÃ¼rden. Deswegen haben wir nur zwei Spaltenfamilien erstellt ("song" und "miscellaneous"). In der Spaltenfamilie "song" haben wir Spalten erstellt, um die Suche nach den Daten zu vereinfachen. In der Spaltenfamilie "miscellaneous" haben wir eine groÃŸe Spalte erstellt, die alle restlichen Daten beinhaltet. Die einzelnen Daten sind durch Semicolon voneinander getrennt. Dadurch ist es an dieser Stelle die Aufgabe des Softwareentwicklers die Daten auseinander zu parsen.
+FÃ¼r die Daten haben wir in der HBase DB eine Tabelle "Music" angelegt. Bei der Analyse der Struktur fÃ¼r die Tabelle fiel uns auf, dass wir fÃ¼r unsere UseCases nicht alle Spalten brauchen wÃ¼rden. Deswegen haben wir nur zwei Spaltenfamilien erstellt ("song" und "miscellaneous"). In der Spaltenfamilie "song" haben wir Spalten erstellt, um die Suche nach den Daten zu vereinfachen. In der Spaltenfamilie "miscellaneous" haben wir eine groÃŸe Spalte erstellt, die alle restlichen Daten beinhaltet. Die einzelnen Daten sind durch Semicolon voneinander getrennt. Dadurch ist es an dieser Stelle die Aufgabe des Softwareentwicklers die Daten auseinander zu parsen.
 Nachdem die Tabelle mit den entsprechenden Spalten erstellt worden war, konnten wir die Daten aus den .h5 Dateien mit Hilfe unseres Java Programms direkt in HBase importieren.
 
 Im folgenden zeigen wir ein paar Codefragmente zu unserem Datenimport:
@@ -17,7 +17,7 @@ Man erstellt die Verbindung zu einer h5 Datei.
 H5File h5File = new H5File(filename, H5File.READ)
 \end{lstlisting}
 
-Mit dem Wissen über die Struktur der Daten innerhalb der h5 Datei kann man auf die einzelnen Werte zugreifen. Dies zeigen wir anhand des Beispiels für den Zugriff auf den Wert "analysis_sample_rate" in der Tabelle "/analysis/songs".
+Mit dem Wissen Ã¼ber die Struktur der Daten innerhalb der h5 Datei kann man auf die einzelnen Werte zugreifen. Dies zeigen wir anhand des Beispiels fÃ¼r den Zugriff auf den Wert "analysis_sample_rate" in der Tabelle "/analysis/songs".
 
 \begin{lstlisting}[language=Java]
         H5CompoundDS analysis = (H5CompoundDS) h5File.get("/analysis/songs");
@@ -29,17 +29,8 @@ Mit dem Wissen über die Struktur der Daten innerhalb der h5 Datei kann man auf d
         return col[songidx];
 \end{lstlisting}
 
-Im folgenden wird die Vorgehensweise für das Schreiben in die HBase Datenbank gezeigt.
+Im folgenden wird die Vorgehensweise fÃ¼r das Schreiben in die HBase Datenbank gezeigt.
 Zuerst muss eine Connection zur HBase DB aufgebauet werden:
-
-%\begin{lstlisting}[language=bash]
-%  $ wget http://www-us.apache.org/dist/hbase/stable/
-%    hbase-1.2.4-bin.tar.gz
-%  $ tar -xzf hbase-1.2.4-bin.tar.gz
-%  $ ln -s hbase-1.2.4 hbase
-%  $ cd hbase
-%  $ export PATH=$PATH:~/hbase/bin
-%\end{lstlisting}
 
 \begin{lstlisting}[language=Java]
 Configuration config = HBaseConfiguration.create();
@@ -50,8 +41,8 @@ Configuration config = HBaseConfiguration.create();
 	   Connection connection = ConnectionFactory.createConnection(config);
 \end{lstlisting}
 
-Die HBase DB ist von der Applikation über den Port 16006 und der IP Adresse 10.20.110.61 erreichbar.
-Darüber hinaus braucht die Applikation die Verbindung zum Zookeeper um auf die einzelnen ClientNodes zuzugreifen.
+Die HBase DB ist von der Applikation Ã¼ber den Port 16006 und der IP Adresse 10.20.110.61 erreichbar.
+DarÃ¼ber hinaus braucht die Applikation die Verbindung zum Zookeeper um auf die einzelnen ClientNodes zuzugreifen.
 
 Nachdem die DB Verbindung hergestellt wurde, kann man auf die Tabellen innerhalb der Datenbank zugreifen:
 
@@ -69,5 +60,5 @@ Put p = new Put(Bytes.toBytes("Song1"));
 \\table.put(p);
 \end{lstlisting}
 
-Mit den oben beschriebenen Codefragmenten war es für uns möglich die Daten zu den Interpretern und dazugehörenden Liedern in die Datenbank zu übertragen.
+Mit den oben beschriebenen Codefragmenten war es fÃ¼r uns mÃ¶glich die Daten zu den Interpretern und dazugehÃ¶renden Liedern in die Datenbank zu Ã¼bertragen.
 
