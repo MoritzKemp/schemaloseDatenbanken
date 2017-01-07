@@ -37,10 +37,7 @@ HBase wird von vielen bekannten Konzernen eingesetzt, da es sich gut für Loggin
   \label{fig:Portfolio}
 \end{figure}
 
-\subsection{Systemtechnologie}
-
-
-
+\subsection{Systemtechnologie} % ausgewählte technologische Aspekte (Architektur, Funktionsweise, ...) ohne (ausführliche) Modellierungsaspekte
 
 \subsubsection{Hbase im Vergleich zu einem relationalen Datenbank-Managementsystem}
 HBase erinnert an eine relationale Datenbank, da die Daten in Tabellen gespeichert werden, die Zellen enthalten. Jedoch verhalten sich die Tabellen nicht wie Relationen und die Zeilen nicht wie Datensätze in relationalen Datenbanken. Auch sind die Spalten nicht durch ein Schema definiert.
@@ -64,7 +61,7 @@ Der Master Server ist verantwortlich für die Zuweisung der Regionen an die Regi
 Der RegionServer beinhaltet die HBase Regionen (siehe \ref{region}) und die HBase-Daten. Die Aufrufe der JAVA-API gehen direkt an den RegionServer, damit der Master Server nicht als Flaschenhals agiert. Der RegionServer komprimiert und verteilt die Daten und berichtet dem Master Server. Es wird empfohlen nur einen RegionServer pro Maschine zu betreiben \cite{Redt01}. Für Lese-und Schreibzugriffe kommuniziert der RegionServer mit anderen RegionServern.
 %Halten Tabellen, lesen und puffern Schreibzugriffe
 
-\subsection{Datenmodell}
+\subsection{Datenmodell} %Modellierungsaspekte
 \subsubsection{Tabellen}
 HBase speichert die Daten, ähnlich wie eine relationale Datenbank in Tabellen. Jedoch bestehen diese aus Reihenschlüsseln und Spaltenfamilien (siehe \ref{sf}). Es gibt zwei Arten von Tabellen: Die Benutzer-Tabellen und die System-Tabellen.
 Die Systemtabellen werden für das Verwalten von \acp{ACL}, Meta-Daten für die Tabellen, Regionen (siehe \ref{region}) und Namensräumen verwendet. Die Benutzer-Tabellen werden im vorliegenden Usecase für die Verwaltung des Million-Song-Dataset verwendet. Folgend ein Beispiel einer solchen Tabelle:
@@ -144,7 +141,7 @@ HBase führt alle fünf Minuten einen LoadBalancer aus der algorithmisch sichers
 Eine Reihe, eine Spalte und ein Zeitstempel spezifizieren exakt eine Zelle in HBase. Während Spalten und Reihen gleich bleiben können, ändert sich der Zeitstempel für jede Zelle. Der Zeitstempel, als Long-Integer-Datentyp, wird in absteigender Reihenfolge hinterlegt, sodass immer der aktuellste Wert aus den HFiles gelesen wird \cite{reference}.
 
 
-\subsection{Zugriff auf HBase}
+\subsubsection{Zugriff auf HBase}
 Obwohl aus Perfomanzgründen empfohlen wird die JAVA-API für den Zugriff auf HBase zu nutzen, werden im folgenden weitere Möglichkeiten vorgestellt.
 
 \subsubsection{Thrift Server}
@@ -156,7 +153,7 @@ HBase stellt auch eine REST-API zur Verfügung, auf die über HTTP zugegriffen w
 %\subsubsection{Avro}
 
 
-\subsection{Systeminstallation}
+\subsection{Systeminstallation} %Installation auf der Grundlage unseres Clusters 
 Für die Installation werden sowohl auf dem Master Server als auch auf den RegionServern folgende UNIX-Kommandos abgesetzt:
 \noindent 
 \begin{lstlisting}[language=bash]
@@ -190,3 +187,6 @@ von Rechner-Knoten ein \textit{esemble}. Diese Konfiguration muss anschließend 
 auf jedem Knoten manuell gestartet werden. Über den Client-Port von ZooKeeper, der in diesem Projekt auf jedem Knoten der Port $2186$ ist, können die verteilten
 Anwendungen die ZooKeeper-API verwenden. Dabei können sie sogenannte \textit{zNodes} anlegen. Das sind Dateien, auf die verteilt zugegriffen wird und um dessen
 Gültigkeit sich nun ZooKeeper kümmert, sodass die verteilte Anwendung sich nicht mehr um die typischen Probleme, die in einem Cluster auftauchen, kümmern muss.
+
+\subsection{Datenschema}\label{hbase_datenschema}
+\subsection{Ad-Hoc-Zugriffsmöglichkeiten}\label{hbase_adhoc}
