@@ -1,9 +1,16 @@
 \section{HBase / Hadoop}
 \subsection{Zusammenfassung}
-TODO
+Wenn man vorher mit relationalen Datenbanken gearbeitet hat, scheint HBase auf den ersten Blick ganz vertraut, da wir hier auch Tabellen, Zeilen und Spalten finden. Jedoch muss man sich von der relationalen Denkweise verabschieden und sich mit dem Hadoop-Ökosystem gut auskennen, um HBase effektiv einsetzen zu können. HBase scheint in Anbetracht dessen, dass es ab fünf Knoten überhaupt erst Sinn macht HBase einzusetzen ein mächtiges Werkzeug zu sein. Als Abschluss der Semesterarbeit und mit Hinblick auf den Anwendungsfall des Million-Song-Datasets, fällt es allerdings schwer einpositives Resume zu ziehen, da die Cluster-Konfiguration viel Zeit in Anspruch genommen hat und die beteilgten Rechnerknoten des Öfteren unter der Last der MapReduce-Jobs ausgefallen sind. HBase ist kein Out-of-the-box Tool, sondern befindet sich aus unserer Sicht noch in der Entwicklungsphase.
+
 \subsection{Pros}
-TODO
+Vorteile von HBase sind die flexible Gestaltung des Datenmodells, da jederzeit dynamisch Spalten hinzugefügt werden können. Man muss sich vorher kein Schema überlegen, sondern muss lediglich beim Anlegen der Tabelle angeben, wieviele Sapltenfamilien existieren werden. Auch sehr einfach ist das einfache Hinzufügen von weiteren Knoten. Dafür ist jeweils eine HBase-Instanz und eine Hadoop-Instanz auf dem neuen Knoten zu installieren und die regionserver-Datei anzupassen. Um die Verteilung kümmert sich Hadoop.
+
+Ein weiterer Vorteil ist, dass HBase kostenfrei ist und die Community sich ständig weiterentwickelt, da viele große Firmen mittlerweile auf den Hadoop-Stack setzen. 
+
 \subsection{Cons}
-TODO
+Sicherlich ungewohnt ist es, dass für HBase keine SQL-API existiert. Hierfür gibt es zwar Workaorounds wie beispielsweise Apache Phoenix, Hive oder Impala, jedoch lässt das den ohnehin schon wackligen Technologiestack noch fehleranfälliger werden. 
+%http://phoenix.apache.org/Phoenix-in-15-minutes-or-less.html
+Damit sei auch schon der größte Nachteil genannt. Wenn man vorhat sich mit HBase und Hadoop zu beschäftigen, sollte man alleine für die Auswahl der Komponenten aus dem Hadoop-Framework, die Installation und Konfiguration mehrere Wochen einplanen. Durch die Master-Slave-Aufteilung und die Pflege des Hadoop-Dateisystems und HBase entsteht ein erheblicher Mehraufwand auf einem Servercluster. Des weiteren muss man sich im Klaren sein, dass HBase selbst keine JOIN-Operationen und auch keine Transaktionen unterstützt. JOINs müssen mit MapReduce implementiert werden, da HBase selbst nur für den Zugriff auf einezelne Daten konzpiert wurde und ein Transktionsmanager muss von Hand implementiert werden
+
 \subsection{Ausblick}
-TODO
+
