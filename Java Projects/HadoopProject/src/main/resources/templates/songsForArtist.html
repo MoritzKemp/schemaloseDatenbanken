@@ -3,15 +3,55 @@
 <head>
     <title>Suche nach den Liedernamen</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link type="text/css" href="css/jquery.autocomplete.min.css" rel="stylesheet" />
+    <link type="text/css" href="css/main.css" rel="stylesheet" />
+    <style>
+        body {
+        font-family: sans-serif;
+        }
+        .autocomplete-suggestions {
+        border: 1px solid #999;
+        background: #FFF;
+        overflow: auto;
+        max-height: none;
+        }
+        .autocomplete-suggestion {
+        font-family: sans-serif;
+        padding: 2px 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        cursor: pointer;
+        color: #888;
+        }
+        .autocomplete-selected {
+        background: #F0F0F0;
+        }
+        .autocomplete-suggestions strong {
+        font-weight: bold;
+        color: #333;
+        }
+        .search {
+        width: 200px;
+        padding: 20px;
+        }
+        fieldset {
+        padding: 20px;
+        }
+    </style>
+
+
 </head>
 <body>
-<img th:src="@{/images/logo_print_studierende.jpg}"/>
+<img src="../static/images/logo_print_studierende.jpg" width="1000"
+     th:src="@{mages/logo_print_studierende.jpg}"/>
+<img src="images/logo_print_studierende.jpg"/>
 <a href="songsWithGivenDuration.html" >Zeigen Alle Songs mit der Länge größer als X </a>
 <h1>Million Dataset</h1>
 <form action="#" th:action="@{/songsForArtist}" th:object="${songForm}" method="post">
     <p>artistName: <input type="text" th:field="*{artistName}" /></p>
-    <p><input type="submit" value="Submit" />
-        <input type="reset" value="Reset" />
+    <p><input type="submit" value="Search" />
     </p>
 </form>
 
@@ -44,5 +84,39 @@
     </table>
     <input type="submit" value="Update Value" />
 </form>
+
+<div>
+    <input type="text"  id="w-input-search" value=""/>
+		<span>
+			<button id="w-button-search" type="button">Search</button>
+		</span>
+</div>
+
+<script>
+	$(document).ready(function() {
+
+		$('#w-input-search').autocomplete({
+			serviceUrl: '/artists',
+			paramName: "value",
+			delimiter: ",",
+		    transformResult: function(response) {
+
+		        return {
+
+		            suggestions: $.map($.parseJSON(response), function(item) {
+
+		                return { value: item.value, data: item.idx };
+		            })
+
+		        };
+
+		    }
+
+		});
+
+
+	});
+	</script>
+
 </body>
 </html>
