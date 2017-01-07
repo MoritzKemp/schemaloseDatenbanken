@@ -1,3 +1,36 @@
 \subsubsection{Schnittstelle der Anwendung zur Datenbank}
-TODO
-verwendete Kopplung / Schnittstelle der Anwendung zur Datenbank
+
+Damit unsere Client Anwendung die Daten aus der HBase DB bekommen kann, muss man eine Verbindung zur Datenbank aufbauen.
+Das erreicht man indem man ein Configurationobjekt  erstellt und ihm alle benötigten Daten zu der HBase DB übergibt. Anschlißend kann man mit Hilfe einer ConnectionFactory eine Verbindung zur Datenbank herstellen.
+
+\begin{lstlisting}[language=Java]
+Configuration config = HBaseConfiguration.create();
+config.setInt("timeout", 120000);
+config.set("hbase.master", "*10.20.110.61:16006*");
+config.set("hbase.zookeeper.quorum","10.20.110.61");
+config.set("hbase.zookeeper.property.clientPort", "2186");
+Connection connection = ConnectionFactory.createConnection(config);
+\end{lstlisting}
+
+Das Aufbauen einer Verbindung zur DB ist eine sehr Aufwändige Operation und deswegen ist es empfehlenswert diese nur ein Mal beim Hochfahren des Servers auszuführen.
+Beim jeden Zugrif auf die Datenbank muss diese Verbindung verwendet werden um einen Zugrif auf jeweilige Tabelle aufzubauen.
+
+\begin{lstlisting}[language=Java]
+Table table = connection.getTable(TableName.valueOf(tableName));
+\end{lstlisting}
+
+nach dem Abarbeiten der Anfrage muss der Zugrif auf die Tabelle wieder geschloßen werden.
+\begin{lstlisting}[language=Java]
+table.close();
+\end{lstlisting}
+
+Sollte der Server beendet werden so soll auch die Verbindung zur Datenbank auch geschloßen werden.
+Um das umzusetzen ist es sinnvoll das Schließen der Verbindung zur Datenbank in die Methode mit der Annotation     @PreDestroy zu implementieren.
+
+\begin{lstlisting}[language=Java]
+@PreDestroy
+public void closeConnection() throws IOException {
+       connection.close();
+}
+\end{lstlisting}
+
