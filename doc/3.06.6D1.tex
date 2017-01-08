@@ -12,7 +12,7 @@ Die Hauptziele von Hadoop sind:
 \item Erreichbarkeit: Hadoop läuft in einem großen Cluster von Rechnern oder in einer Cloud 
 \item Robustheit: Wenn ein Knoten ausfällt, übernehmen andere Knoten die Verarbeitung der Daten
 \item Skalierbarkeit: Hadoop skaliert linear. Es können dynamosch weitere Rechner dazugeschaltet werden, um damit die Performance des Systems zu verbessern.
-\item Einfachheit: Hadoop ermöglicht eine schnelle Entwicklung der parallelen Prozesse. %Wirklich ??
+\item Einfachheit: Hadoop ermöglicht eine schnelle Entwicklung der parallelen Prozesse.
 \cite{HadoopInAction}
 \end{itemize}
 
@@ -66,7 +66,7 @@ Wie aus der Abbildung zu sehen ist, schreibt ein \textit{NameNode} zwei untersch
 \item Das \textit{FsImage} ist eine Moment-Aufnahme des Dateisystem zum Zeitpunkt des Starts der \textit{NameNodes}
 \item Der \textit{EditLog} beinhaltet die Änderungen, die nach dem Starten eines \textit{NameNodes} auftreten.
 \end{itemize}
-Ein FsImage wird nur beim Neustart eines \textit{NameNodes} erzeugt. Dabei wird die Information aus dem \textit{EditLog} in einen FsLog (FileSystem-Log) geschrieben, um die Moment-Aufnahme des Dateisystems zu speichern.
+Ein FsImage wird nur beim Neustart eines \textit{NameNodes} erzeugt. Dabei wird die Information aus dem \textit{EditLog} in einen FsLog (FileSystem-Log) geschrieben, um die Moment-Aufnahme des Dateisystems zu speichern. Dadurch wird die Zeit für den Neustart des Systems beschleunigt.
 Da in der Regel ein \textit{NameNode} nur sehr selten neu gestartet wird, entstehen folgende Probleme:
 \begin{itemize}
 \item Der \textit{EditLog} wird sehr groß und kann nicht verwaltet werden.
@@ -86,7 +86,7 @@ Die Aufgaben eines \textit{SecondaryNameNodes} sind also  \cite{secNameNode}:
 \begin{itemize}
 \item Daten in regelmäßigen Abständen vom \textit{EditLog} ins \textit{FsImage} verschieben.
 \item Sobald ein neues \textit{FsImage}  vorhanden ist, wird es auf den \textit{NameNode} geschrieben.
-\item Das neue \textit{FsImage}  wird beim nächsten Neustart des \textit{NameNodes} verwendet, was die Zeit des Prozesses stark reduziert. % welcher Prozess ?
+\item Das neue \textit{FsImage}  wird beim nächsten Neustart des \textit{NameNodes} verwendet.
 \end{itemize}
 
 \subsubsection{Replikation der Daten in Hadoop}

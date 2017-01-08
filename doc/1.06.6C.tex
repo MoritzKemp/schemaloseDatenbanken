@@ -2,8 +2,6 @@
 MapReduce wurde 2004 von zwei Mitarbeitern von Google vorgestellt \cite{dean2008mapreduce}. Es ist ein Framework
 für die Entwicklung von massiver, paralleler Datenverarbeitung sehr großen Datenmengen auf Clustern.
 
-
-
 Der Programmierer
 kann sich dabei komplett auf die Verarbeitung der Daten konzentrieren. Das Framework kümmert sich um die parallele
 Ausführung der Arbeit, ohne dass der Programmierer der Anwendung wissen muss, welche Daten konkret wo verteilt vorliegen
@@ -45,9 +43,9 @@ kopiert und auf die einzelnen Maschinen im Cluster verteilt. Zweitens werden die
 Die konkrete Implementierung der Laufzeitumgebung hängt vom Einsatzort und Zweck ab. 
 Google schlägt in seinem Paper folgendes Konstrukt vor, das in Abbildung \ref{fig:mapreduce} visualisiert wird.
 
-\begin{figure}
+\begin{figure}[H]
 \centering
-\includegraphics[width=1.0\textwidth]{images/mapreduce.pdf}
+\includegraphics[width=1.0\textwidth]{images/06mapreduce.pdf}
 \caption{MapReduce-Laufzeitumgebung wie von Google vorgeschlagen. \cite{miner2012mapreduce}}
 \label{fig:mapreduce}
 \end{figure}
@@ -95,9 +93,9 @@ ihren Wert jeweils auf. Da der Wert immer $1$ ist, steht am Schluss neben dem K�
 Songs. Dieses Ergebnis schreibt die  \textit{Reduce}-Funktion nun als Ergebnis raus. Die Abbildung \ref{fig:mapreduceExample} zeigt 
 das Beispiel anschaulich.
 
-\begin{figure}
+\begin{figure}[H]
 \centering
-\includegraphics[width=1.0\textwidth]{images/mapreduceExample.pdf}
+\includegraphics[width=1.0\textwidth]{images/06mapreduceExample.pdf}
 \caption{Ermittlung der Anzahl der Songs für jeden Künstler mittels MapReduce.}
 \label{fig:mapreduceExample}
 \end{figure}
