@@ -1,8 +1,18 @@
 \begin{appendices}
 \chapter{Anhang}
-%Appendix
-%\section{Erster Teil}
-%\section{Zweiter Teil}
-%\chapter{Anhang}
-%Appendix
+\section{Map-Reduce Quellcode}
+\lstinputlisting[language=Java, caption={Map-Reduce für das Enfernen von mehrfachen Songeinträgen},label=mrCompleteToStripped]{sourcecode/CompleteToStripped.java}
+
+\lstinputlisting[language=Java, caption={Map-Reduce für das Zählen von Songs pro Künstler}, label=mrCountArtistSongs]{sourcecode/CountArtistSongs.java}
+
+\lstinputlisting[language=Java, caption={Map-Reduce für das Zählen von Songs eines bestimmten Themas}, label=mrCountSongsWithTopic]{sourcecode/CountSongsWithTopic.java}
+
+\section{Unit-Tests}
+
+\lstinputlisting[language=Java, caption={Unit-Test für \ref{mrCompleteToStripped}},label=testCompleteToStripped]{sourcecode/CompleteToStrippedTest.java}
+
+\lstinputlisting[language=Java, caption={Unit-Test für \ref{mrCountArtistSongs}}, label=testCountArtistSongs]{sourcecode/CountArtistSongsTest.java}
+
+\lstinputlisting[language=Java, caption={Unit-Test für \ref{mrCountSongsWithTopic}}, label=testCountSongsWithTopic]{sourcecode/CountSongsWithTopicTest.java}
+
 \end{appendices}
