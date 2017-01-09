@@ -10,7 +10,7 @@ die Arbeit mit dem Million-Song-Datensatz auf dem Hochschul-Cluster.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{images/06usecases.png}
+	\includegraphics[width=0.5\textwidth]{images/{06.usecases}.png}
 	\caption{Anwendungsfall-Diagramm, UML 2.0. Alle Anwendungsfälle für das Million-Song-Projekt}
 	\label{anforderungen:usecasediagramm}
 \end{figure}
@@ -59,11 +59,10 @@ Komponenten \ac{YARN}, \ac{HDFS} und MapReduce. Installiert wird über einen Tar
 Apache-Webseite (\url{http://www-us.apache.org/dist/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz}), um die aktuellste Version ($2.7.3$) von Hadoop zu erhalten. Die Installation selbst gestaltet sich mit dem Entpacken der Binär-Dateien im home-Verzeichnis 
 denkbar einfach. Komplexer gestaltet sich die Konfiguration, die das Laufzeitverhalten der Komponenten festlegen.
 
-Die folgenden Tabellen zeigen die Konfiguration der einzelnen Hadoop-Komponenten, die vom Standard abweicht.
 Eine Auflistung der ab Werk ausgelieferten Standard-Konfiguration kann auf folgenden Webseiten nachgeschlagen werden:
 \cite{hdfsDefault}, \cite{yarnDefault}, \cite{mapreduceDefault} \cite{hbaseConfig}.
 
-Tabellen zeigen die Konfiguration von HDFS \ref{config:hdfsValues}, YARN \ref{config:yarnValues}, MapReduce \ref{config:mapreduceValues} und HBase 
+Die im Anhang dieses Dokuments liegenden Tabellen zeigen die Konfiguration von HDFS \ref{config:hdfsValues}, YARN \ref{config:yarnValues}, MapReduce \ref{config:mapreduceValues} und HBase 
 speziell für die vorhandene Cluster-Umgebung. Es werden  nur Parameter aufgelistet, 
 die von der Werks-Konfiguration abweichen.
 Hbase liefert von Haus aus bereits eine eigene ZooKeeper-Installation mit. Der Grund für eine eigene, getrennte ZooKeeper-Installation lag in der sauberen Trennung zwischen der Hbase-Konfiguration und der ZooKeeper-Konfiguration. 
@@ -97,5 +96,5 @@ Containern pro Rechnerknoten und der die Menge an Speicher pro Container. Für d
 ergibt die Berechnung eine Container-Anzahl von $3$ maximal parallelen Containern und 
 eine empfohlene Zuweisung von $1536$ Megabyte pro Container. Mit diesen Parametern lässt 
 sich nun die empfohlene Speicher-Konfiguration des Map-Reduce-Frameworks berechnen, die
-weiter oben als Konfiguration in den Tabellen \ref{config:yarnDescription} und
+als Konfiguration in den Tabellen \ref{config:yarnValues} und
  \ref{config:mapreduceValues} zu sehen ist.

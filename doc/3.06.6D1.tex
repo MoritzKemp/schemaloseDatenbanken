@@ -18,7 +18,7 @@ Die Hauptziele von Hadoop sind:
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-\subsection{Systemtechnologie}% ausgewählte technologische Aspekte (Architektur, Funktionsweise, ...) ohne (ausführliche) Modellierungsaspekte
+\subsection{Systemtechnologie}
 Hadoop besteht aus mehreren Modulen, die im Weiteren kurz beschrieben werden:
 
 \begin{figure}[htbp] 
@@ -56,7 +56,7 @@ Ein\textit{DataNode} benötigt sehr viel Speicherkapazität, weil alle Daten ihm
 Um die Aufgabe eines \textit{SecondaryNameNodes} zu verstehen, betrachten wir kurz welche Dateien von einem \textit{NameNode} geschrieben werden und welche Probleme dabei entstehen:
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1.0\textwidth]{images/06namenode.png}
+	\includegraphics[width=1.0\textwidth]{images/{06.namenode}.png}
 	\caption{Funktionsweise eines \textit{NameNodes}}
 	\label{img:grafik-nameNode}
 \end{figure}
@@ -77,7 +77,7 @@ Da in der Regel ein \textit{NameNode} nur sehr selten neu gestartet wird, entste
 Der \textit{SecondaryNameNode} wird benötigt, um diese Probleme zu umgehen.\\
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=1.0\textwidth]{images/06secondarynamenode.png}
+	\includegraphics[width=1.0\textwidth]{images/{06.secondarynamenode}.png}
 	\caption{Funktionsweise eines \textit{SecondaryNameNodes}}
 	\label{img:grafik-SecondaryNameNode}
 \end{figure}
