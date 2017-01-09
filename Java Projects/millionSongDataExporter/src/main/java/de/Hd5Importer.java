@@ -26,7 +26,7 @@ public class Hd5Importer {
      */
     public static H5File hdf5_open_readonly(String filename)
     {
-        return new H5File(filename,H5File.READ);
+        return new H5File(filename, H5File.READ);
     }
 
     /**

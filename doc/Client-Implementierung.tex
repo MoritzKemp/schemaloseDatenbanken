@@ -1,25 +1,25 @@
 \subsubsection{OberflÃ¤chengestaltung}
 
-Während des Semesterprojektes wurden von uns einige UseCases ausgearbeitet, die die Arbeit mit der HBase DB zeigen sollen.\\
-Um von uns ausgearbeiteten UseCases sichtbar in einer Oberfläche darzustelen wurde ein Java Client mit einer graphischen Weboberfläche entwickelt.
+WÃ¤hrend des Semesterprojektes wurden von uns einige UseCases ausgearbeitet, die die Arbeit mit der HBase DB zeigen sollen.\\
+Um von uns ausgearbeiteten UseCases sichtbar in einer OberflÃ¤che darzustellen wurde ein Java Client mit einer graphischen WeboberflÃ¤che entwickelt.
 
-Der Java Client musste auf demselben Server laufen, wo auch die DB liegt. Da man keinen weiteren Aufwand für das Aufsetzen eines Application Servers betreiben wollte, hat man sich für Spring-Boot entschieden. Der Vorteil von diesem Framework ist, dass beim Starten der Applikation ein lauffähiger Tomcat Applikation Server bereitgestellt wird. 
+Der Java Client musste auf demselben Server laufen, wo auch die DB liegt. Da man keinen weiteren Aufwand fÃ¼r das Aufsetzen eines Application Servers betreiben wollte, hat man sich fÃ¼r Spring-Boot entschieden. Der Vorteil von diesem Framework ist, dass beim Starten der Applikation ein lauffÃ¤higer Tomcat Applikation Server bereitgestellt wird. 
 
-Aus der Menge der vorhandenen Java Frontend Frameworks wurde Spring MVC gewählt.  
+Aus der Menge der vorhandenen Java Frontend Frameworks wurde Spring MVC gewÃ¤hlt.  
 
 Die UseCases kann man in zwei Arten unterteilen:\\
 \begin{itemize}
 \item Darstellung der CRUD Operationen
 \item Darstellung der Ergebnisse eines MapReduce Prozesses
 \end{itemize}
-Bei der Darstellung der CRUD Operationen ging es sowohl um den Zugriff auf verschiedene Datensätze innerhalb der DB als auch um das Speichern und Löschen eines Datensatzes.\\
-Dabei geht es um die Tabelle \textit{"music"}, die die Datensätze aus der MillionSong DB beinhaltet.
+Bei der Darstellung der CRUD Operationen ging es sowohl um den Zugriff auf verschiedene DatensÃ¤tze innerhalb der DB als auch um das Speichern und LÃ¶schen eines Datensatzes.\\
+Dabei geht es um die Tabelle \textit{"music"}, die die DatensÃ¤tze aus der MillionSong DB beinhaltet.
 
 
-Der Client stellt die Ergebnisse verschiedener Abfragen gegen die HBase Datenbank ab. So z.B. kann man alle Lieder von einem Interpreter in einer Tabelle anzeigen lassen. In der ersten Spalten wurden die RowKeys angezeigt, da man diese für die Aktualisierung eines Datensatzes braucht.
+Der Client stellt die Ergebnisse verschiedener Abfragen gegen die HBase Datenbank ab. So z.B. kann man alle Lieder von einem Interpreter in einer Tabelle anzeigen lassen. In der ersten Spalten wurden die RowKeys angezeigt, da man diese fÃ¼r die Aktualisierung eines Datensatzes braucht.
 
-Für die Demonstration der CRUD Operationen hat man im unteren Teil der Tabelle Felder eingeführt in denen man die Daten für einen neuen Datensatz hinzufügen kann. Dieselben Felder werden auch für die Aktualisierung eines Datensatzes verwendet. Dabei muss man den RowKey des Datensatzes eingeben welchen man aktualisieren möchte.
-Für das Löschen eines Datensatzes gibt es unter der Tabelle ein Textfeld für die Eingabe des RowKeys und ein "remove" Button. Nach dem Betätigen eines Buttons wird die Aktion ausgeführt und die Tabelle angepasst.
+FÃ¼r die Demonstration der CRUD Operationen hat man im unteren Teil der Tabelle Felder eingefÃ¼hrt in denen man die Daten fÃ¼r einen neuen Datensatz hinzufÃ¼gen kann. Dieselben Felder werden auch fÃ¼r die Aktualisierung eines Datensatzes verwendet. Dabei muss man den RowKey des Datensatzes eingeben welchen man aktualisieren mÃ¶chte.
+FÃ¼r das LÃ¶schen eines Datensatzes gibt es unter der Tabelle ein Textfeld fÃ¼r die Eingabe des RowKeys und ein "remove" Button. Nach dem BetÃ¤tigen eines Buttons wird die Aktion ausgefÃ¼hrt und die Tabelle angepasst.
 
 Die weitere Art des UsesCases ist die Darstellung der Ergebnisse, die im Laufe des Map Reduce Jobs ermittelt worden.
 

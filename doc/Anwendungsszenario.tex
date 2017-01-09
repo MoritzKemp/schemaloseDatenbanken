@@ -1,39 +1,34 @@
 \subsubsection{Anwendungsszenario}
-\subsubsection{Anforderungen}
 Dieser Abschnitt beschreibt die Anforderungen an das Softwaresystem mittels Anwendungsfällen und 
 beschreibt die technischen Rahmenbedingungen, in dem das Softwaresystem eingebettet ist.
+\subsubsection{Use Cases}
 
-Die Anwendungsfälle beschreiben die Arbeit mit dem \textit{One-Million-Song}-Datensatz. Dieser Datensatz
-enthält im original in etwa $300$ Gigabyte an Daten von Musikstücken, bei dem pro Musikstück über $100$ Attribute pro Song
-angegeben sind. Aufgrund seiner Größe eignet sich dieser Datensatz für die Untersuchung von
-Big-Data-Anwendungen.
+Die Anwendungsfälle beschreiben die Arbeit mit dem \textit{One-Million-Song}-Datensatz. 
 
-Das Anwendungsfalldiagramm \ref{anforderungen:usecasediagramm} zeigt in  der Übersicht aller Anwendungsfälle für
-den Arbeit mit dem Million-Song-Datensatz auf dem Cluster.
+Das Anwendungsfalldiagramm \ref{anforderungen:usecasediagramm} zeigt alle Anwendungsfälle für
+die Arbeit mit dem Million-Song-Datensatz auf dem Hochschul-Cluster.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{images/useCaseDiagramm.png}
+	\includegraphics[width=0.5\textwidth]{images/06usecases.png}
 	\caption{Anwendungsfall-Diagramm, UML 2.0. Alle Anwendungsfälle für das Million-Song-Projekt}
 	\label{anforderungen:usecasediagramm}
 \end{figure}
 
 Es folgt eine kurze Beschreibung der einzelnen Anwendungsfälle. Auf eine detaillierte Ausarbeitung im Rahmen einer 
 ausführlichen Anforderungsanalyse soll in diesem Falle verzichtet werden, weil ein konkretes Anwendungsszenario fehlt und
-die Anwendungsfälle künstlicher Natur sind, um den Einsatz von Hadoop, MapReduce und Hbase im Bereich der
-Big-Data-Anwendungen zu evaluieren.
+die Anwendungsfälle künstlicher Natur sind, um den Einsatz von Hadoop, MapReduce und Hbase im Bereich einer
+Big-Data-Anwendung zu evaluieren.
 
 \begin{description}
-	\item[UC 1] Der Nutzer möchte den Namen aller Musikstücke, die ein bestimmter Interpret geschrieben hat.
-	\item[UC 2] Der Nutzer möchte für sein Lauftraining nur den Namen jener Musikstücke haben, die eine Beats-Per-Minute-Rate
-		von 120 haben.
-	\item[UC 3] Der Nutzer möchte den Namen aller Musikstücke, die länger als 5 Minuten am Stück laufen.
-	\item[UC 4] Der Nutzer möchte ein oder mehrere Musikstücke eines bestimmten Namens. Dabei muss der Name nicht dem 
-		kompletten Musiktitel beschreiben.
-	\item[UC 4] Der Nutzer möchte die Namen aller Musikstücke erhalten, die in einem bestimmten Jahr zum ersten Mal erschienen sind.
+	\item[UC 1] Der Nutzer möchte eine Motto-Party veranstalten. Er kann sich allerdings nicht mehr genau an den Namen des Interpreten erinnern. Mit Hilfe der Vorschläge, die ihm dynamisch während des Tippens angezeigt werden, ist es ihm möglich den Interpreten zu finden.
+	\item[UC 2] Der Nutzer möchte nun alle Songs zu einem Interpreten aus \textbf{UC 1} anzeigen.
+	\item[UC 3] Der Nutzer möchte ein speziell für ihn angepasstes Lauftraining absolvieren. Dazu sucht er nach Songs mit einer speziellen \ac{BPM}-Rate.
+	\item[UC 4] Der Nutzer möchte nach besonders erfolgreichen Interpreten in der Datenbank suchen. Daher lässt er sich eine Tabelle ausgeben, in der die Songs pro Interpret dargestellt werden.
+
 \end{description}
 
-\subsubsection{Rahmenbedingungen}
+\subsubsection{Parametriesierbarkeit}
 \label{anforderungen:rahmenbedingungen}
 Die Rahmenbedingungen teilen sich in die Hardware-Rahmenbedingungen und in die Software-Rahmenbedingungen auf.
 Die Hardware, die uns zur Verfügung gestellt wurde besteht aus einem Verbund von 5 homogenen Server-Rechnern, 
@@ -61,10 +56,10 @@ Konflikte entstehen können.
 \subsubsection{Installation und Konfiguration}
 Auf dem Cluster wird das komplette Hadoop-Softwarepaket installiert, bestehend aus den
 Komponenten \ac{YARN}, \ac{HDFS} und MapReduce. Installiert wird über einen Tarball von der offiziellen
-Apache-Webseite (\url{http://www-us.apache.org/dist/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz}), um die aktuellste Version ($2.7.3$) von Hadoop zu erhalten. Die Installation selbst gestaltet sich mit dem entpacken der binär-Dateien im home-Verzeichnis 
+Apache-Webseite (\url{http://www-us.apache.org/dist/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz}), um die aktuellste Version ($2.7.3$) von Hadoop zu erhalten. Die Installation selbst gestaltet sich mit dem Entpacken der Binär-Dateien im home-Verzeichnis 
 denkbar einfach. Komplexer gestaltet sich die Konfiguration, die das Laufzeitverhalten der Komponenten festlegen.
 
-Die folgenden Tabellen zeigen die Konfiguration der einzelnen Hadoop-Komponenten, die vom der Standard abweicht.
+Die folgenden Tabellen zeigen die Konfiguration der einzelnen Hadoop-Komponenten, die vom Standard abweicht.
 Eine Auflistung der ab Werk ausgelieferten Standard-Konfiguration kann auf folgenden Webseiten nachgeschlagen werden:
 \cite{hdfsDefault}, \cite{yarnDefault}, \cite{mapreduceDefault} \cite{hbaseConfig}.
 

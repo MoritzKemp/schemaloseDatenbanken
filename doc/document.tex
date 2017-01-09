@@ -1,4 +1,4 @@
-% define documentclass
+% define documenclass
 \documentclass[12pt, bibliography=totoc, a4paper, abstractoff, numbers=noenddot]{scrreprt}
 \setcounter{secnumdepth}{3} 
 
@@ -31,12 +31,19 @@
 
 % links
 \usepackage{url}
-
 % internal links
 \usepackage[colorlinks=true ,linkcolor=black,
 			anchorcolor=black ,citecolor=black ,filecolor=black,
 			menucolor=black ,urlcolor=black]{hyperref}
 
+%Makroerweiterung da urls sonst über den Rand gehen
+\makeatletter 
+\g@addto@macro\UrlBreaks{\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i% 
+\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w% 
+\do\x\do\y\do\z\do\&\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0} 
+\def\do@url@hyp{\do\-} 
+ \g@addto@macro\UrlSpecials{\do\/{\mbox{\UrlFont/}\hskip 0pt plus 1pt}}
+\makeatother
 % mathematical formulas
 \usepackage{amsmath, amssymb}
 
@@ -131,7 +138,7 @@ keepaspectratio]{images/Logo_H-BRS_background}%
 \input{1.06.6C}
 %Kein Thema in diesem Kapitel zugeordnet
 \chapter{Ausgewählte Persistenzmodelle}
-\input{2.06.00}
+%\input{2.06.00}
 \chapter[Ausgewählte Persistenzsysteme]{Ausgewählte Persistenzsysteme und Big Data Frameworks}
 %Hadoop-Kapitel
 \input{3.06.6D1}
