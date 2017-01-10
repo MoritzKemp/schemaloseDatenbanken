@@ -1,17 +1,16 @@
 \subsubsection{Import der Daten}
-Um die Verwendung von der NoSQL Datenbank HBase und das Programmiermodel MapReduce zu demonstrieren greifen wir auf die frei verfügbare Liste der Daten zu, die millionen Datensätze zu den unterschiedlichen Liedern enthält. Die Datensätze werden von dem Anbieter \url{http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset} bereitgestellt und  sind in dem Verzeichnis \textit{/data/team6/MillionSongSubset/data} in den *.h5 Dateien zu finden. 
+Um die Verwendung von der NoSQL-Datenbank HBase und das Programmiermodel MapReduce zu demonstrieren, wird das Million-Song-Dataset herangezogen. Die Datensätze werden von dem Anbieter \url{http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset} bereitgestellt und  sind im Verzeichnis \textit{/data/team6/MillionSongSubset/data} in den \textit{*.h5}-Dateien zu finden. 
 
-Unsere erste Aufgabe lag darin die Daten aus den *.h5 Dateien in die HBase Datenbank zu importieren.
-Dafür verwenden wir Java Bibliothek "ncsa.hdf.object.h5". Mit Hilfe dieser Bibliothek können wir auf die Daten innerhalb der H5 Datei zugreifen.
+Die erste Aufgabe liegt darin die Daten aus dem \textit{*.h5}-Format in die HBase-Datenbank zu importieren.
+Dafür wird die Java Bibliothek \textit{ncsa.hdf.object.h5} verwendet. Mit Hilfe dieser Bibliothek kann auf die Daten innerhalb der \textit{*.h5}-Datei zugegriffen werden.
 
-Für die Daten haben wir in der HBase DB eine Tabelle "Music" angelegt. Bei der Analyse der Struktur für die Tabelle fiel uns auf, dass wir für unsere UseCases nicht alle Spalten brauchen würden. Deswegen haben wir zwei Spaltenfamilien angelegt ("song" und "miscellaneous"). In der Spaltenfamilie "song" haben wir für jeden Wert eine Spalten erstellt, um die Suche nach den Daten zu vereinfachen. In der Spaltenfamilie "miscellaneous" haben wir eine große Spalte erstellt, die alle restlichen Daten beinhaltet, die für unsere UseCases nicht relevant sind. Diese irrelevante Daten werden aus der h5 Datei ausgelesen und als ein konkatiniertes String in der Spaltenfamilie miscellaneous gespeichert. Dabei sind die einzelnen Daten durch Semicolon voneinander getrennt. Dadurch ist es an dieser Stelle die Aufgabe eines Softwareentwicklers die Daten bei der Implementierung der Applikation auseinander zu parsen.\\
-Nachdem die Tabelle mit den entsprechenden Spalten erstellt worden war, konnten wir die Daten aus den .h5 Dateien mit Hilfe unseres Java Programms direkt in HBase importieren.
+Für die Usecase-relevanten Daten wird in HBase die Tabelle \textbf{music} angelegt. Bei der Analyse der Struktur für die Tabelle fällt auf, dass für die anvisierten Use Cases nicht alle Spalten gebraucht werden. Deswegen wird ein Datenschema wie in Abbildung \ref{fig:datenschema} verwendet. Die irrelevanten Daten für die Spaltenfamilie \textbf{miscellaneous} werden aus der \textit{*.h5}- Datei ausgelesen und als ein konkatinierter String abgespeichert. Dabei sind die einzelnen Daten durch ein Semikolon voneinander getrennt. An dieser Stelle ist es nun die Aufgabe des Softwareentwicklers die Daten bei der Implementierung der Applikation auseinander zu parsen.
 
-Im folgenden zeigen wir ein paar Codefragmente zu unserem Datenimport:
+Nachdem die Tabelle mit den entsprechenden Spalten erstellt ist, können die Daten aus den \textit{*.h5}- Dateien mit Hilfe eines Java Programms direkt in HBase importiert werden.
 
-Zuerst erfolgt das Lesen der Daten aus einer .h5 Datei:
+Im Folgenden sind ein paar Codefragmente aus dem Datenimport dargestellt.
+Um die Daten aus einer \textit{*.h5}-Datei auslzulesen, wird eine Verbindung zu einer \textit{*.h5}-Datei erstellt:
 
-Man erstellt die Verbindung zu einer h5 Datei.
 
 \lstset{
     language=Java,
@@ -21,11 +20,11 @@ Man erstellt die Verbindung zu einer h5 Datei.
     postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookrightarrow\space}}
 }
 
-\begin{lstlisting}%[caption={fgdfgfd}, label=mapreduce:dgdgs]
+\begin{lstlisting}[language=Java]%[caption={fgdfgfd}, label=mapreduce:dgdgs]
+
 H5File h5File = new H5File(filename, H5File.READ)
 \end{lstlisting}
-
-Mit dem Wissen über die Struktur der Daten innerhalb der h5 Datei kann man auf die einzelnen Werte zugreifen. Dies wird anhand des Beispiels für den Zugriff auf den Wert \textit{analysis\_sample\_rate} in der Tabelle \textit{/analysis/songs} gezeigt.
+Mit dem Wissen über die Struktur der Daten innerhalb der \textit{*.h5}-Datei kann man auf die einzelnen Werte zugreifen. Dies wird exemplarisch für den Zugriff auf den Wert \textit{analysis\_sample\_rate} in der Tabelle \textit{/analysis/songs} gezeigt:\\
 
 \begin{lstlisting}[language=Java]
 public int getSampleRate(H5File h5File){
@@ -39,11 +38,10 @@ public int getSampleRate(H5File h5File){
 }
 \end{lstlisting}
 
-Im folgenden wird die Vorgehensweise für das Schreiben in die HBase Datenbank gezeigt. Wie die Verbindung zur HBase erstellt wird und was dabei zu beachten ist, wird in dem Kapitel 4.2.5 Schnittstelle der Anwendung zur Datenbank beschrieben.
+Im Folgenden wird die Vorgehensweise für das Schreiben in die HBase-Datenbank gezeigt. Wie die Verbindung zu HBase erstellt wird und was dabei zu beachten ist, wird in Abschnitt \ref{schnittstelle} beschrieben.
 
-Nachdem man den Zufriff zur Tabelle hergestellt hat, kann man verschiedene Operationen ausführen.
-Im folgenden wird das Hinzufügen eines neuen Datensatzes beschrieben.
-Eine Datenreihe erzeugt man mit dem Put-Object:
+Nachdem man den Zugriff zur Tabelle hergestellt hat, kann man verschiedene Operationen ausführen.
+Um einen neuen Datensatz hinzuzufügen, erzeugt man eine Datenreihe mit dem Put-Objekt:
 
 \begin{lstlisting}[language=Java]
 Put p = new Put(Bytes.toBytes("Song1")); /* Erzeugen ein Datensatz mit dem RowKey = "Song1'' */
@@ -51,12 +49,12 @@ p.addColumn(Bytes.toBytes("song"), Bytes.toBytes("Title"),Bytes.toBytes("HISTORY
 table.put(p);
 \end{lstlisting}
 
-Defaultmäßig wird jeder PUT Operation an die Datenbank sofort geschickt. Wenn man eine große Menge an Daten hat, die in die Datenbank eingetragen werden muss, dann ist es aus den Performance Gründen sehr ratsam AutoFlash auszuschalten. \\
-Das erreicht man wie im folgenden Codesnippet gezeigt wird:
+Defaultmäßig wird jede PUT-Operation sofort an die Datenbank geschickt. Wenn man eine große Menge an Daten hat, die in die Datenbank eingetragen werden muss, dann ist es aus den Performanz-Gründen sehr ratsam AutoFlash auszuschalten. \\
+Das erreicht man wie im folgt:
 \begin{lstlisting}[language=Java]
 htable.setAutoFlush(true);
 \end{lstlisting}
-Dabei werden die Daten nur dann an die Datenbank übertragen, wenn der Writebuffer voll ist. Die Größe eines Writebuffer ist per Default 2MB. 
+Hierbei werden die Daten nur dann an die Datenbank übertragen, wenn der \textit{Write-Buffer} voll ist. Die Größe eines \textit{Write-Buffers} liegt standardmäßig bei 2MB. 
 
-Mit der Hilfe der obenbeschriebenen Schnittstellen auf die h5 Dateien und die HBase Datenbank wurde von uns der Datenimport implementiert.
+
 
