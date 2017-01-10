@@ -28,30 +28,12 @@ Big-Data-Anwendung zu evaluieren.
 
 \end{description}
 
+Die technischen Rahmenbedingungen des Clusters mit insgesamt 5 Rechnerknoten
+ sind allgemein bekannt und werden hier nicht weiter ausgeführt.
+
 \subsubsection{Parametriesierbarkeit}
-\label{anforderungen:rahmenbedingungen}
-Die Rahmenbedingungen teilen sich in die Hardware-Rahmenbedingungen und in die Software-Rahmenbedingungen auf.
-Die Hardware, die uns zur Verfügung gestellt wurde besteht aus einem Verbund von 5 homogenen Server-Rechnern, 
-die über ein Ethernet-Netzwerk gleichwertig miteinander verknüpft sind. Physikalisch sind alle Knoten an einem gemeinsamen
-Switch angeschlossen als physikalische Stern-Topologie. Dies hat aus logischer Sicht zur Folge, dass eine direkte Kommunikation
-zwischen den Knoten möglich ist. Die Bandbreite des gesamten Netzwerkes ist mit 20Mbit/s angegeben, was durch die Topologie
-auch zwischen den einzelnen Knoten möglich wäre.
-
-Die Server-Knoten sind alle mit folgender Hardware ausgestattet:
-\begin{itemize}
-	\item Intel i7-4790K CPU
-	\item 32 GB RAM
-	\item 256 GB SSD
-	\item 2 TB HDD
-\end{itemize}
-
-Auf der Seite der Software ist auf allen Knoten mit \textit{Ubuntu} eine Linux-Distribution in der Version 
-\textit{16.04.1 LTS Server 64-Bit} installiert. Root-Rechte sind gewährt.
-Anzumerken ist, dass alle Ressourcen mit 9 anderen Teams geteilt werden und alle Teams auf der selben 
-Instanz des Betriebssystems arbeiten und nur durch unterschiedliche Nutzer getrennt sind. 
-Diese Rahmenbedingung ist insbesondere bei der Konfiguration der Netzwerk-Ports bei verteilten Anwendungen 
-zu beachten, da verschiedene Anwendungen eventuell auf dem gleichen Port lauschen und somit 
-Konflikte entstehen können.
+Sowohl der Anwendungsfall \textit{Finde Interpreten anhand eines Substrings} als auch \textit{Zeige alle Songs zu einem Interpreten an}
+beinhalten einen Text-Parameter. Die Definition des Parameters erfolgt in der Anwendung über ein Text-Eingabefeld.
 
 \subsubsection{Installation und Konfiguration}
 Auf dem Cluster wird das komplette Hadoop-Softwarepaket installiert, bestehend aus den
@@ -76,7 +58,7 @@ benötigen Speichermengen ist \cite{memoryCal} Unterpunkt \textit{ 10.2. Manuall
 Grundlage für die Berechnung ist die verfügbare Hardware auf den Rechnerknoten, speziell
 die verfügbare Menge an Speicher, die Anzahl an Prozessor-Kernen und die Anzahl an 
 Festplatten. Basierend auf der gegebenen Hardware-Spezifikation des Clusters 
-(siehe \ref{anforderungen:rahmenbedingungen}) ergaben sich die Grund-Parameter in Tabelle
+ergaben sich die Grund-Parameter in Tabelle
 \ref{config:memoryCalculation}.
 Dabei wurde der verfügbare Speicher von 32 auf 8 GB gekürzt, um die Speichernutzung der
 anderen Teams auf dem Cluster zu berücksichtigen.

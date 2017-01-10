@@ -1,2 +1,71 @@
 \subsubsection{Implementierungskonzept}
-TODO
+
+Dieser Abschnitt beschreibt die Implementierung von Map-Reduce-Funktionen, die auf den Daten
+des Million-Song-Datensatzes arbeiten. Vorausgesetzt wird, dass der Million-Song-Datensatz als
+CSV-Datei bereit in das HDFS-Dateisystem importiert ist. Die hier vorgestellten Map-Reduce-Funktionen
+arbeiten ausschließlich mit Daten auf dem HDFS-Dateisystem, abgesehen von den Zwischenergebnissen,
+die auf dem lokalen Dateisystem des jeweiligen Knotens abgelegt werden.
+Für die Implementierung wird die Java-API des Map-Reduce von Hadoop verwendet. Wichtig ist,
+dass die aktuelle mapreduce-API verwendet wird, und nicht die inzwischen veraltete mapred-API.
+Eine gute Hilfe bei der Entwicklung von map- und reduce-Funktionen bietet \cite{miner2012mapreduce}.
+
+Die erste Implementierung der Map-Reduce-Funktionen \ref{mrCompleteToStripped} überführt alle Songs aus der ursprünglichen
+CSV-Datei in eine neue CSV-Datei, in der erstens kein Song mehr doppelt vorkommt und zweitens
+ein Song nur noch eine Untermenge der ursprünglichen Attribute enthält. Damit soll der ursprüngliche
+Datenbestand auf einen reduzierten Datenbestand mit den für den Nutzer interessanten Attributen 
+transformiert werden. Die map-Funktion ist dafür verantwortlich, die Attribute eines Musikstückes
+zu identifizieren und daraus mit einen neuen Musikstück-Eintrag zu erzeugen, der nur noch die interessanten
+Attribute enthält.
+Zuerst muss definiert werden, welche Eingabeparameter die map-Funktion bekommt. Dazu gibt es verschiedene
+Eingabeformate der Map-Reduce-API, unter denen man wählen kann. Weil die Daten in der CSV-Datei für das
+Map-Reduce-Framework nichts weiter als reiner Text ist, wird das \textit{Text}-Format als Eingabe für
+die map-Funktion gewählt, welches gleichzeitig auch das Standard-Format für die map-Funktion ist.
+Das Format des Schlüssel-Parameters wird nicht weiter angegeben, weil der Schlüsselwert in diesem Falle 
+während der Verarbeitung keine Rolle spielt.
+
+Die map-Funktion teilt den übergebenen Wert des Textes in die Song-Attribute auf, indem es den Text
+als einzelnen String betrachtet und mittels der \textit{split}-Methode ein Feld von Strings erzeugt, die durch
+das Komma im ursprünglichem String getrennt sind. Dadurch sind die Musik-Attribute als Strings nun einzelnen verfügbar.
+Der neue Eintrag für den Song wird durch das Erzeugen eines neuen Strings und dem Anhängen ausgewählter
+Attribute erzeugt. Ist der neue String fertig zusammen gebaut, wird er wieder in das hadoop-spezifische \textit{Text}
+konvertiert und als Zwischenergebnis dem Map-Reduce-Framework übergeben. Dieses erwartet neben dem 
+Wert aber auch einen Schlüssel. Der Schlüssel ist in dem Falle ebenfalls vom Typ \textit{Text}, der als Wert die
+Song-ID des Musikstückes enthält.
+
+Die reduce-Funktion bekommt beim Aufruf als Eingabe eine Liste jener Zwischenergebnisse, die den gleichen 
+Schlüssel-Wert haben, was in diesem Falle die Song-ID ist. 
+Diese Funktion schreibt nun als Ergebnis das erste Element der Liste raus. Alle anderen
+Einträge werden ignoriert. Somit erzeugt diese Map-Reduce-Implementierung eine neue Liste
+von Musikstücken ohne Mehrfacheinträge für den gleichen Musiksong.
+
+Die nächste Map-Reduce-Implementierung  ermöglicht die Ermittlung, wie viele 
+Musikstücke ein bestimmter Künstler bereits geschrieben beziehungsweise herausgegeben
+hat \ref{mrCountArtistSongs}. Diese Implementierung arbeitet dabei auf den Datenstrukturen von Hbase und nicht,
+wie zuvor, direkt auf dem HDFS. Dies drückt sich vor allem in der Verwendung der 
+\texttt{TableMapper}- und \texttt{TableReducer}-Klassen aus, die von Hbase als spezialisierte \texttt{Mapper}- beziehungsweise \texttt{Reducer}-Klassen zur Verfügung gestellt werden.
+Diese spezialisierten Klassen sind in der Lage, das Ergebnis einer Hbase-Abfrage so zu
+zerteilen, dass das Map-Reduce-Framework der map-Funktion immer eine Datenreihe 
+als Eingabe übergibt. Ähnliches gilt auch für die reduce-Funktion, dessen Ergebnis
+nun nicht direkt eine Datei auf dem HDFS ist, sondern die Daten mit einem Hbase-Aufruf übergeben
+werden.
+Die map-Funktion überführt die Daten einer ganzen
+Datenreihe aus der Hbase-Datenbank in ein Schlüssel-Wert-Paar. Dieses enthält, ähnlich 
+dem Beispiel mit dem Zählen von Wörtern, als Schlüssel den Künstlernamen und als Wert
+die Zahl $1$. Damit repräsentiert das Zwischenergebnis einen Song eines bestimmten Künstlers.
+Die reduce-Funktion bekommt die Liste aller
+Zwischenergebnisse des gleichen Künstlers und zählt die Elemente dieser Liste. Das Ergebnis
+repräsentiert die Anzahl der Songs von diesem Künstler, welches als Ergebnis in eine 
+Hbase-Tabelle geschrieben wird.
+
+Die letzte Map-Reduce-Implementierung realisiert die Anforderung, dass die Musikstücke über
+ihren Titel auf ein bestimmtes Thema hin untersucht werden \ref{mrCountSongsWithTopic}. Der Titel muss dafür ein bestimmtes
+Wort, dass das Thema festlegt, beinhalten. Als Ergebnis soll eine Liste von Künstlern erstellt werden,
+die jeweils alle mindestens ein Musikstück produziert haben, dass das Thema enthält sowie auch
+die Anzahl, wie viele Musikstücke mit dem jeweiligen Thema vorhanden sind.
+Die map-Funktion filtert die Musikstücke danach, ob sie im Title ein bestimmtes Wort enthalten.
+Ist dies der Fall, wir als Schlüssel-Wert-Paar der Künstlername als Schlüssel und die $1$ als 
+Wert als Zwischenergebnis geschrieben. Enthält das Musikstück das gesuchte Wort nicht,
+so kehrt die Funktion ohne Zwischenergebnis zurück.
+Die reduce-Funktion zählt, wie in der vorherigen Map-Reduce-Implementierung auch, die Elemente der Liste des gleichen Künstlers.
+Das Ergebnis wird ebenfalls in eine Hbase-Tabelle geschrieben und repräsentiert die Anzahl der Musikstücke, die der
+Künstler zu dem bestimmten Thema geschrieben hat.
