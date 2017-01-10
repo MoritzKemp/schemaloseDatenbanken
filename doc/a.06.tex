@@ -1,5 +1,6 @@
 \begin{appendices}
 \chapter{Anhang}
+
 \section{Map-Reduce Quellcode}
 \lstinputlisting[language=Java, caption={Map-Reduce für das Enfernen von mehrfachen Songeinträgen},label=mrCompleteToStripped]{sourcecode/CompleteToStripped.java}
 
@@ -15,6 +16,7 @@
 
 \lstinputlisting[language=Java, caption={Unit-Test für \ref{mrCountSongsWithTopic}}, label=testCountSongsWithTopic]{sourcecode/CountSongsWithTopicTest.java}
 
+\newpage
 \section{Konfiguration}
 
 \begin{table}
@@ -162,5 +164,10 @@
 	\caption{Beschreibung der Konfigurations-Parameter von Hbase}
 	\label{config:hbaseDescription}
 \end{table}
+\newpage
+
+\section{Leistunsgtest}
+
+\lstinputlisting[language=Bash, caption={Ausgabe des Map-Reduce-Jobs für den Leistungstest}, label=performanceLog]{sourcecode/performanceJob.txt}
 
 \end{appendices}
