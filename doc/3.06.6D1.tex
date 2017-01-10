@@ -1,6 +1,5 @@
 \section{Hadoop}
-%\cite{Wartal2012}
-%\cite{Endlich2011}
+
 \subsection{Visitenkarte}%alles ohne Technologie
 Hadoop ist ein Java basiertes Open Source Framework von Apache. 
 Die Entwicklung von Hadoop wurde als Teilpojekt von Nutch angefangen. Nutch selber ist eine Weiterentwicklung von Apache Lucene. Das Ziel des Projektes Nutch war es eine schnelle Websuche, also eine Alternative zu Google, zu entwickeln. Die Herausforderung für die Nutch Entwickler war hierbei die Erstellung eines Systems, welches mit hoch skalierbaren Prozessen, Redundanzen, automatischer Fehlerbeseitigung und Lastverteilung umgehen kann. Als Google im Jahr 2004 MapReduce und das \ac{GFS} Konzept vorgestellt hat, erkannte Doug Cutting, der Erfinder von Nutch, die Vorteile und hat sie für Nutch übernommen. Im Jahr 2006 wurde Doug Cutting von Yahoo, seinem damaligen Arbeitgeber, damit beauftragt das verteilte Dateisystem und das MapReduce-Framework aus dem Nutch-Kontext zu extrahieren und in ein eigenes Framework zu überführen. So entstand Hadoop, dessen Name von dem Spielelefanten von Doug Cuttings Sohn stammt. Im Juli 2008 gewann Hadoop den Terabyte-Sort-Benchmark, was bereits damals die Reife des entstandenen Projektes zeigte. \cite[S. 24]{Wartal2012}
@@ -18,7 +17,7 @@ Die Hauptziele von Hadoop sind:
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-\subsection{Systemtechnologie}
+\subsection{Systemtechnologie}\label{hadooptech}
 Hadoop besteht aus mehreren Modulen, die im Weiteren kurz beschrieben werden:
 
 \begin{figure}[htbp] 
@@ -48,7 +47,7 @@ Zusammengefasst sind die Hauptaufgaben des NameNodes im Hadoop Dateisystem  \cit
 
 Alle Daten werden in Blöcke je 64 MB aufgeteilt. Im Vergleich zu gängigen Dateisystemen ist dies eine sehr großzügige Aufteilung. Zum Beispiel unterteilt das Linux Dateisystem alle Daten in 1KB große Blöcke. Die Aufteilung in solche großen Blöcke bei Hadoop basiert auf der Notwendigkeit sehr große Mengen an Informationen zu verarbeiten. Um einen Datenblock zu verarbeiten benötigt ein \textit{NameNode} in der Regel 150Byte Arbeitsspeicher. Demnach kann ein 1GB großer Arbeitsspeicher mehr als 6 Mio Dateien und Ordner verwalten. \cite[S. XX]{Wartal2012}
 \subsubsection{DataNode}
-Ein \textit{DataNode}, auch Slve-Knoten genannt, ist für die Speicherung der Daten in \ac{HDFS} verantwortlich. Er berichtet dem \textit{NameNode} über den Status der Datenverarbeitung in regelmäßigen Abständen und meldet sich bei seinem Start bei ihm an. Die Daten werden auf mehrere \textit{DataNodes} repliziert, um die Ausfallsicherheit gewährleisten zu können.
+Ein \textit{DataNode}, auch Slave-Knoten genannt, ist für die Speicherung der Daten in \ac{HDFS} verantwortlich. Er berichtet dem \textit{NameNode} über den Status der Datenverarbeitung in regelmäßigen Abständen und meldet sich bei seinem Start bei ihm an. Die Daten werden auf mehrere \textit{DataNodes} repliziert, um die Ausfallsicherheit gewährleisten zu können.
 Ein\textit{DataNode} benötigt sehr viel Speicherkapazität, weil alle Daten ihm gespeichert sind \cite{nameNode}.
 
 
