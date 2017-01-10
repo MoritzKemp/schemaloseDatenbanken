@@ -9,6 +9,24 @@ Der größte Vorteil von Hadoop ist die Möglichkeit, die Verarbeitung der Daten
 
 Ein weiterer Vorteil ist, dass HBase kostenfrei ist und die Community sich ständig weiterentwickelt, da viele große Firmen mittlerweile auf den Hadoop-Stack setzen. 
 
+%Hinzufügen von Spalten zur Laufzeit/ neue Knoten
+%Sinnvoll bei riesigen Datenmengen, die unvollständig vorliegen (Daten werden als ByteArray gespeichert)
+%HDFS ist aufgrund seiner Blockgröße (128 MB) nicht für schnelle zufällige Zugriffe geeignet 
+%Jeder neue Lauf über alle Daten erzeugte einen neuen Suchindex 
+%Schneller, zufälliger Zugriff: HBase hält Dateien im Hauptspeicher (128 -256 MB) vor
+%HBase macht Sinn ab 5 Knoten
+%
+%Bei vielen Spalten und NULL-Datensätzen
+%Ein Schlüssel -> sehr viele Werte (binär)
+%Einfügen/Überschreiben neuer Daten, statt Lese-Ändere-Schreibe-Operation
+%Zusatzinfo: Schlecht für relationale Operationen: Group by, join
+%Horizontale Skalierbarkeit in Hadoop-Clustern
+%Eignet sich für die Verwaltung sehr großer, unstrukturierter Daten
+%Felder ohne Werte benötigen keinen Speicherplatz
+%Randomisierte Schreib- und Lesezugriffe
+%Top-Level-Open-Source-Projekt
+
+
 \subsection{Cons}
 Sicherlich ungewohnt ist es, dass für HBase keine SQL-API existiert. Hierfür gibt es zwar Workaorounds wie beispielsweise Apache Phoenix, Hive oder Impala, jedoch lässt das den ohnehin schon wackligen Technologiestack noch fehleranfälliger werden. 
 %http://phoenix.apache.org/Phoenix-in-15-minutes-or-less.html
@@ -16,3 +34,8 @@ Damit sei auch schon der größte Nachteil genannt. Wenn man vorhat sich mit HBa
 
 \subsection{Ausblick}
 Google hat BigTable zwischenzeitlich weiterentwickelt und mit Google Cafeine einen Weg gefunden, MapReduce-Jobs schneller zu machen. Und sicherlich wird es auch nicht mehr so lange dauern bis Apache das erste Major-Release veröffentlicht, welches dann hoffentlich nicht mehr so fehleranfällig ist.
+
+%Eignet sich für die Verwaltung sehr großer, unstrukturierter Daten
+%Felder ohne Werte benötigen keinen Speicherplatz
+
+%Zusatzinfo: ohne MapReduce und Hive sind keine direkten Datenabfragen ohne Primärschlüssel möglich
