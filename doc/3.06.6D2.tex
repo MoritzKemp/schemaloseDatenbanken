@@ -82,7 +82,7 @@ Der \textit{RegionServer} beinhaltet die HBase Regionen (siehe \ref{region}) und
 
 \subsection{Datenmodell} %Modellierungsaspekte
 
-\subsubsection{Tabellen}
+\subsubsection{Tabellen}\label{tabelle}
 HBase speichert die Daten, ähnlich wie eine relationale Datenbank in Tabellen. Jedoch bestehen diese aus Reihenschlüsseln und Spaltenfamilien (siehe \ref{sf}). Es gibt zwei Arten von Tabellen: Die Benutzer-Tabellen und die System-Tabellen.
 Die Systemtabellen werden für das Verwalten von Meta-Daten von \acp{ACL}, Tabellen, Regionen (siehe \ref{region}) und Namensräumen verwendet. Die Benutzer-Tabellen werden im vorliegenden Projekt für die Verwaltung des Million-Song-Dataset verwendet. Folgend ein Beispiel einer solchen Tabelle:
 
@@ -93,11 +93,9 @@ Die Systemtabellen werden für das Verwalten von Meta-Daten von \acp{ACL}, Tabel
   \label{fig:Logische Darstellung der Daten}
 \end{figure}
 
-%Tablellen sind nach Reihen-schlüssel sortiert
-
 
 \subsubsection{Regionen}\label{region}
-Eine Tabelle besteht aus Spalten und Reihen. Für die Skalierung  und den randomisierten Zugriff, teilt HBase die Tabelle horizontal in Regionen auf, d.h. jede Region besteht aus einer Reihe von aufeinander folgenden Schlüsseln. Jede Region wird einem \textit{RegionServer} zugeordnet. Der HBase LoadBalancer sorgt dafür, dass die Regionen auf alle \textit{RegionServer} gleich verteilt werden. Jede Region wird durch einen Start-Schlüssel und einen End-Schlüssel begrenzt. Diese Informationen lassen sich in den System-Tabellen wiederfinden. Regionen können geteilt werden, wenn sie zu groß werden oder zusammengelegt werden, wenn die zu klein sind.
+Eine Tabelle besteht aus Spalten und Reihen. Für die Skalierung  und den randomisierten Zugriff, teilt HBase die Tabelle horizontal in Regionen auf, d.h. jede Region besteht aus einer Reihe von aufeinander folgenden Schlüsseln. Jede Region wird genau einem \textit{RegionServer} zugeordnet, um Konsistenz zu wahren. Der HBase LoadBalancer sorgt dafür, dass die Regionen auf alle \textit{RegionServer} gleich verteilt werden. Jede Region wird durch einen Start-Schlüssel und einen End-Schlüssel begrenzt. Diese Informationen lassen sich in den System-Tabellen wiederfinden. Regionen können geteilt werden, wenn sie zu groß werden oder zusammengelegt werden, wenn die zu klein sind.
 
 \subsubsection{Spaltenfamilien}\label{sf}
 Die Empfehlung ist, dass Daten mit gleichen Zugriffs-Queries und dem selben Format in einer Spaltenfamilie zusammengefasst werden sollten. Wenn wir beispielsweise zu allen Songs des One-Million-Song-Datasets die Coverbilder der Songs hinterlegt hätten, könnten die Bilder in einer Spaltenfamilie und die textuellen Informationen zu den Songs in einer anderen Spaltenfamilie hinterlegt werden. So könnte die Spaltenfamilie mit den textuellen Informationen komprimiert werden (siehe Abschnitt \ref{tableoperation}). Wenn bestimmte Daten nur gelesen werden und andere meistens geschrieben werden, sollte ebenfalls über eine separate Spaltenfamilie nachgedacht werden. Es gibt keine Grenze nach oben für die Spaltenfamilien innerhalb einer Tabelle, jedoch leidet die Performanz bei vielen Spaltenfamilien. Der \textit{MemStore} (siehe \ref{memstore} wird dadurch belastet und generiert viele kleine Dateien. Bei der Tabellenerzeugung  muss bis auf die Spaltenfamilien keine feste Vorgabe gemacht werden. Alles außer der Tabellenname wird als Byte-Array abgespeichert, d.h. man kann Zeichen, Zahlen, Buchstaben usw. abspeichern. Um auf einen Wert zugreifen zu können, muss der Reihenschlüssel, die Spaltenfamilie, der Spaltenname und  Zeitstempel (optional) angegeben werden \cite{SpaOd16}. In der folgenden Abbildung ist zu sehen, wie HBase seine Daten abspeichert:
@@ -149,16 +147,16 @@ Das Gegenteil der Komprimierung ist die Teilung (Split), auch \textit{Auto-Shard
 
 \item[Verteilung der Last]
 Eine Verteilung der Last ist insbesondere bei der Neuordnung von Daten (Komprimierung) oder der Veränderung der Cluster-Umgebung (neuer oder gelöschter Rechnerknoten) notwendig.
-%Da Regionen geteilt und verdichtet werden, neue Server hinzukommen oder herunterfahren ist eine Balancierung der Last notwendig.
 HBase, um genau zu sein Hadoop, führt alle fünf Minuten einen LoadBalancer aus der algorithmisch sicherstellt, dass alle \textit{RegionServer} eine ähnliche Anzahl an Regionen bedienen \cite{SpaOd16}. 
 \end{description}
 
  \subsubsection{Versionierung}\label{versionen}
 Eine Reihe, eine Spalte und ein Zeitstempel spezifizieren exakt eine Zelle in HBase. Während Spalten und Reihen gleich bleiben können, ändert sich der Zeitstempel für jede Zelle. Der Zeitstempel, als Long-Integer-Datentyp, wird in absteigender Reihenfolge hinterlegt, sodass immer der aktuellste Wert aus den HFiles gelesen wird \cite{reference}.
+Standardmäßig können drei Versionen einer Zelle erstellt werden.
 
 
 \subsubsection{Zugriff auf HBase}
-Obwohl aus Perfomanzgründen empfohlen wird die JAVA-API für den Zugriff auf HBase zu nutzen \cite{clo11}, werden im folgenden weitere Möglichkeiten vorgestellt.
+Obwohl aus Perfomanzgründen empfohlen wird die JAVA-API für den Zugriff auf HBase zu nutzen, werden im folgenden weitere Möglichkeiten vorgestellt.
 \begin{description}
 \item[Thrift Server]
 Der Thrift Server kann als Gateway benutzt werden, um Applikationen  anderer Sprachen, den Zugriff auf HBase zu ermöglichen. Ein C/C++ Client könnte bei dieser Lösung jedoch nur mit dem Thrift Server kommunizieren und nicht direkt auf einen \textit{RegionServer} zugreifen.
@@ -166,7 +164,7 @@ Der Thrift Server kann als Gateway benutzt werden, um Applikationen  anderer Spr
 \item[REST Server]
 HBase stellt auch eine REST-API zur Verfügung, auf die über HTTP zugegriffen werden kann.
 
-\item[Hive]
+\item[Hive] Mit Hilfe von SQL-Queries ist ein Zugriff auf HBase möglich, jedoch auf Kosten der Performanz (4-5mal langsamer) \cite{clo11}.
 \end{description}
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -189,47 +187,93 @@ Um HBase zu starten, wird der Befehl
 \begin{lstlisting}[language=bash]
   $ {HBASE_HOME}/bin/start-hbase.sh 
 \end{lstlisting}
-ausgeführt. HBase lässt sich mit dem Standard-Port 16010 über folgende \ac{URL} über die Weboberfläche aufrufen: \textit{localhost:16010}
+ausgeführt. HBase lässt sich mit dem Standard-Port 16010 durch folgenden \ac{URL} über die Weboberfläche aufrufen: \textit{localhost:16010}
 
 \subsubsection{ZooKeeper}\label{zook}
-ZooKeeper ist ein Open-Source-Projekt unter der Apache-Foundation. ZooKeeper wird auf den Knoten von Clustern installiert und bietet 
-Dienste für typischen Aufgaben an, die bei verteilten Anwendungen auf Clustern anfallen. Typische Probleme sind dabei Race-Conditions 
-beim verteilten Schreiben auf den selben Daten, der Zugriff auf schon veraltete Daten oder überhaupt das Auffinden von den Rechnerknoten im
-Cluster. ZooKeeper überwacht auch die einzelnen Knoten im Cluster durch sogenannte \textit{Heartbeats}. Dies sind kurze Signale an den  \textit{MasterServer},
-die signalisieren, dass der Rechnerknoten noch aktiv ist. 
+ZooKeeper ist ein Open-Source-Projekt unter der Apache-Foundation. Typische Aufgabenstellungen sind:
+\begin{itemize}
+\item Wettlaufsituationen beim verteilten Schreiben auf den selben Daten zu lösen
+\item Den Zugriff auf schon veraltete Daten zu regeln 
+\item Das Auffinden von Rechnerknoten (\textit{RegionServern}) in einem Cluster
+\item Überwachung der einzelnen Knoten im Cluster durch sogenannte \textit{Heartbeats}. Dies sind kurze Signale an den  \textit{MasterServer}, die signalisieren, dass der Rechnerknoten noch aktiv ist. 
+\end{itemize}
 
-Die Installation von ZooKeeper ist verhältnismäßig einfach. Nachdem die Anwendung auf die einzelnen Knoten herunter geladen ist, muss in der 
-\newline \texttt{zookeeper/conf/zoo.cfg}
+Die Installation von ZooKeeper ist verhältnismäßig einfach. Nachdem die Anwendung auf die einzelnen Knoten herunter geladen ist, muss in der Datei \url{zookeeper/conf/zoo.cfg}
 die Konfiguration erfolgen, die im einfachsten Falle nur aus der Angabe der Rechner-Knoten besteht. Innerhalb von ZooKeeper nennt sich so ein Verbund
 von Rechner-Knoten ein \textit{esemble}. Diese Konfiguration muss anschließend auf alle Knoten verteilt werden. Danach kann der ZooKeeper-Server, genannt \texttt{zkServer},
-auf jedem Knoten manuell gestartet werden. Über den Client-Port von ZooKeeper, der in diesem Projekt auf jedem Knoten der Port $2186$ ist, können die verteilten
+auf jedem Knoten manuell gestartet werden. 
+
+Über den Client-Port von ZooKeeper, der in diesem Projekt auf jedem Knoten der Port $2186$ ist, können die verteilten
 Anwendungen die ZooKeeper-API verwenden. Dabei können sie sogenannte \textit{zNodes} anlegen. Das sind Dateien, auf die verteilt zugegriffen wird und um dessen
 Gültigkeit sich nun ZooKeeper kümmert, sodass die verteilte Anwendung sich nicht mehr um die typischen Probleme, die in einem Cluster auftauchen, kümmern muss.
 
-\subsection{Datenschema}\label{hbase_datenschema}
-Die Zeilen haben einen eindeutigen Schlüssel (RowKey) -> Zugriff auf die eigentlichen Spalten
-Werte werden in Spalten versioniert (max 3 Versionen)
-Spaltenfamilie wird in Regionen aufgeteilt und auf die RegionServer verteilt
-Zeitstempel: Per Default wird der aktuellste Wert genommen (Beispiel: Welche User haben sich gestern eingeloggt)
-Zuordnung einer Region zu genau einem Server (strikte Konsistenz) -> alle Modifikation (put und delete auf einem Server)
-Atomare Operationen: Alte oder neue Werte lesen
+%------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Zusatzinfo: Alle Spalten in einer Spaltenfamilie werden in der gleichen Datei gespeichert, den sogenannten HFile-Dateien
+\subsection{Datenschema}\label{hbase_datenschema}
+Für das Semesterprojekt wurde eine Tabelle mit dem Namen \textbf{music} angelegt. Diese enthält zwei Spaltenfamilien. Die Splatenfamilie \textbf{song} enthält die für die Use cases (siehe Abschnitt \ref{usecases}) benötigten Daten und die Spaltenfamilie
+\textbf{miscellaneous} enthält die restlichen Daten des Million-Song-Datasets:
+
+\begin{figure}[H] 
+  \centering
+     \includegraphics[width=0.7\textwidth]{images/{06.datenschema}.pdf}
+  \caption{Tabelle  \textbf{music}}
+  \label{fig:datenschema}
+\end{figure}
+
+
+
+%------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Ad-Hoc-Zugriffsmöglichkeiten}\label{hbase_adhoc}
-%List 
-%scan 'music' ,{'LIMIT' => 5}
-%put 'music', 'TestRowKey', 'song:ArtistName','Team6_Test'
-%get 'music', 'TestRowKey'
-%Update (put 'music', 'TestRowKey', 'song:ArtistName', 'NewValue')
-%Delete (deleteall 'music', 'TestRowKey')
-%
-%scan 'music', { FILTER => SingleColumnValueFilter.new(Bytes.toBytes('song'), Bytes.toBytes('ArtistName'), CompareFilter::CompareOp.valueOf('EQUAL'),BinaryComparator.new(Bytes.toBytes('Big Mountain')))}
-%
-%Zusatzinfo: 
-%Insert: client fragt zookeeper nach .Meta
-%Client scant meta um RegionServer zu Schlüssel zu finden. Client fragt regionserver nach insert -> WAL + Memstore
-%
-%Deletes: Wie inserts nur mit delete-Flag
-%
-%Read: client fragt zookeeper nach meta. Client scant meta nach RegionServer für Schlüssel. Client fragt RegionServer nach Wert für Schlüssel. MemStore wird nach key durchscannt
+Um Ad-Hoc auf die Daten der Datenbank zuzugreifen, verwendet man das mitgelieferte Komanozilenprogramm \textbf{hbase shell}, welches in JRuby geschrieben wurde. Um das Tool aufzurufen navigiert man mittels:
+\begin{lstlisting}[language=bash]
+  $ cd hbase
+\end{lstlisting}
+in das HBase-Verzeichnis und setzt die Umgebungsvariable mit:
+\begin{lstlisting}[language=bash]
+  $ export PATH=$PATH:~/hbase/bin
+\end{lstlisting}
+Im Anschluss daran kann das Tool mit:
+\begin{lstlisting}[language=bash]
+  $ hbase shell
+\end{lstlisting}
+aufgerufen werden.
+
+Um sich alle Tabellen anzeigen zu lassen benötigt man folgenden Befehl:
+\begin{lstlisting}[language=bash]
+  $ list
+\end{lstlisting}
+Und um zu sehen welche Server aktiv sind, verwendet man diesen Befehl:
+\begin{lstlisting}[language=bash]
+  $ status
+\end{lstlisting}
+
+\subsubsection{CRUD-Befehle}
+\begin{description}
+\item[Create] Da es keine SQL-API bei HBase gibt, wird das Einfügen von Daten durch folgendes Kommando realisiert:
+\begin{lstlisting}[language=bash]
+  $ put 'music', 'TestRowKey', 'song:ArtistName','Team6_Test'
+\end{lstlisting}
+Beim Schreiben fragt der Client den Zookeeper nach der Systemtabelle (siehe \ref{tabelle}), die die Information enthält, in welcher Region der Datensatz vorhanden ist. Dann scant der Client die Region des \textit{Regionservers}, um den Schlüssel zu finden.
+Nachdem der Cleint vom \textit{RegionServer} die Erlaubnis erhalten hat zu schreiben, wird ein Logeintrag im \ac{WAL} erzeugt.
+\item[Read] Um die ganze Tabelle zu lesen würde man das Kommando \textbf{scan} verwenden, jedoch würde dies für die vorliegenden Daten unübersichtilich werden, weshalb es sich empfiehlt die Ausgabe zu limitieren:
+\begin{lstlisting}[language=bash]
+  $ scan 'music' ,{'LIMIT' => 5}
+\end{lstlisting}
+Um an einen einzelnen Datensatz zu kommen, muss man die \textit{SongId} mit angeben:
+\begin{lstlisting}[language=bash]
+  $ get 'music', 'TestRowKey'
+\end{lstlisting}
+Beim Lesen fragt der Client wie beim Schreiben den Zookeeper und scant die Systemtabelle nach Meta-Daten ab, um den Schlüssel zu finden. Dann fragt der Client den \textit{RegionServer} nach dem Schlüssel-Wert-Paarl und im Anschluss daran wird der \textit{MemStore}
+nach dem Schlüssel durchsucht.
+\item[Update] Um einen Wert zu aktualisieren, verwendet man den \textbf{Put}-Befehl und gibt den zu ersetztenden und den neuen Wert an:
+\begin{lstlisting}[language=bash]
+  $ put 'music', 'TestRowKey', 'song:ArtistName',
+  'Team6_Test'
+\end{lstlisting}
+\item[Delete] Das Löschen funktioniert so wie das Einfügen, nur das die Zelle mit einer Löschmarkierung versehen wird: 
+\begin{lstlisting}[language=bash]
+  $ deleteall 'music', 'TestRowKey'
+\end{lstlisting}
+\end{description}
+
 
