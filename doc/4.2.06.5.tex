@@ -34,3 +34,11 @@ public void closeConnection() throws IOException {
 }
 \end{lstlisting}
 
+Die Datenübertragung zwischen dem Client und der Datenbank passiert über RPC Aufrufe. Für jeden Aufruf der next Methode auf dem ResultScanner wird ein RPC Aufruf ausgeführt. Bei einer großen Datenmege könnte diese Vorgehensweise sehr ineffizient sein. Deswegen ist es ratsam bei solchen Aufrufen den Parameter cach im Objekt Scanner sinnvoll zu setzen.
+z.B.
+\begin{lstlisting}[language=Java]
+Scan.setCaching(500)
+\end{lstlisting}
+Dabei werden bei jeden RPC Aufruf 500 Datensätze zurückgeliefern und im Speicher gehalten.
+
+
