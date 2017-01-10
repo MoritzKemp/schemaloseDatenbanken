@@ -10,11 +10,10 @@ Aus der Menge der vorhandenen Java Frontend Frameworks wurde Spring MVC gewählt
 Die UseCases kann man in zwei Arten unterteilen:\\
 \begin{itemize}
 \item Darstellung der CRUD Operationen
-\item Darstellung der Ergebnisse eines MapReduce Prozesses
+\item Darstellung der Ergebnisse eines MapReduce Prozesses. (Berechnen der Anzahl der LIedern pro Interpreter)
 \end{itemize}
 Bei der Darstellung der CRUD Operationen ging es sowohl um den Zugriff auf verschiedene Datensätze innerhalb der DB als auch um das Speichern und Löschen eines Datensatzes.\\
 Dabei geht es um die Tabelle \textit{"music"}, die die Datensätze aus der MillionSong DB beinhaltet.
-
 
 Der Client stellt die Ergebnisse verschiedener Abfragen gegen die HBase Datenbank ab. So z.B. kann man alle Lieder von einem Interpreter in einer Tabelle anzeigen lassen. In der ersten Spalten wurden die RowKeys angezeigt, da man diese für die Aktualisierung eines Datensatzes braucht.
 

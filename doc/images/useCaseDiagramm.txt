@@ -3,19 +3,16 @@ left to right direction
 :User: as user
 rectangle Anwendung {
 	usecase UC1 as "UC_1
-Alle Songs von einem Interpreten"
+Finde Interpreten anhand eines Substrings"
 	usecase UC2 as "UC_2
-Alle Songs mit BPM 120 für Lauftraining"
+Zeige alle Songs zu einem Interpreten an"
 	usecase UC3 as "UC_3
-Alle Songs die länger als 5 min laufen"
+Suche nach Songs anhand der Beats per minute"
 	usecase UC4 as "UC_4
-Alle Songs mit einem bestimmten Substring"
-	usecase UC5 as "UC_5
-Alle Songs aus einem bestimmten Jahr"
+Zeige eine Tabelle mit der Anzahl der Songs je Interpret"
 	user --> UC1
 	user --> UC2
 	user --> UC3
 	user --> UC4
-	user --> UC5
 }
 @enduml
