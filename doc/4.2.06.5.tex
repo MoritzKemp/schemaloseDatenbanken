@@ -1,7 +1,7 @@
 \subsubsection{Schnittstelle der Anwendung zur Datenbank}\label{schnittstelle}
 
-Damit unsere Client Anwendung die Daten aus der HBase DB bekommen kann, muss man eine Verbindung zur Datenbank aufbauen.
-Das erreicht man indem man ein Configurationobjekt  erstellt und ihm alle benötigten Daten zu der HBase DB übergibt. Anschlißend kann man mit Hilfe einer ConnectionFactory eine Verbindung zur Datenbank herstellen.
+Damit die Client-Anwendung die Daten aus HBase bekommen kann, muss eine Verbindung zur Datenbank aufgebaut werden.
+Das erreicht man indem man ein \textit{Configuration}-Objekt erstellt und ihm alle benötigten Daten zu HBase übergibt. Anschließend kann  mithilfe einer \textit{ConnectionFactory} eine Verbindung zur Datenbank hergestellt werden.
 
 \begin{lstlisting}[language=Java]
 Configuration config = HBaseConfiguration.create();
@@ -12,20 +12,20 @@ config.set("hbase.zookeeper.property.clientPort", "2186");
 Connection connection = ConnectionFactory.createConnection(config);
 \end{lstlisting}
 
-Das Aufbauen einer Verbindung zur DB ist eine sehr Aufwändige Operation und deswegen ist es empfehlenswert diese nur ein Mal beim Hochfahren des Servers auszuführen.
-Beim jeden Zugrif auf die Datenbank muss diese Verbindung verwendet werden um einen Zugrif auf jeweilige Tabelle aufzubauen.
+Das Aufbauen einer Verbindung zu HBase ist eine sehr aufwändige Operation, weshalb es empfehlenswert ist, diese nur einmal beim Hochfahren des Servers auszuführen.
+Beim jedem Datenbank-Zugriff muss diese Verbindung verwendet werden um einen Zugriff auf die jeweilige Tabelle zu gewährleisten.
 
 \begin{lstlisting}[language=Java]
 Table table = connection.getTable(TableName.valueOf(tableName));
 \end{lstlisting}
 
-nach dem Abarbeiten der Anfrage muss der Zugrif auf die Tabelle wieder geschloßen werden.
+Nach dem Abarbeiten der Anfrage muss der Zugriff auf die Tabelle wieder geschlossen werden.
 \begin{lstlisting}[language=Java]
 table.close();
 \end{lstlisting}
 
-Sollte der Server beendet werden so soll auch die Verbindung zur Datenbank auch geschloßen werden.
-Um das umzusetzen ist es sinnvoll das Schließen der Verbindung zur Datenbank in die Methode mit der Annotation     @PreDestroy zu implementieren.
+Wenn der Server heruntergefahren wird,  sollte auch die Verbindung zur Datenbank geschlossen werden.
+Um dies umzusetzen ist es sinnvoll, das Schließen der Verbindung zur Datenbank in eine Methode mit der Annotation @PreDestroy zu implementieren.
 
 \begin{lstlisting}[language=Java]
 @PreDestroy
@@ -34,11 +34,10 @@ public void closeConnection() throws IOException {
 }
 \end{lstlisting}
 
-Die Datenübertragung zwischen dem Client und der Datenbank passiert über RPC Aufrufe. Für jeden Aufruf der next Methode auf dem ResultScanner wird ein RPC Aufruf ausgeführt. Bei einer großen Datenmege könnte diese Vorgehensweise sehr ineffizient sein. Deswegen ist es ratsam bei solchen Aufrufen den Parameter cach im Objekt Scanner sinnvoll zu setzen.
-z.B.
+Die Datenübertragung zwischen dem Client und der Datenbank passiert über \acp{RPC}. Für jeden Aufruf der \textit{next}-Methode auf dem textit{ResultScanner} wird ein \ac{RPC}  ausgeführt. Bei einer großen Datenmege könnte diese Vorgehensweise sehr ineffizient sein. Deswegen ist es ratsam bei solchen Aufrufen den Parameter \textit{cache} im \textit{Scanner}-Obejekt sinnvoll zu setzen:
 \begin{lstlisting}[language=Java]
 Scan.setCaching(500)
 \end{lstlisting}
-Dabei werden bei jeden RPC Aufruf 500 Datensätze zurückgeliefern und im Speicher gehalten.
+Dabei werden bei jedem \ac{RPC} 500 Datensätze zurückgeliefert und im Speicher gehalten.
 
 
