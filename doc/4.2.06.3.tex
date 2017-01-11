@@ -1,15 +1,15 @@
 \subsubsection{Oberflächengestaltung}
 
-Während des Semesterprojektes wurden UseCases definiert, die die Arbeit mit  HBase demonstrieren sollen (siehe Abschnitt \ref{usecases}).
-Um die UseCases sichtbar in einer Oberfläche darstellen zu können, wurde ein Java-Client mit einer graphischen Weboberfläche entwickelt.
+Während des Semesterprojektes wurden Use cases definiert, die die Arbeit mit  HBase demonstrieren sollen (siehe Abschnitt \ref{usecases}).
+Um die Use cases sichtbar in einer Oberfläche darstellen zu können, wurde ein Java-Client mit einer graphischen Weboberfläche entwickelt.
 
-Der Java-Client muss auf demselben Server laufen, wo auch der \textit{MasterServer} läuft. Da kein weiterer Aufwand für das Aufsetzen eines Application Servers betrieben werden soll, wird Spring-Boot eingesetzt. Der Vorteil von diesem Framework ist, dass beim Starten der Applikation ein lauffähiger Tomcat-Applikation-Server bereitgestellt wird. 
+Der Java-Client muss auf demselben Server laufen, wo auch der \textit{MasterServer} läuft. Da kein weiterer Aufwand für das Aufsetzen eines \textit{Application-Servers} betrieben werden soll, wird Spring-Boot eingesetzt. Der Vorteil von diesem Framework ist, dass beim Starten der Applikation ein lauffähiger \textit{Tomcat-Application-Server} bereitgestellt wird. 
 Aus der Menge der vorhandenen Java-Frontend-Frameworks wurde \textit{Spring-MVC} gewählt.  
 
 Die Use cases kann man in zwei Gruppen unterteilen:
 \begin{itemize}
 \item Darstellung der \ac{CRUD}-Operationen.
-\item Darstellung der Ergebnisse eines MapReduce-Jobs, bespielsweise die Berechnung der Anzahl der Liedern pro Interpret.
+\item Darstellung der Ergebnisse eines MapReduce-Jobs, beispielsweise die Berechnung der Anzahl der Lieder pro Interpret.
 \end{itemize}
 Bei der Darstellung der \ac{CRUD}-Operationen geht es sowohl um den Zugriff auf verschiedene Datensätze innerhalb von HBase, als auch um das Speichern und Löschen eines Datensatzes.
 

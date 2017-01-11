@@ -4,12 +4,12 @@ Um die Verwendung von der NoSQL-Datenbank HBase und das Programmiermodel MapRedu
 Die erste Aufgabe liegt darin die Daten aus dem \textit{*.h5}-Format in die HBase-Datenbank zu importieren.
 Dafür wird die Java Bibliothek \textit{ncsa.hdf.object.h5} verwendet. Mit Hilfe dieser Bibliothek kann auf die Daten innerhalb der \textit{*.h5}-Datei zugegriffen werden.
 
-Für die Usecase-relevanten Daten wird in HBase die Tabelle \textbf{music} angelegt. Bei der Analyse der Struktur für die Tabelle fällt auf, dass für die anvisierten Use Cases nicht alle Spalten gebraucht werden. Deswegen wird ein Datenschema wie in Abbildung \ref{fig:datenschema} verwendet. Die irrelevanten Daten für die Spaltenfamilie \textbf{miscellaneous} werden aus der \textit{*.h5}- Datei ausgelesen und als ein konkatinierter String abgespeichert. Dabei sind die einzelnen Daten durch ein Semikolon voneinander getrennt. An dieser Stelle ist es nun die Aufgabe des Softwareentwicklers die Daten bei der Implementierung der Applikation auseinander zu parsen.
+Für die Usecase-relevanten Daten wird in HBase die Tabelle \textbf{music} angelegt. Bei der Analyse der Struktur für die Tabelle fällt auf, dass für die anvisierten Use Cases nicht alle Spalten gebraucht werden. Deswegen wird ein Datenschema wie in Abbildung \ref{fig:datenschema} verwendet. Die irrelevanten Daten für die Spaltenfamilie \textbf{miscellaneous} werden aus der \textit{*.h5}- Datei ausgelesen und als eine zusammenhängende Zeichenkette abgespeichert. Dabei sind die einzelnen Daten durch ein Semikolon voneinander getrennt. An dieser Stelle ist es nun die Aufgabe des Softwareentwicklers die Daten bei der Implementierung der Applikation auseinander zu parsen.
 
 Nachdem die Tabelle mit den entsprechenden Spalten erstellt ist, können die Daten aus den \textit{*.h5}- Dateien mit Hilfe eines Java Programms direkt in HBase importiert werden.
 
 Im Folgenden sind ein paar Codefragmente aus dem Datenimport dargestellt.
-Um die Daten aus einer \textit{*.h5}-Datei auslzulesen, wird eine Verbindung zu einer \textit{*.h5}-Datei erstellt:
+Um die Daten aus einer \textit{*.h5}-Datei auszulesen, wird eine Verbindung zu einer \textit{*.h5}-Datei erstellt:
 
 
 \lstset{
@@ -49,7 +49,7 @@ p.addColumn(Bytes.toBytes("song"), Bytes.toBytes("Title"),Bytes.toBytes("HISTORY
 table.put(p);
 \end{lstlisting}
 
-Defaultmäßig wird jede PUT-Operation sofort an die Datenbank geschickt. Wenn man eine große Menge an Daten hat, die in die Datenbank eingetragen werden muss, dann ist es aus den Performanz-Gründen sehr ratsam AutoFlash auszuschalten. \\
+Standardmäßig wird jede PUT-Operation sofort an die Datenbank geschickt. Wenn man eine große Menge an Daten hat, die in die Datenbank eingetragen werden muss, dann ist es aus den Performanz-Gründen sehr ratsam \textit{AutoFlash} auszuschalten. \\
 Das erreicht man wie im folgt:
 \begin{lstlisting}[language=Java]
 htable.setAutoFlush(true);

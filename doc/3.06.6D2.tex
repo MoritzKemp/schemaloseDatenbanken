@@ -1,33 +1,18 @@
 \section{HBase}
 
-%\cite{Redt01} embeddeed in text.
-%\cite{SpaOd16} embeddeed in text.
-
-
 Im Folgenden wird HBase als \textbf{die} Hadoop Datenbank vorgestellt, die zu Grunde liegende Systemtechnologie erläutert  und die Installation/Konfiguration beschrieben.
 \subsection{Visitenkarte}
 \subsubsection{Entstehung}
 Nachdem Google immer größer werdende Datenmassen speichern musste und dieses Problem mit dem  \ac{GFS} gelöst zu sein schien, stellten sich weitere Probleme heraus: 
-Die Indexierung dieser Daten und die Verteilung der Daten auf viele Knoten ohne Zugriffgeschwindigkeit und Konsistenz zu verlieren. Google fand eine Lösung mit BigTable und auf Grundlage des veröffentlichten WhitePapers \cite{bigtable} dazu, entwickelte die Open-Source-Community dann HBase. Aus diesem Grund weisen diese beiden Datenbanken auch Gemeinsamkeiten bezüglich ihrer Funktionalität auf. Beispielsweise unterstützen beide die Komprimierung (siehe \ref{tableoperation}) und Versionierung der Daten \cite{SpaOd16}.
+Die Indexierung dieser Daten und die Verteilung der Daten auf viele Knoten ohne Zugriffgeschwindigkeit und Konsistenz zu verlieren. Google fand eine Lösung mit BigTable und auf Grundlage des veröffentlichten Whitepapers \cite{bigtable} dazu, entwickelte die Open-Source-Community HBase. Aus diesem Grund weisen diese beiden Datenbanken auch Gemeinsamkeiten bezüglich ihrer Funktionalität auf. Beispielsweise unterstützen beide die Komprimierung (siehe \ref{tableoperation}) und Versionierung der Daten \cite{SpaOd16}.
 
 \subsubsection{Allgemein}
 HBase wurde entwickelt, um mit Hadoop zusammen zu arbeiten, ist ein verteiltes BigData-Speichersystem 
  und bietet einen schnellen (nahe Echtzeit) Zugriff auf riesige Datenmengen.
 
-%Bei unvollständigen Datensätzen, im Relationalen Sinne gesprochen, bei Einträgen mit fehlenden Attributen und einem sich oft wechselndem Schema empfiehlt sich der Einsatz von HBase.
-%speicherbasierte Tabellen
-%Bietet geringe Latenz bei Zugriff auf kleine Teil-Datenmengen 
-%Bietet ein flexibles Datenmodel
-%build for low latency querries
-%Ein verteiltes Speichersystem für strukturierte Daten
-
-%Key-value
-%value wird von einem Key identifiziert
-%Key und value sind beide byte-array
-%Werte können schnell durch die Schlüssel zugegriffen werden
 
 \subsubsection{Portfolio}
-HBase wird von vielen bekannten Konzernen eingesetzt, da es sich gut für Logging- und Suchsysteme  eignet und als Grundpfeiler für \ac{OLAP}-Systeme geeignet ist \cite{Redt01}.
+HBase wird von vielen bekannten Konzernen eingesetzt, da es sich gut für Logging- und Suchsysteme eignet und als Grundpfeiler für \ac{OLAP}-Systeme geeignet ist \cite{Redt01}.
 
 \begin{figure}[H] 
   \centering
@@ -41,14 +26,14 @@ HBase wird von vielen bekannten Konzernen eingesetzt, da es sich gut für Loggin
 \subsection{Systemtechnologie} % ausgewählte technologische Aspekte (Architektur, Funktionsweise, ...) ohne (ausführliche) Modellierungsaspekte
  In HBase lassen sich riesige Datenmengen auf mehreren Knoten verteilen, verwalten und jederzeit erweitern. HBase basiert auf Java, ist Open-Source, nicht-relational, spaltenorientiert und setzt auf ein verteiltes Dateisystem wie \ac{HDFS} von Hadoop auf \cite{hbasetut}. HBase, als Key-Value-Store, wurde als fehlertolerantes System entworfen, das auch gut mit unvollständige Datenmengen umgehen kann. Aufgrund des schemalosen Datenmodells, müssen nicht alle Felder belegt werden und verbrauchen auch keinen Speicherplatz \cite{compWo}.  Durch das \ac{WAL} und eine verteilte Konfiguration kann sich HBase schnell von Serverausfällen erholen \cite{Redt01}. 
  
- Nach CAP-Theorem legt es besonders Wert auf Verfügbarkeit und Partitionierung und vernachlässigt die Konsistenz der Daten.%nochmal überdenken
-Des weiteren unterstützt HBase die Replikation von Hadoop, den MapReduce-Algorithmus, automatische Verteilung der Tabellen auf die Knoten, Komprimierung der Daten und Bloom-Filter. HBase kann im Standalone-Modus, im pseudo-verteilten Modus und im vollständig-verteilten Modus betrieben werden. Für den vorliegenden Usecase wird am Ende des Kapitels die Konfiguration für den vollständig-verteilten Modus beschrieben. Für diesen Modus wird für die verteilte Konfiguration ein Zookeeper benötigt (siehe Abschnitt \ref{zook}). HBase stellt zwar selbst keine SQL-API zur Verfügung lässt sich aber durch Schnittstellen wie Apache Phoenix um eben solche erweitern.
+ Nach CAP-Theorem legt es besonders Wert auf Verfügbarkeit und Partitionierung und vernachlässigt die Konsistenz der Daten. 
+ Des Weiteren unterstützt HBase die Replikation von Hadoop, den MapReduce-Algorithmus, automatische Verteilung der Tabellen auf die Knoten, Komprimierung der Daten und Bloom-Filter. HBase kann im Standalone-Modus, im pseudo-verteilten Modus und im vollständig-verteilten Modus betrieben werden. Für den vorliegenden Use case wird am Ende des Kapitels die Konfiguration für den vollständig-verteilten Modus beschrieben. Für diesen Modus wird für die verteilte Konfiguration ein Zookeeper benötigt (siehe Abschnitt \ref{zook}). HBase stellt zwar selbst keine SQL-API zur Verfügung lässt sich aber durch Schnittstellen wie Apache Phoenix um eben solche erweitern.
 
-\subsubsection{Hbase im Vergleich zu einem \ac{RDBMS}}
+\subsubsection{HBase im Vergleich zu einem \ac{RDBMS}}
 HBase erinnert an eine relationale Datenbank, da die Daten in Tabellen gespeichert werden, die Zellen enthalten. Jedoch verhalten sich die Tabellen nicht wie Relationen und die Zeilen nicht wie Datensätze in relationalen Datenbanken. Auch sind die Spalten nicht durch ein Schema definiert.
 HBase speichert die teils unvollständigen Daten in Spalten ab im Vergleich zu vollständigen Reiheneinträgen in einem \ac{RDBMS}. Dies ist notwendig da große Datenmengen den Anforderungen auf Vollständigkeit, wie sie ein \ac{RDBMS} erfordert, oftmals nicht gerecht werden.  
-Während in einem \ac{RDBMS} viele schmale, normalisierte Tabellen vorliegen, ist HBase für Tabellen mit Millionen von nicht-normalisierrten Spalten ausgelegt. Die Partitionierung wird bei HBase automatisch vogenommen, währenddessen in einem RDBMS dies manuell erfolgen muss \cite{youintr}. Durch die Spaltenorientierung ist
-HBase besonders gut für analytische Aufgaben geeignet, da es selectiv nur die benötigten Daten abfragt und nicht die komplette Zeile, wie es ein \ac{RDBMS} tut.
+Während in einem \ac{RDBMS} viele schmale, normalisierte Tabellen vorliegen, ist HBase für Tabellen mit Millionen von nicht-normalisierten Spalten ausgelegt. Die Partitionierung wird bei HBase automatisch vorgenommen, währenddessen in einem RDBMS dies manuell erfolgen muss \cite{youintr}. Durch die Spaltenorientierung ist
+HBase besonders gut für analytische Aufgaben geeignet, da es selektiv nur die benötigten Daten abfragt und nicht die komplette Zeile, wie es ein \ac{RDBMS} tut.
 
 
 \subsubsection{HBase im Vergleich zu HDFS}
@@ -95,10 +80,10 @@ Die Systemtabellen werden für das Verwalten von Meta-Daten von \acp{ACL}, Tabel
 
 
 \subsubsection{Regionen}\label{region}
-Eine Tabelle besteht aus Spalten und Reihen. Für die Skalierung  und den randomisierten Zugriff, teilt HBase die Tabelle horizontal in Regionen auf, d.h. jede Region besteht aus einer Reihe von aufeinander folgenden Schlüsseln. Jede Region wird genau einem \textit{RegionServer} zugeordnet, um Konsistenz zu wahren. Der HBase LoadBalancer sorgt dafür, dass die Regionen auf alle \textit{RegionServer} gleich verteilt werden. Jede Region wird durch einen Start-Schlüssel und einen End-Schlüssel begrenzt. Diese Informationen lassen sich in den System-Tabellen wiederfinden. Regionen können geteilt werden, wenn sie zu groß werden oder zusammengelegt werden, wenn die zu klein sind.
+Eine Tabelle besteht aus Spalten und Reihen. Für die Skalierung  und den randomisierten Zugriff, teilt HBase die Tabelle horizontal in Regionen auf, d.h. jede Region besteht aus einer Reihe von aufeinander folgenden Schlüsseln. Jede Region wird genau einem \textit{RegionServer} zugeordnet, um Konsistenz zu wahren. Der HBase Load-Balancer sorgt dafür, dass die Regionen auf alle \textit{RegionServer} gleich verteilt werden. Jede Region wird durch einen Start-Schlüssel und einen End-Schlüssel begrenzt. Diese Informationen lassen sich in den System-Tabellen wiederfinden. Regionen können geteilt werden, wenn sie zu groß werden oder zusammengelegt werden, wenn die zu klein sind.
 
 \subsubsection{Spaltenfamilien}\label{sf}
-Die Empfehlung ist, dass Daten mit gleichen Zugriffs-Queries und dem selben Format in einer Spaltenfamilie zusammengefasst werden sollten. Wenn wir beispielsweise zu allen Songs des One-Million-Song-Datasets die Coverbilder der Songs hinterlegt hätten, könnten die Bilder in einer Spaltenfamilie und die textuellen Informationen zu den Songs in einer anderen Spaltenfamilie hinterlegt werden. So könnte die Spaltenfamilie mit den textuellen Informationen komprimiert werden (siehe Abschnitt \ref{tableoperation}). Wenn bestimmte Daten nur gelesen werden und andere meistens geschrieben werden, sollte ebenfalls über eine separate Spaltenfamilie nachgedacht werden. Es gibt keine Grenze nach oben für die Spaltenfamilien innerhalb einer Tabelle, jedoch leidet die Performanz bei vielen Spaltenfamilien. Der \textit{MemStore} (siehe \ref{memstore} wird dadurch belastet und generiert viele kleine Dateien. Bei der Tabellenerzeugung  muss bis auf die Spaltenfamilien keine feste Vorgabe gemacht werden. Alles außer der Tabellenname wird als Byte-Array abgespeichert, d.h. man kann Zeichen, Zahlen, Buchstaben usw. abspeichern. Um auf einen Wert zugreifen zu können, muss der Reihenschlüssel, die Spaltenfamilie, der Spaltenname und  Zeitstempel (optional) angegeben werden \cite{SpaOd16}. In der folgenden Abbildung ist zu sehen, wie HBase seine Daten abspeichert:
+Die Empfehlung ist, dass Daten mit gleichen Zugriffs-Queries und demselben Format in einer Spaltenfamilie zusammengefasst werden sollten. Wenn wir beispielsweise zu allen Songs des One-Million-Song-Datasets die Coverbilder der Songs hinterlegt hätten, könnten die Bilder in einer Spaltenfamilie und die textuellen Informationen zu den Songs in einer anderen Spaltenfamilie hinterlegt werden. So könnte die Spaltenfamilie mit den textuellen Informationen komprimiert werden (siehe Abschnitt \ref{tableoperation}). Wenn bestimmte Daten nur gelesen werden und andere meistens geschrieben werden, sollte ebenfalls über eine separate Spaltenfamilie nachgedacht werden. Es gibt keine Grenze nach oben für die Spaltenfamilien innerhalb einer Tabelle, jedoch leidet die Performanz bei vielen Spaltenfamilien. Der \textit{MemStore} (siehe \ref{memstore} wird dadurch belastet und generiert viele kleine Dateien. Bei der Tabellenerzeugung  muss bis auf die Spaltenfamilien keine feste Vorgabe gemacht werden. Alles außer der Tabellenname wird als Byte-Array abgespeichert, d.h. man kann Zeichen, Zahlen, Buchstaben usw. abspeichern. Um auf einen Wert zugreifen zu können, muss der Reihenschlüssel, die Spaltenfamilie, der Spaltenname und  Zeitstempel (optional) angegeben werden \cite{SpaOd16}. In der folgenden Abbildung ist zu sehen, wie HBase seine Daten abspeichert:
 
 \begin{figure}[H] 
   \centering
@@ -156,7 +141,7 @@ Standardmäßig können drei Versionen einer Zelle erstellt werden.
 
 
 \subsubsection{Zugriff auf HBase}
-Obwohl aus Perfomanzgründen empfohlen wird die JAVA-API für den Zugriff auf HBase zu nutzen, werden im folgenden weitere Möglichkeiten vorgestellt.
+Obwohl aus Performanzgründen empfohlen wird die JAVA-API für den Zugriff auf HBase zu nutzen, werden im Folgenden weitere Möglichkeiten vorgestellt.
 \begin{description}
 \item[Thrift Server]
 Der Thrift Server kann als Gateway benutzt werden, um Applikationen  anderer Sprachen, den Zugriff auf HBase zu ermöglichen. Ein C/C++ Client könnte bei dieser Lösung jedoch nur mit dem Thrift Server kommunizieren und nicht direkt auf einen \textit{RegionServer} zugreifen.
@@ -192,7 +177,7 @@ ausgeführt. HBase lässt sich mit dem Standard-Port 16010 durch folgenden \ac{U
 \subsubsection{ZooKeeper}\label{zook}
 ZooKeeper ist ein Open-Source-Projekt unter der Apache-Foundation. Typische Aufgabenstellungen sind:
 \begin{itemize}
-\item Wettlaufsituationen beim verteilten Schreiben auf den selben Daten zu lösen
+\item Wettlaufsituationen beim verteilten Schreiben auf denselben Daten zu lösen
 \item Den Zugriff auf schon veraltete Daten zu regeln 
 \item Das Auffinden von Rechnerknoten (\textit{RegionServern}) in einem Cluster
 \item Überwachung der einzelnen Knoten im Cluster durch sogenannte \textit{Heartbeats}. Dies sind kurze Signale an den  \textit{MasterServer}, die signalisieren, dass der Rechnerknoten noch aktiv ist. 
@@ -210,7 +195,7 @@ Gültigkeit sich nun ZooKeeper kümmert, sodass die verteilte Anwendung sich nic
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \subsection{Datenschema}\label{hbase_datenschema}
-Für das Semesterprojekt wurde eine Tabelle mit dem Namen \textbf{music} angelegt. Diese enthält zwei Spaltenfamilien. Die Splatenfamilie \textbf{song} enthält die für die Use cases (siehe Abschnitt \ref{usecases}) benötigten Daten und die Spaltenfamilie
+Für das Semesterprojekt wurde eine Tabelle mit dem Namen \textbf{music} angelegt. Diese enthält zwei Spaltenfamilien. Die Spaltenfamilie \textbf{song} enthält die für die Use cases (siehe Abschnitt \ref{usecases}) benötigten Daten und die Spaltenfamilie
 \textbf{miscellaneous} enthält die restlichen Daten des Million-Song-Datasets:
 
 \begin{figure}[H] 
@@ -224,7 +209,7 @@ Für das Semesterprojekt wurde eine Tabelle mit dem Namen \textbf{music} angeleg
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Ad-Hoc-Zugriffsmöglichkeiten}\label{hbase_adhoc}
-Um Ad-Hoc auf die Daten der Datenbank zuzugreifen, verwendet man das mitgelieferte Komanozilenprogramm \textbf{hbase shell}, welches in JRuby geschrieben wurde. Um das Tool aufzurufen navigiert man mittels:
+Um Ad-Hoc auf die Daten der Datenbank zuzugreifen, verwendet man das mitgelieferte Kommandozeilenprogramm \textbf{hbase shell}, welches in JRuby geschrieben wurde. Um das Tool aufzurufen navigiert man mittels:
 \begin{lstlisting}[language=bash]
   $ cd hbase
 \end{lstlisting}
@@ -253,9 +238,9 @@ Und um zu sehen welche Server aktiv sind, verwendet man diesen Befehl:
 \begin{lstlisting}[language=bash]
   $ put 'music', 'TestRowKey', 'song:ArtistName','Team6_Test'
 \end{lstlisting}
-Beim Schreiben fragt der Client den Zookeeper nach der Systemtabelle (siehe \ref{tabelle}), die die Information enthält, in welcher Region der Datensatz vorhanden ist. Dann scant der Client die Region des \textit{Regionservers}, um den Schlüssel zu finden.
-Nachdem der Cleint vom \textit{RegionServer} die Erlaubnis erhalten hat zu schreiben, wird ein Logeintrag im \ac{WAL} erzeugt.
-\item[Read] Um die ganze Tabelle zu lesen würde man das Kommando \textbf{scan} verwenden, jedoch würde dies für die vorliegenden Daten unübersichtilich werden, weshalb es sich empfiehlt die Ausgabe zu limitieren:
+Beim Schreiben fragt der Client den Zookeeper nach der Systemtabelle (siehe \ref{tabelle}), die die Information enthält, in welcher Region der Datensatz vorhanden ist. Dann durchsucht der Client die Region des \textit{Regionservers}, um den Schlüssel zu finden.
+Nachdem der Client vom \textit{RegionServer} die Erlaubnis erhalten hat zu schreiben, wird ein Logeintrag im \ac{WAL} erzeugt.
+\item[Read] Um die ganze Tabelle zu lesen würde man das Kommando \textbf{scan} verwenden, jedoch würde dies für die vorliegenden Daten unübersichtlich werden, weshalb es sich empfiehlt die Ausgabe zu limitieren:
 \begin{lstlisting}[language=bash]
   $ scan 'music' ,{'LIMIT' => 5}
 \end{lstlisting}
@@ -263,9 +248,9 @@ Um an einen einzelnen Datensatz zu kommen, muss man die \textit{SongId} mit ange
 \begin{lstlisting}[language=bash]
   $ get 'music', 'TestRowKey'
 \end{lstlisting}
-Beim Lesen fragt der Client wie beim Schreiben den Zookeeper und scant die Systemtabelle nach Meta-Daten ab, um den Schlüssel zu finden. Dann fragt der Client den \textit{RegionServer} nach dem Schlüssel-Wert-Paarl und im Anschluss daran wird der \textit{MemStore}
+Beim Lesen fragt der Client wie beim Schreiben den Zookeeper und durchsucht die Systemtabelle nach Meta-Daten ab, um den Schlüssel zu finden. Dann fragt der Client den \textit{RegionServer} nach dem Schlüssel-Wert-Paar und im Anschluss daran wird der \textit{MemStore}
 nach dem Schlüssel durchsucht.
-\item[Update] Um einen Wert zu aktualisieren, verwendet man den \textbf{Put}-Befehl und gibt den zu ersetztenden und den neuen Wert an:
+\item[Update] Um einen Wert zu aktualisieren, verwendet man den \textbf{Put}-Befehl und gibt den zu ersetzenden und den neuen Wert an:
 \begin{lstlisting}[language=bash]
   $ put 'music', 'TestRowKey', 'song:ArtistName',
   'Team6_Test'

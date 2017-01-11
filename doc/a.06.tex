@@ -1,7 +1,7 @@
 \begin{appendices}
 \chapter{Anhang}
 
-\section{Map-Reduce Quellcode}
+\section{MapReduce Quellcode}
 \lstinputlisting[language=Java, caption={Map-Reduce für das Enfernen von mehrfachen Songeinträgen},label=mrCompleteToStripped]{sourcecode/CompleteToStripped.java}
 
 \lstinputlisting[language=Java, caption={Map-Reduce für das Zählen von Songs pro Künstler}, label=mrCountArtistSongs]{sourcecode/CountArtistSongs.java}
@@ -145,7 +145,7 @@
 	hbase.zookeeper.property.clientPort & 2186 \\ \hline
 	hbase.zookeeper.quorum & $10.20.110.61$, $10.20.110.43$, $10.20.110.41$, $10.20.110.39$, $10.20.110.48$ \\ \hline
 	\end{tabularx}
-	\caption{Gesetzte Parameter-Werte für die Konfiguration von Hbase}
+	\caption{Gesetzte Parameterwerte für die Konfiguration von HBase}
 	\label{config:hbaseValues}
 \end{table}
 
@@ -166,7 +166,7 @@
 \end{table}
 \newpage
 
-\section{Leistunsgtest}
+\section{Leistungstest}
 
 \lstinputlisting[language=Bash, caption={Ausgabe des Map-Reduce-Jobs für den Leistungstest}, label=performanceLog]{sourcecode/performanceJob.txt}
 

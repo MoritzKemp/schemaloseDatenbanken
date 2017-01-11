@@ -6,7 +6,7 @@ CSV-Datei bereit in das HDFS-Dateisystem importiert ist. Die hier vorgestellten 
 arbeiten ausschließlich mit Daten auf dem HDFS-Dateisystem, abgesehen von den Zwischenergebnissen,
 die auf dem lokalen Dateisystem des jeweiligen Knotens abgelegt werden.
 Für die Implementierung wird die Java-API des Map-Reduce von Hadoop verwendet. Wichtig ist,
-dass die aktuelle mapreduce-API verwendet wird, und nicht die inzwischen veraltete mapred-API.
+dass die aktuelle Mapreduce-API verwendet wird, und nicht die inzwischen veraltete Mapred-API.
 Eine gute Hilfe bei der Entwicklung von map- und reduce-Funktionen bietet \cite{miner2012mapreduce}.
 
 Die erste Implementierung der Map-Reduce-Funktionen \ref{mrCompleteToStripped} überführt alle Songs aus der ursprünglichen
@@ -27,7 +27,7 @@ Die map-Funktion teilt den übergebenen Wert des Textes in die Song-Attribute au
 als einzelnen String betrachtet und mittels der \textit{split}-Methode ein Feld von Strings erzeugt, die durch
 das Komma im ursprünglichem String getrennt sind. Dadurch sind die Musik-Attribute als Strings nun einzelnen verfügbar.
 Der neue Eintrag für den Song wird durch das Erzeugen eines neuen Strings und dem Anhängen ausgewählter
-Attribute erzeugt. Ist der neue String fertig zusammen gebaut, wird er wieder in das hadoop-spezifische \textit{Text}
+Attribute erzeugt. Ist der neue String fertig zusammen gebaut, wird er wieder in das Hadoop-spezifische \textit{Text}
 konvertiert und als Zwischenergebnis dem Map-Reduce-Framework übergeben. Dieses erwartet neben dem 
 Wert aber auch einen Schlüssel. Der Schlüssel ist in dem Falle ebenfalls vom Typ \textit{Text}, der als Wert die
 Song-ID des Musikstückes enthält.
@@ -40,22 +40,22 @@ von Musikstücken ohne Mehrfacheinträge für den gleichen Musiksong.
 
 Die nächste Map-Reduce-Implementierung  ermöglicht die Ermittlung, wie viele 
 Musikstücke ein bestimmter Künstler bereits geschrieben beziehungsweise herausgegeben
-hat \ref{mrCountArtistSongs}. Diese Implementierung arbeitet dabei auf den Datenstrukturen von Hbase und nicht,
+hat \ref{mrCountArtistSongs}. Diese Implementierung arbeitet dabei auf den Datenstrukturen von HBase und nicht,
 wie zuvor, direkt auf dem HDFS. Dies drückt sich vor allem in der Verwendung der 
-\texttt{TableMapper}- und \texttt{TableReducer}-Klassen aus, die von Hbase als spezialisierte \texttt{Mapper}- beziehungsweise \texttt{Reducer}-Klassen zur Verfügung gestellt werden.
-Diese spezialisierten Klassen sind in der Lage, das Ergebnis einer Hbase-Abfrage so zu
+\texttt{TableMapper}- und \texttt{TableReducer}-Klassen aus, die von HBase als spezialisierte \texttt{Mapper}- beziehungsweise \texttt{Reducer}-Klassen zur Verfügung gestellt werden.
+Diese spezialisierten Klassen sind in der Lage, das Ergebnis einer HBase-Abfrage so zu
 zerteilen, dass das Map-Reduce-Framework der map-Funktion immer eine Datenreihe 
 als Eingabe übergibt. Ähnliches gilt auch für die reduce-Funktion, dessen Ergebnis
-nun nicht direkt eine Datei auf dem HDFS ist, sondern die Daten mit einem Hbase-Aufruf übergeben
+nun nicht direkt eine Datei auf dem HDFS ist, sondern die Daten mit einem HBase-Aufruf übergeben
 werden.
 Die map-Funktion überführt die Daten einer ganzen
-Datenreihe aus der Hbase-Datenbank in ein Schlüssel-Wert-Paar. Dieses enthält, ähnlich 
+Datenreihe aus der HBase-Datenbank in ein Schlüssel-Wert-Paar. Dieses enthält, ähnlich 
 dem Beispiel mit dem Zählen von Wörtern, als Schlüssel den Künstlernamen und als Wert
 die Zahl $1$. Damit repräsentiert das Zwischenergebnis einen Song eines bestimmten Künstlers.
 Die reduce-Funktion bekommt die Liste aller
 Zwischenergebnisse des gleichen Künstlers und zählt die Elemente dieser Liste. Das Ergebnis
 repräsentiert die Anzahl der Songs von diesem Künstler, welches als Ergebnis in eine 
-Hbase-Tabelle geschrieben wird.
+HBase-Tabelle geschrieben wird.
 
 Die letzte Map-Reduce-Implementierung realisiert die Anforderung, dass die Musikstücke über
 ihren Titel auf ein bestimmtes Thema hin untersucht werden \ref{mrCountSongsWithTopic}. Der Titel muss dafür ein bestimmtes
@@ -67,5 +67,5 @@ Ist dies der Fall, wir als Schlüssel-Wert-Paar der Künstlername als Schlüssel
 Wert als Zwischenergebnis geschrieben. Enthält das Musikstück das gesuchte Wort nicht,
 so kehrt die Funktion ohne Zwischenergebnis zurück.
 Die reduce-Funktion zählt, wie in der vorherigen Map-Reduce-Implementierung auch, die Elemente der Liste des gleichen Künstlers.
-Das Ergebnis wird ebenfalls in eine Hbase-Tabelle geschrieben und repräsentiert die Anzahl der Musikstücke, die der
+Das Ergebnis wird ebenfalls in eine HBase-Tabelle geschrieben und repräsentiert die Anzahl der Musikstücke, die der
 Künstler zu dem bestimmten Thema geschrieben hat.

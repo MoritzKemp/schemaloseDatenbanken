@@ -35,7 +35,7 @@ zusammenzufassen.
 %in der ursprünglichen Liste mit gleichen Schlüsselwerten werden also zu einem Eintrag zusammengefasst, wobei die Werte der einzelne, mehrfachen Einträge
 %aufaddiert werden. Das Ergebnis ist eine Liste mit jedem Wort, das in den Dokumenten vorkommt, als einmaliger Schlüssel und als Wert die jeweilige Häufigkeit.
 
-Neben den beiden Funktionen \textit{map} und \textit{reduce} liefert das MapReuce-Framework auch eine Laufzeitumgebung mit, in der jene beiden Funktionen eingebettet sind.
+Neben den beiden Funktionen \textit{map} und \textit{reduce} liefert das MapReduce-Framework auch eine Laufzeitumgebung mit, in der jene beiden Funktionen eingebettet sind.
 Die Laufzeitumgebung kümmert sich dabei um die Verteilung der Arbeit auf dem Cluster. 
 Dafür werden erstens die implementierten \textit{Map-} und \textit{Reduce}-Funktionen
 kopiert und auf die einzelnen Maschinen im Cluster verteilt. Zweitens werden die Eingabedaten zerteilt und die einzelnen Daten-Stücke auf die Maschinen verteilt. 
@@ -65,13 +65,13 @@ Nach dieser Vorbereitung kann die Arbeit nun schließlich beginnen. Dafür schau
 welche Maschinen beziehungsweise Worker nicht beschäftigt sind und weist ihnen entweder eine \textit{Map}- oder \textit{Reduce}-Aufgabe zu. Die \textit{Map}-Worker beginnen nun
 die ihnen zugewiesenen Dateien zu bearbeiten, die aus Schlüssel-Wert-Paaren bestehen und
 erzeugen die Zwischen-Dateien. Die Zwischen-Ergebnisse sind ebenfalls nach Schlüssel-Wert-Paaren
-strukturiert. Die Zwischen-Ergebnisse werde dabei in $R$ Teil-Bereiche eingeordnet, abhängig
+strukturiert. Die Zwischen-Ergebnisse werden dabei in $R$ Teil-Bereiche eingeordnet, abhängig
 von ihrem Schlüssel-Wert.
 
 Sobald ein oder mehrere \textit{Map}-Aufgaben erledigt sind, teilt der Master ein oder mehreren 
 \textit{Reduce}-Workern, die gerade nichts zu tun haben, mit, dass sie mit der Verarbeitung beginnen können. Der Master teilt ihnen dabei auch mit, wo die entsprechenden Zwischenergebnisse liegen,
 die sie verarbeiten sollen. Die \textit{Reduce}-Workers verarbeiten nun diese Dateien und erzeugen
-mit ihrer Ausgabe einen Teil des End-Ergebnisses.
+mit ihrer Ausgabe einen Teil des Endergebnisses.
 
 
 \subsection{Beispiel}
@@ -83,11 +83,11 @@ Wir wollen nun in diesem sehr großen Datensatz an Songs herausfinden, welcher K
 Im ersten Schritt müssen wir die \textit{Map}-Funktion beschreiben. Sie bekommt als Eingabe eine Reihe von Songs mit der Song-ID
 als Schlüssel und ihren Eigenschaften als Werte. Diese Songs werden nun direkt auf ein Zwischenergebnis gemappt, indem der
 Künstler-Name als Schlüssel und die Zahl $1$ als Wert geschrieben werden. Dies führt zu einem (großen) Zwischenergebnis,
-bei dem die Anzahl der Vorkommnisse eines Künstlernames die Anzahl seiner Songs wiedergibt. Das muss aber
-natürlich noch als Endergebnis zusammen gefasst werden, was dann die \textit{Reduce}-Funktion übernimmt. 
+bei dem die Anzahl der Vorkommnisse eines Künstlernamens die Anzahl seiner Songs wiedergibt. Das muss aber
+natürlich noch als Endergebnis zusammengefasst werden, was dann die \textit{Reduce}-Funktion übernimmt. 
 
 Die \textit{Reduce}-Funktion bekommt vom Master einen Werte-Bereich aus dem Zwischenergebnis zugewiesen, die sie auf
-ein Endergbnis reduzieren soll. Sie holt sich dann anschließend diesen Wertebereich des Zwischenergebnisses von den verteilten
+ein Endergebnis reduzieren soll. Sie holt sich dann anschließend diesen Wertebereich des Zwischenergebnisses von den verteilten
 \textit{Map}-Maschinen. Sie fasst nun alle gleichen Schlüssel zu einem einzigen Schlüssel zusammen und addiert 
 ihren Wert jeweils auf. Da der Wert immer $1$ ist, steht am Schluss neben dem Künstler-Name die Anzahl seiner geschriebenen
 Songs. Dieses Ergebnis schreibt die  \textit{Reduce}-Funktion nun als Ergebnis raus. Die Abbildung \ref{fig:mapreduceExample} zeigt 

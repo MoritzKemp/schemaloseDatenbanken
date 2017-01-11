@@ -1,9 +1,9 @@
 \subsubsection{Test der Anwendung}
 
 Für das Testen von der Map-Reduce-Implementierung wird das MRUnit-Framework von Apache
-\cite{mrunit} genutzt. Damit lassen sich komfortabel Unit-Test für die map- und reduce-Funktionen
+\cite{mrunit} genutzt. Damit lassen sich komfortabel Unit-Tests für die \textit{Map}- und \textit{Reduce}-Funktionen
 schreiben. Allerdings gestaltet sich das Testen von Map-Reduce-Implementierungen mit
-der Hbase-API schwierig. Im Rahmen des Projektes ist es nicht möglich, die Ausgabe der
+der HBase-API schwierig. Im Rahmen des Projektes ist es nicht möglich, die Ausgabe der
 reduce-Funktion zu überprüfen. Das Problem liegt bei der Angabe des Datentyps für
 die Ausgabe der reduce-Funktion: während die Klasse \texttt{TableReducer} als reduce-Ausgabe
 den Datentyp \texttt{Mutation} festlegt, wird damit der Zugang zur reduce-Ausgabe auf diesen
@@ -11,7 +11,7 @@ Datentyp beschränkt. Dass der Mutation-Datentyp nur eine Schnittstelle ist und 
 Laufzeit ein Put-Objekt verwendet wird, lies sich im Test nicht beschreiben.
 Damit allerdings bleibt der Zugang auf das Ergebnis der reduce-Funktion auf den
 Mutation-Datentyp beschränkt. Eine ordentliche Überprüfung des Ergebnisses konnte damit
-nicht durchgeführt werden. Damit bleiben die Unit-Test im Hbase-Fall auf die map-Funktion
+nicht durchgeführt werden. Damit bleiben die Unit-Tests im HBase-Fall auf die map-Funktion
 beschränkt. 
 
 Alle weiteren Test, also Integrations- und Systemtests wurden manuell durchgeführt.
@@ -26,7 +26,7 @@ In den Logs ist ersichtlich, dass beispielsweise das HDFS ein Kill-Signal bekomm
 Wer das Kill-Signal sendet, und vor allem warum, konnte bislang nicht ermittelt werden. Zumindest weder in den Logs der 
 Hadoop-Programme noch im Kernel-Log konnte ein entsprechender Eintrag gefunden werden, der auf ein Senden eines
 Kill-Signales hinweist. Denkbar wäre beispielsweise eine zu große Nutzung von Speicher, sodass das Betriebssystem ein
-oder mehrere Prozesse zum eigenem Schutz beendet. Entsprechende Einträge wurden aber nicht gefunden.
+oder mehrere Prozesse zum eigenen Schutz beendet. Entsprechende Einträge wurden aber nicht gefunden.
 
 Recherchen im Internet legen aber weiterhin den Verdacht nahe, dass eine ausufernde Speicher-Anforderung von den Java-Prozessen
 an das Betriebssystem ein Problem sein könnte. Im Zuge dessen wurde die Speichernutzung von Map-Reduce manuell konfiguriert 
@@ -36,7 +36,7 @@ Erst die Aktivierung der Kompression von den Zwischenergebnissen der Map-Prozess
 die zweite \ref{mrCountArtistSongs} und dritte \ref{mrCountSongsWithTopic} weitestgehend ohne Abstürze ausführbar waren. Die Kompression
 lässt sich über den \texttt{apreduce.map.output.compress} in der \textit{mapred-site.xml} auf \textit{true} stellen.
 Der Erfolg dieser Maßnahme leitet zu einer weiteren Annahme, dass eventuell die Netzwerklast zu den Abstürzen führen
-könnte. Dies lies sich aber durch Beobachtungen der Bandbreite eine Rechner-Knotens während der Ausführung
+könnte. Dies ließ sich aber durch Beobachtungen der Bandbreite eine Rechner-Knotens während der Ausführung
 eine Map-Reduce-Jobs nicht bestätigen.
 
 Um die Leistungsfähigkeit des Systems zu testen, wurde der vorgegebene Anwendungsfall zur Suche nach Songs eines bestimmten
@@ -44,7 +44,7 @@ Themas als Map-Reduce-Job implementiert \ref{mrCountSongsWithTopic}.
 
 Ein Auszug des Ergebnisses des Performance-Test in der Konsole zeigt \ref{performance:console} (vollständige Ausgabe im Anhang \ref{performanceLog}).
 Es zeigt insbesondere die Start- und End-Zeit des Map-Reduce-Jobs. Demnach benötigte der Job 
-$29$ Sekunden bis zum Ergebnis (exakt: $29510$ ms). Insgesamt lieferte HBase ca $2,2$ Gigabyte an Daten als Ergebnis 
+$29$ Sekunden bis zum Ergebnis (exakt: $29510$ ms). Insgesamt lieferte HBase ca. $2,2$ Gigabyte an Daten als Ergebnis 
 für die map-Phase zurück. Dabei wurden genau $10.000$ Datenreihen beziehungsweise Musikstücke durchsucht,
 was erwartungsgemäß die gesamte Menge an gespeicherten Musikstücken entspricht. 
 Das Ergebnis der map-Phase bestand aus $368$ Zwischen-Ergebnissen, das bedeutet in $368$ Musikstücke wurde
@@ -63,6 +63,6 @@ Der Screenshot \ref{performance:yarn} zeigt den Leistungs-Test auf der YARN-Webo
 \begin{figure}
 	\centering
 	\includegraphics[width=1.0\textwidth]{images/{06.performanceYarn}.png}
-	\caption{Screenshot von der YARN-Weboberfläche mit dem Leistungs-Tests (Ausschnitt)}
+	\caption{Screenshot von der YARN-Weboberfläche mit den Leistungs-Tests (Ausschnitt)}
 	\label{performance:yarn}
 \end{figure}

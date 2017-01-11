@@ -1,39 +1,22 @@
 %maximal eine Seite, muss also noch gekürzt werden
 \section{HBase / Hadoop}
 \subsection{Zusammenfassung}
-Wenn man vorher mit relationalen Datenbanken gearbeitet hat, scheint HBase auf den ersten Blick ganz vertraut, da wir hier auch Tabellen, Zeilen und Spalten finden. Jedoch muss man sich von der relationalen Denkweise verabschieden und sich mit dem Hadoop-Ökosystem gut auskennen, um HBase effektiv einsetzen zu können. HBase scheint in Anbetracht dessen, dass es ab fünf Knoten überhaupt erst Sinn macht HBase einzusetzen ein mächtiges Werkzeug zu sein. Als Abschluss der Semesterarbeit und mit Hinblick auf den Anwendungsfall des Million-Song-Datasets, fällt es allerdings schwer einpositives Resume zu ziehen, da die Cluster-Konfiguration viel Zeit in Anspruch genommen hat und die beteilgten Rechnerknoten des Öfteren unter der Last der MapReduce-Jobs ausgefallen sind. HBase ist kein Out-of-the-box Tool, sondern befindet sich aus unserer Sicht noch in der Entwicklungsphase.
+Wenn man vorher mit relationalen Datenbanken gearbeitet hat, scheint HBase auf den ersten Blick ganz vertraut, da hier auch Tabellen, Zeilen und Spalten zu finden sind. Jedoch muss man sich von der relationalen Denkweise verabschieden und sich mit dem Hadoop-Ökosystem gut auskennen, um HBase effektiv einsetzen zu können. HBase scheint in Anbetracht dessen, dass es ab fünf Knoten überhaupt erst Sinn macht HBase einzusetzen ein mächtiges Werkzeug zu sein. Als Abschluss der Semesterarbeit und mit Hinblick auf den Anwendungsfall des Million-Song-Datasets, fällt es allerdings schwer ein positives Resümee zu ziehen, da die Cluster-Konfiguration viel Zeit in Anspruch genommen hat und die beteiligten Rechnerknoten des Öfteren unter der Last der MapReduce-Jobs ausgefallen sind. HBase ist kein Out-of-the-box Tool, sondern befindet sich aus unserer Sicht noch in der Entwicklungsphase.
 
 \subsection{Pros}
-Vorteile von HBase sind die flexible Gestaltung des Datenmodells, da jederzeit dynamisch Spalten hinzugefügt werden können. Man muss sich vorher kein Schema überlegen, sondern muss lediglich beim Anlegen der Tabelle angeben, wieviele Sapltenfamilien existieren werden. Auch sehr einfach ist das einfache Hinzufügen von weiteren Knoten. Dafür ist jeweils eine HBase-Instanz und eine Hadoop-Instanz auf dem neuen Knoten zu installieren und die regionserver-Datei anzupassen. Um die Verteilung kümmert sich Hadoop. In diesem Zusammenhang ist auch zu sagen, dass HBase eine gute Ergänzung zu \ac{HDFS} für einen schnellen Datenzugriff ist.
+Vorteile von HBase sind die flexible Gestaltung des Datenmodells, da jederzeit dynamisch Spalten hinzugefügt werden können. Man muss sich vorher kein Schema überlegen, sondern muss lediglich beim Anlegen der Tabelle angeben, wie viele Spaltenfamilien existieren werden. Auch sehr einfach ist das einfache Hinzufügen von weiteren Knoten. Dafür sind jeweils eine HBase-Instanz und eine Hadoop-Instanz auf dem neuen Knoten zu installieren und die \textit{regionserver}-Datei anzupassen. Um die Verteilung kümmert sich Hadoop. In diesem Zusammenhang ist auch zu sagen, dass HBase eine gute Ergänzung zu \ac{HDFS} für einen schnellen Datenzugriff ist.
 
-Das Hadoop-Ökosystem ist gut aufeinander abgestimmt, was sich in der schnellen Umsetzung von verteilten Anwendungen, beispielswise mit MapReduce wiederspiegelt.
+Das Hadoop-Ökosystem ist gut aufeinander abgestimmt, was sich in der schnellen Umsetzung von verteilten Anwendungen, beispielsweise mit MapReduce wiederspiegelt.
 Der größte Vorteil von Hadoop ist die Möglichkeit, die Verarbeitung der Daten zu skalieren. Die Verarbeitung kann von tausenden Knoten übernommen werden. Ein weiterer Vorteil ist, dass HBase kostenfrei ist und die Community sich ständig weiterentwickelt, da viele große Firmen mittlerweile auf den Hadoop-Stack setzen. 
-
-%Hinzufügen von Spalten zur Laufzeit/ neue Knoten
-%Sinnvoll bei riesigen Datenmengen, die unvollständig vorliegen (Daten werden als ByteArray gespeichert)
-%HDFS ist aufgrund seiner Blockgröße (128 MB) nicht für schnelle zufällige Zugriffe geeignet 
-%Jeder neue Lauf über alle Daten erzeugte einen neuen Suchindex 
-%Schneller, zufälliger Zugriff: HBase hält Dateien im Hauptspeicher (128 -256 MB) vor
-%HBase macht Sinn ab 5 Knoten
-%
-%Bei vielen Spalten und NULL-Datensätzen
-%Ein Schlüssel -> sehr viele Werte (binär)
-%Einfügen/Überschreiben neuer Daten, statt Lese-Ändere-Schreibe-Operation
-%Zusatzinfo: Schlecht für relationale Operationen: Group by, join
-%Horizontale Skalierbarkeit in Hadoop-Clustern
-%Eignet sich für die Verwaltung sehr großer, unstrukturierter Daten
-%Felder ohne Werte benötigen keinen Speicherplatz
-%Randomisierte Schreib- und Lesezugriffe
-%Top-Level-Open-Source-Projekt
 
 
 \subsection{Cons}
 Sicherlich ungewohnt ist es, dass für HBase keine SQL-API existiert. Hierfür gibt es zwar Schnittstellen wie beispielsweise Apache Phoenix, Hive oder Impala, jedoch lässt muss man dann mit Performanzverlusten rechnen. 
- Wenn man vorhat sich mit HBase und Hadoop zu beschäftigen, sollte man alleine für die Auswahl der Komponenten aus dem Hadoop-Framework, die Installation und Konfiguration mehrere Wochen einplanen. Durch die Master-Slave-Aufteilung und die Pflege des \ac{HDFS} und HBase entsteht ein erheblicher Mehraufwand auf einem Servercluster. Leider gibt es hier auch keine Abstraktionsebene für Leien, sodass die anfängliche Lernkurve sehr hoch ist. Auch sollte man sich bewusst sein, dass diese Systeme für die Arbeit auf großen Clustern gedacht sind. Bei kleinen Systemen lässt sich nur schwer ein Performanzgewinn erkennen.
+ Wenn man vorhat sich mit HBase und Hadoop zu beschäftigen, sollte man alleine für die Auswahl der Komponenten aus dem Hadoop-Framework, die Installation und Konfiguration mehrere Wochen einplanen. Durch die Master-Slave-Aufteilung und die Pflege des \ac{HDFS} und HBase entsteht ein erheblicher Mehraufwand auf einem Servercluster. Leider gibt es hier auch keine Abstraktionsebene für Laien, sodass die anfängliche Lernkurve sehr hoch ist. Auch sollte man sich bewusst sein, dass diese Systeme für die Arbeit auf großen Clustern gedacht sind. Bei kleinen Systemen lässt sich nur schwer ein Performanzgewinn erkennen.
 
-Des weiteren muss man sich im Klaren sein, dass HBase selbst keine JOIN-Operationen und auch keine Transaktionen unterstützt. JOINs müssen mit MapReduce implementiert werden, da HBase selbst nur für den Zugriff auf einezelne Daten konzpiert wurde und ein Transktionsmanager muss von Hand implementiert werden.
+Des Weiteren muss man sich im Klaren sein, dass HBase selbst keine JOIN-Operationen und auch keine Transaktionen unterstützt. JOINs müssen mit MapReduce implementiert werden, da HBase selbst nur für den Zugriff auf einzelne Daten konzipiert wurde und ein Transaktionsmanager muss von Hand implementiert werden.
 
 \subsection{Ausblick}
-Für die nächsten Releases von HBase sind unter Anderem SSD für den \ac{WAL}, Spaltenfamiliendaten und Spaltenfamilien-Flush geplant \cite{en15}. Des weiteren ist eine engere Verzahnung von HBase mit dem Apache Spark-Projekt \cite{youspark} und dem Apache Phoenix-Projekt vorgesehen \cite{en16}.
+Für die nächsten Releases von HBase sind unter Anderem SSD für den \ac{WAL}, Spaltenfamiliendaten und Spaltenfamilien-Flush geplant \cite{en15}. Des Weiteren ist eine engere Verzahnung von HBase mit dem Apache Spark-Projekt \cite{youspark} und dem Apache Phoenix-Projekt vorgesehen \cite{en16}.
 
 
