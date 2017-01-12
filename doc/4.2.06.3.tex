@@ -20,11 +20,8 @@ Für die Demonstration der \ac{CRUD}-Operationen sind im unteren Teil der Tabell
 Für das Löschen eines Datensatzes gibt es unter der Tabelle ein Textfeld. Hier kann der Reihenschlüssel angegeben werden und der Datensatz mit Betätigen des \textit{Remove}-Buttons gelöscht werden. Im Anschluss wird die Tabelle aktualisiert.
 
 Die zweite Gruppe der Use cases ist die Darstellung der Ergebnisse der MapReduce-Jobs.
-\begin{lstlisting}[language=Java]
-Configuration config = HBaseConfiguration.create();
-            config.setInt("timeout", 120000);
-            config.set("hbase.master", "*10.20.110.61:16006*");
-            config.set("hbase.zookeeper.quorum","10.20.110.61");
-            config.set("hbase.zookeeper.property.clientPort", "2186");
-	   Connection connection = ConnectionFactory.createConnection(config);
-\end{lstlisting}
+Der MapReduce Job analysiert die Tabelle "music" und stellt zu jedem Interpreter eine Statistic zusammen, wie viele Lieder ihm zugeordnet sind. Diese Daten werden dann in die neue Tabelle "statictics" zusammen. Um das Ergebnis des Jobs zu sehen, kann man in der Client Oberfläche den Button "Anzeige der Analyse" klicken. Dabei werden alle Datensätze dargestellt.
+
+Bei der Implementierung des Clients werden alle Daten auf einer Seite dargestellt. Es wurde weder  Pagination noch srollable Table implementiert, da es für die Darstellung der Arbeit mit der HBase DB keinen Mehrwert bietet.
+
+
