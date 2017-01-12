@@ -121,6 +121,9 @@ public class CountSongsWithTopicTest {
         //expected output
         mapDriver.withOutput(new Text("Artist_1"), new IntWritable(1));
         
+        //configure search string
+        mapDriver.getConfiguration().set("searchFor.topic", "love");
+        
         mapDriver.runTest();
     }
     
@@ -187,6 +190,9 @@ public class CountSongsWithTopicTest {
         //set test data as input to mapper
         mapDriver.clearInput();
         mapDriver.withInput(new ImmutableBytesWritable("row1".getBytes()), hbaseInput);
+        
+        //configure search string
+        mapDriver.getConfiguration().set("searchFor.topic", "love");
         
         List< Pair<Text, IntWritable> > outputResult = mapDriver.run();
         
