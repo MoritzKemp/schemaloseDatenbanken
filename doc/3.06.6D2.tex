@@ -27,7 +27,7 @@ HBase wird von vielen bekannten Konzernen eingesetzt, da es sich gut für Loggin
  In HBase lassen sich riesige Datenmengen auf mehreren Knoten verteilen, verwalten und jederzeit erweitern. HBase basiert auf Java, ist Open-Source, nicht-relational, spaltenorientiert und setzt auf ein verteiltes Dateisystem wie \ac{HDFS} von Hadoop auf \cite{hbasetut}. HBase, als Key-Value-Store, wurde als fehlertolerantes System entworfen, das auch gut mit unvollständige Datenmengen umgehen kann. Aufgrund des schemalosen Datenmodells, müssen nicht alle Felder belegt werden und verbrauchen auch keinen Speicherplatz \cite{compWo}.  Durch das \ac{WAL} und eine verteilte Konfiguration kann sich HBase schnell von Serverausfällen erholen \cite{Redt01}. 
  
  Nach CAP-Theorem legt es besonders Wert auf Verfügbarkeit und Partitionierung und vernachlässigt die Konsistenz der Daten. 
- Des Weiteren unterstützt HBase die Replikation von Hadoop, den MapReduce-Algorithmus, automatische Verteilung der Tabellen auf die Knoten, Komprimierung der Daten und Bloom-Filter. HBase kann im Standalone-Modus, im pseudo-verteilten Modus und im vollständig-verteilten Modus betrieben werden. Für den vorliegenden Use case wird am Ende des Kapitels die Konfiguration für den vollständig-verteilten Modus beschrieben. Für diesen Modus wird für die verteilte Konfiguration ein Zookeeper benötigt (siehe Abschnitt \ref{zook}). HBase stellt zwar selbst keine SQL-API zur Verfügung lässt sich aber durch Schnittstellen wie Apache Phoenix um eben solche erweitern.
+ Des Weiteren unterstützt HBase die Replikation von Hadoop, den MapReduce-Algorithmus, automatische Verteilung der Tabellen auf die Knoten, Komprimierung der Daten und Bloom-Filter. HBase kann im Standalone-Modus, im pseudo-verteilten Modus und im vollständig-verteilten Modus betrieben werden. Für den vorliegenden UseCase wird am Ende des Kapitels die Konfiguration für den vollständig-verteilten Modus beschrieben. Für diesen Modus wird für die verteilte Konfiguration ein Zookeeper benötigt (siehe Abschnitt \ref{zook}). HBase stellt zwar selbst keine SQL-API zur Verfügung lässt sich aber durch Schnittstellen wie Apache Phoenix um eben solche erweitern.
 
 \subsubsection{HBase im Vergleich zu einem \ac{RDBMS}}
 HBase erinnert an eine relationale Datenbank, da die Daten in Tabellen gespeichert werden, die Zellen enthalten. Jedoch verhalten sich die Tabellen nicht wie Relationen und die Zeilen nicht wie Datensätze in relationalen Datenbanken. Auch sind die Spalten nicht durch ein Schema definiert.
@@ -195,7 +195,7 @@ Gültigkeit sich nun ZooKeeper kümmert, sodass die verteilte Anwendung sich nic
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 \subsection{Datenschema}\label{hbase_datenschema}
-Für das Semesterprojekt wurde eine Tabelle mit dem Namen \textbf{music} angelegt. Diese enthält zwei Spaltenfamilien. Die Spaltenfamilie \textbf{song} enthält die für die Use cases (siehe Abschnitt \ref{usecases}) benötigten Daten und die Spaltenfamilie
+Für das Semesterprojekt wurde eine Tabelle mit dem Namen \textbf{music} angelegt. Diese enthält zwei Spaltenfamilien. Die Spaltenfamilie \textbf{song} enthält die für die UseCases (siehe Abschnitt \ref{usecases}) benötigten Daten und die Spaltenfamilie
 \textbf{miscellaneous} enthält die restlichen Daten des Million-Song-Datasets:
 
 \begin{figure}[H] 
